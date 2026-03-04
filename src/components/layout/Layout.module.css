@@ -1,0 +1,31 @@
+.appContainer {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--bg-primary);
+}
+
+.mainWrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.contentArea {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2rem;
+    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.05), transparent 60%),
+        radial-gradient(circle at bottom left, rgba(139, 92, 246, 0.05), transparent 60%);
+}
+
+.contentContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
