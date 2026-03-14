@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, BookOpen, ShieldAlert, Settings, LogOut } from 'lucide-react';
 import styles from './Sidebar.module.css';
-import { useAuth } from '../../features/auth/AuthContext';
+import { useAuth } from '../../features/auth/useAuth';
 
 const NAV_ITEMS = [
     { path: '/', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -15,14 +15,14 @@ export default function Sidebar() {
     const { logout } = useAuth();
 
     return (
-        <aside className={`glass-panel ${styles.sidebar}`}>
+        <aside className={`${styles.sidebar}`}>
             <div className={styles.logoContainer}>
-                <div className={styles.iconBox}>
-                    <BookOpen color="var(--accent-color)" size={24} />
+                <div className={styles.minimalLogo}>
+                    <span className={styles.logoLetter}>N</span>
                 </div>
                 <div className={styles.brandTitle}>
-                    <span>Bourse</span>
-                    <span className={styles.accentText}>Manuels</span>
+                    <span className={styles.logoTextMain}>Nex</span>
+                    <span className={styles.logoTextSub}>Book</span>
                 </div>
             </div>
 

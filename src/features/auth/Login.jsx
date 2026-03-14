@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import { BookOpen, Lock, Mail } from 'lucide-react';

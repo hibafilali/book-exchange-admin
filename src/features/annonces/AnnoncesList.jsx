@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, CheckCircle, XCircle, Search, Eye } from 'lucide-react';
+import { BookOpen, CheckCircle, XCircle, Search, Eye, Filter } from 'lucide-react';
 import styles from './AnnoncesList.module.css';
 
 const MOCK_ANNONCES = [
@@ -11,52 +11,72 @@ const MOCK_ANNONCES = [
 
 export default function AnnoncesList() {
     const [annonces, setAnnonces] = useState(MOCK_ANNONCES);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [statusFilter, setStatusFilter] = useState('ALL');
 
     const updateStatut = (id, newStatut) => {
         setAnnonces(annonces.map(a => a.id === id ? { ...a, statut: newStatut } : a));
     };
+
+    const filtered = annonces.filter(a => {
+        const matchesSearch = a.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            a.etudiant.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesFilter = statusFilter === 'ALL' || a.statut === statusFilter;
+        return matchesSearch && matchesFilter;
+    });
 
     return (
         <div className={styles.container}>
             <header className={styles.header}>
                 <div>
                     <h1 className={styles.title}>Modération des Annonces</h1>
-                    <p className={styles.subtitle}>En attente de validation, approuvées, refusées.</p>
+                    <p className={styles.subtitle}>Validez ou refusez les livres mis en ligne par les étudiants.</p>
                 </div>
             </header>
 
             <div className={styles.statsBar}>
-                <div className={`glass-panel ${styles.statBadge}`}>
+                <div
+                    className={`glass-panel ${styles.statBadge} ${statusFilter === 'En attente' ? styles.activeFilter : ''}`}
+                    onClick={() => setStatusFilter(statusFilter === 'En attente' ? 'ALL' : 'En attente')}
+                >
                     <span>En attente</span>
                     <div className={styles.countBadge} style={{ background: 'var(--warning)', color: '#000' }}>
                         {annonces.filter(a => a.statut === 'En attente').length}
                     </div>
                 </div>
-                <div className={`glass-panel ${styles.statBadge}`}>
-                    <span>Approuvées</span>
+                <div
+                    className={`glass-panel ${styles.statBadge} ${statusFilter === 'Validée' ? styles.activeFilter : ''}`}
+                    onClick={() => setStatusFilter(statusFilter === 'Validée' ? 'ALL' : 'Validée')}
+                >
+                    <span>Total Validées</span>
                     <div className={styles.countBadge} style={{ background: 'var(--success)', color: '#fff' }}>
                         {annonces.filter(a => a.statut === 'Validée').length}
                     </div>
                 </div>
                 <div className={`glass-panel ${styles.searchArea}`}>
                     <Search size={18} className={styles.searchIcon} />
-                    <input type="text" placeholder="Rechercher par titre, étudiant..." />
+                    <input
+                        type="text"
+                        placeholder="Rechercher par titre, étudiant..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                 </div>
             </div>
 
             <div className={styles.grid}>
-                {annonces.map(annonce => (
-                    <div key={annonce.id} className={`glass-panel ${styles.card}`}>
+                {filtered.map(annonce => (
+                    <div key={annonce.id} className={`${styles.card}`}>
                         <div className={styles.cardHeader}>
                             <div className={styles.cardIcon}>
-                                <BookOpen size={20} color="var(--accent-color)" />
+                                <BookOpen size={22} color="var(--accent-color)" />
                             </div>
                             <span className={`
-                ${styles.statusBadge} 
-                ${annonce.statut === 'Validée' ? styles.statusValid : ''}
-                ${annonce.statut === 'Refusée' ? styles.statusRefused : ''}
-                ${annonce.statut === 'En attente' ? styles.statusPending : ''}
-              `}>
+                                ${styles.statusBadge} 
+                                ${annonce.statut === 'Validée' ? styles.statusValid : ''}
+                                ${annonce.statut === 'Refusée' ? styles.statusRefused : ''}
+                                ${annonce.statut === 'En attente' ? styles.statusPending : ''}
+                            `}>
                                 {annonce.statut}
                             </span>
                         </div>
@@ -79,7 +99,7 @@ export default function AnnoncesList() {
                                         className={`${styles.actionBtn} ${styles.approveBtn}`}
                                         onClick={() => updateStatut(annonce.id, 'Validée')}
                                     >
-                                        <CheckCircle size={16} /> Accepter
+                                        <CheckCircle size={16} /> Valider
                                     </button>
                                     <button
                                         className={`${styles.actionBtn} ${styles.rejectBtn}`}
@@ -90,7 +110,7 @@ export default function AnnoncesList() {
                                 </>
                             ) : (
                                 <button className={styles.viewBtn}>
-                                    <Eye size={16} /> Voir les détails
+                                    <Eye size={16} /> Détails complets
                                 </button>
                             )}
                         </div>

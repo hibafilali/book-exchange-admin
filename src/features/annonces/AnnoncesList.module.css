@@ -1,14 +1,14 @@
 .container {
-    animation: fadeIn 0.4s ease-out;
+    animation: fadeIn 0.6s var(--transition-slow);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(20px);
     }
 
     to {
@@ -21,61 +21,89 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg-secondary);
+    padding: 2.5rem;
+    border-radius: 24px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(15px);
+}
+
+[data-theme='dark'] .header {
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .title {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--accent-secondary) 50%, var(--accent-orange) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: fadeIn 0.8s ease-out;
 }
 
 .subtitle {
     color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-top: 0.25rem;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    font-weight: 450;
 }
 
 .statsBar {
     display: flex;
-    align-items: center;
     gap: 1.5rem;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .statBadge {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.75rem 1.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 16px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
     font-weight: 600;
-    border-radius: var(--border-radius-full);
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.statBadge:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-highlight);
+    box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.05);
+}
+
+.activeFilter {
+    background: var(--bg-primary);
+    border-color: var(--accent-color);
+    box-shadow: 0 4px 15px -5px var(--accent-glow);
+    transform: translateY(-2px);
 }
 
 .countBadge {
-    min-width: 24px;
-    height: 24px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    padding: 0 0.5rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    min-width: 30px;
+    text-align: center;
 }
 
 .searchArea {
     flex: 1;
+    min-width: 300px;
     display: flex;
     align-items: center;
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius-full);
-    margin-left: auto;
-    max-width: 400px;
-}
-
-.searchIcon {
-    color: var(--text-muted);
-    margin-right: 0.75rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 0.8rem 1.5rem;
+    gap: 1rem;
 }
 
 .searchArea input {
@@ -83,110 +111,132 @@
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 0.95rem;
     outline: none;
     font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.searchIcon {
+    color: var(--text-muted);
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
 }
 
 .card {
+    background: var(--bg-secondary);
+    border-radius: 28px;
+    border: 1px solid var(--border-color);
+    padding: 2.2rem;
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
-    border-radius: var(--border-radius-lg);
-    transition: transform var(--transition-normal);
+    gap: 1.5rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px -5px rgba(0, 0, 0, 0.05);
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(-10px);
+    border-color: var(--border-highlight);
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.1);
 }
 
 .cardHeader {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
+    align-items: center;
 }
 
 .cardIcon {
-    background: rgba(99, 102, 241, 0.1);
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
+    width: 54px;
+    height: 54px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .cardIcon {
+    transform: rotate(10deg) scale(1.1);
+    box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
 }
 
 .statusBadge {
     font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.35rem 0.85rem;
-    border-radius: var(--border-radius-full);
+    font-weight: 800;
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .statusPending {
-    background: rgba(245, 158, 11, 0.15);
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
     color: var(--warning);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    animation: softPulse 2s infinite;
 }
 
 .statusValid {
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.1);
     color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 .statusRefused {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.1);
     color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .cardBody {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
 }
 
 .bookTitle {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     font-weight: 700;
     color: var(--text-primary);
-    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
 }
 
 .bookSeller {
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    margin-bottom: 0.75rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.75rem;
 }
 
 .tag {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-primary);
     border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.25rem 0.6rem;
-    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
 }
 
 .cardFooter {
     display: flex;
-    gap: 0.5rem;
-    margin-top: auto;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
 }
 
 .actionBtn {
@@ -195,54 +245,56 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.6rem;
-    border-radius: var(--border-radius-sm);
-    font-weight: 600;
+    padding: 0.8rem;
+    border-radius: 12px;
     font-size: 0.85rem;
-    transition: all var(--transition-fast);
+    font-weight: 700;
+    transition: all var(--transition-normal);
 }
 
 .approveBtn {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success);
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    background: linear-gradient(135deg, var(--success), #34d399);
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    border: none;
 }
 
 .approveBtn:hover {
-    background: var(--success);
-    color: white;
-    transform: translateY(-2px);
+    filter: brightness(1.1);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
 }
 
 .rejectBtn {
-    background: rgba(239, 68, 68, 0.1);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
     color: var(--danger);
-    border: 1px solid rgba(239, 68, 68, 0.2);
+    border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .rejectBtn:hover {
-    background: var(--danger);
-    color: white;
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--danger), #f87171);
+    color: white !important;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
 
 .viewBtn {
-    flex: 1;
+    width: 100%;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.6rem;
-    border-radius: var(--border-radius-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: all var(--transition-fast);
+    transition: all var(--transition-normal);
 }
 
 .viewBtn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
+    background: var(--bg-secondary);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }

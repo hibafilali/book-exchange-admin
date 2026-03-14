@@ -3,38 +3,44 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
+    padding: 0 3rem;
     border-radius: 0;
-    border-top: none;
-    border-left: none;
-    border-right: none;
     border-bottom: 1px solid var(--border-color);
-    background: rgba(22, 24, 35, 0.85);
-    /* Slightly darker glass for header */
-    z-index: 5;
-    backdrop-filter: blur(20px);
+    background: var(--bg-tertiary);
+    z-index: 50;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
 }
 
 .searchContainer {
     display: flex;
     align-items: center;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--bg-primary);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-full);
-    padding: 0.5rem 1.2rem;
-    width: 350px;
-    transition: all var(--transition-fast);
+    border-radius: 14px;
+    padding: 0.75rem 1.25rem;
+    width: 420px;
+    transition: all var(--transition-normal);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .searchContainer:focus-within {
     border-color: var(--accent-color);
-    background: rgba(0, 0, 0, 0.3);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    background: var(--bg-secondary);
+    box-shadow:
+        0 10px 15px -3px rgba(0, 0, 0, 0.1),
+        0 0 0 3px var(--accent-glow);
+    width: 480px;
 }
 
 .searchIcon {
     color: var(--text-muted);
-    margin-right: 0.75rem;
+    margin-right: 1rem;
+    transition: color var(--transition-normal);
+}
+
+.searchContainer:focus-within .searchIcon {
+    color: var(--accent-color);
 }
 
 .searchInput {
@@ -45,16 +51,18 @@
     font-size: 0.95rem;
     outline: none;
     font-family: inherit;
+    font-weight: 500;
 }
 
 .searchInput::placeholder {
     color: var(--text-muted);
+    font-weight: 400;
 }
 
 .rightSection {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .iconBtn {
@@ -62,75 +70,266 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     color: var(--text-secondary);
-    background: transparent;
-    transition: all var(--transition-fast);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
 }
 
 .iconBtn:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary);
     color: var(--text-primary);
+    transform: translateY(-2px);
+    border-color: var(--border-highlight);
 }
 
 .badge {
     position: absolute;
-    top: 6px;
-    right: 6px;
-    background: var(--danger);
+    top: -5px;
+    right: -5px;
+    background: linear-gradient(135deg, var(--accent-orange), #ff914d);
     color: white;
-    font-size: 0.65rem;
-    font-weight: 700;
-    width: 16px;
-    height: 16px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 2px solid var(--bg-secondary);
+    border: 3px solid var(--bg-primary);
+    box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
 }
 
 .userProfile {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem;
-    border-radius: var(--border-radius-md);
+    gap: 1rem;
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
+    border-radius: 16px;
     cursor: pointer;
-    transition: background var(--transition-fast);
+    transition: all var(--transition-normal);
+    background: var(--bg-primary);
+    border: 1px solid transparent;
 }
 
 .userProfile:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-secondary);
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
 }
 
 .avatar {
-    background: linear-gradient(135deg, var(--accent-hover), #8b5cf6);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 12px var(--accent-glow);
 }
 
 .userInfo {
     display: flex;
     flex-direction: column;
+    gap: 1px;
 }
 
 .userName {
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.95rem;
+    font-weight: 700;
     color: var(--text-primary);
+    line-height: 1.2;
 }
 
 .userRole {
     font-size: 0.75rem;
-    color: var(--text-muted);
+    color: var(--accent-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Dropdown Menus */
+.dropdownContainer {
+    position: relative;
+}
+
+.dropdownMenu {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 320px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    overflow: hidden;
+    animation: slideDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-origin: top right;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.dropdownHeader {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-primary);
+}
+
+.profileHeader {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-primary);
+}
+
+.dropdownHeader h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.dropdownHeader span {
+    font-size: 0.75rem;
+    color: var(--accent-orange);
+    font-weight: 700;
+    background: rgba(249, 115, 22, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+}
+
+.userEmail {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
     font-weight: 500;
+}
+
+.dropdownList {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdownItem {
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: background var(--transition-normal);
+    cursor: pointer;
+}
+
+.dropdownItem:hover {
+    background: var(--bg-primary);
+}
+
+.notifIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.notifAlert {
+    background: linear-gradient(135deg, var(--danger), #f87171);
+}
+
+.notifBook {
+    background: linear-gradient(135deg, var(--accent-color), #60a5fa);
+}
+
+.notifUser {
+    background: linear-gradient(135deg, var(--success), #34d399);
+}
+
+.notifContent p {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.notifContent span {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.dropdownFooterBtn {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    background: var(--bg-primary);
+    color: var(--accent-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    transition: background var(--transition-normal);
+}
+
+.dropdownFooterBtn:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.dropdownActionBtn {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.dropdownActionBtn:last-child {
+    border-bottom: none;
+}
+
+.dropdownActionBtn:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding-left: 2rem;
+}
+
+.logoutText {
+    color: var(--danger);
+}
+
+.logoutText:hover {
+    color: var(--danger);
+    background: rgba(239, 68, 68, 0.05);
 }
