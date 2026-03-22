@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, BookOpen, Heart, Repeat, ChevronLeft, ChevronRight, Sparkles, TrendingUp } from 'lucide-react';
 import ManualCard from './ManualCard';
@@ -36,6 +37,7 @@ export default function StudentHome() {
     const [activeFilter, setActiveFilter] = useState('Tous');
     const [searchQuery, setSearchQuery] = useState('');
     const sliderRef = useRef(null);
+    const navigate = useNavigate();
 
     // Filter logic
     const filteredAnnonces = MOCK_ANNONCES.filter(a => {
@@ -138,7 +140,7 @@ export default function StudentHome() {
 
                 <div className={styles.cardsGrid}>
                     {filteredAnnonces.map((a, i) => (
-                        <ManualCard key={a.id} annonce={a} index={i} />
+                        <ManualCard key={a.id} annonce={a} index={i} onCardClick={(ann) => navigate(`/student-dashboard/book/${ann.id}`)} />
                     ))}
                     {filteredAnnonces.length === 0 && (
                         <div className={styles.emptyState}>
@@ -166,7 +168,7 @@ export default function StudentHome() {
                 <div className={styles.slider} ref={sliderRef}>
                     {filiereAnnonces.map((a, i) => (
                         <div key={a.id} className={styles.sliderItem}>
-                            <ManualCard annonce={a} index={i} />
+                            <ManualCard annonce={a} index={i} onCardClick={(ann) => navigate(`/student-dashboard/book/${ann.id}`)} />
                         </div>
                     ))}
                 </div>

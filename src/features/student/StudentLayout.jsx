@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Search, Sun, Moon, User, Bell, LogOut, Plus } from 'lucide-react';
+import { BookOpen, Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,14 @@ export default function StudentLayout() {
     const navigate = useNavigate();
     const [showProfile, setShowProfile] = useState(false);
     const [unreadCount, setUnreadCount] = useState(3);
+    const [navSearch, setNavSearch] = useState('');
+
+    const handleNavSearch = (e) => {
+        if (e.key === 'Enter' && navSearch.trim()) {
+            navigate(`/student-dashboard/search?q=${encodeURIComponent(navSearch.trim())}`);
+            setNavSearch('');
+        }
+    };
 
     return (
         <div className={styles.layout}>
@@ -33,12 +41,17 @@ export default function StudentLayout() {
                     {/* Search */}
                     <div className={styles.searchBar}>
                         <Search size={18} className={styles.searchIcon} />
-                        <input type="text" placeholder="Rechercher un manuel..." className={styles.searchInput} />
+                        <input type="text" placeholder="Rechercher un manuel..." className={styles.searchInput}
+                            value={navSearch} onChange={e => setNavSearch(e.target.value)} onKeyDown={handleNavSearch} />
                     </div>
 
                     {/* Actions */}
                     <div className={styles.actions}>
-                        <button className={styles.publishBtn}>
+                        <button className={styles.dashboardBtn} onClick={() => navigate('/student-dashboard/dashboard')} title="Mon Tableau de Bord">
+                            <LayoutDashboard size={16} /> <span>Dashboard</span>
+                        </button>
+
+                        <button className={styles.publishBtn} onClick={() => navigate('/student-dashboard/publish')}>
                             <Plus size={16} /> <span>Publier</span>
                         </button>
 
@@ -65,7 +78,7 @@ export default function StudentLayout() {
                                         <strong>{user?.name || 'Étudiant'}</strong>
                                         <span>{user?.email || 'etudiant@bourse.com'}</span>
                                     </div>
-                                    <button onClick={() => { setShowProfile(false); }}><User size={15} /> Mon Profil</button>
+                                    <button onClick={() => { setShowProfile(false); navigate('/student-dashboard/dashboard'); }}><User size={15} /> Mon Profil</button>
                                     <button onClick={() => { logout(); navigate('/login'); }}><LogOut size={15} /> Déconnexion</button>
                                 </motion.div>
                             )}
