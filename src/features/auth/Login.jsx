@@ -2,23 +2,32 @@ import { useState } from 'react';
 import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-import { BookOpen, Lock, Mail } from 'lucide-react';
+import { BookOpen, Lock, Mail, User, Shield } from 'lucide-react';
 
 export default function Login() {
+    const [isStudent, setIsStudent] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
 
+    const role = isStudent ? 'STUDENT' : 'ADMIN';
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        const success = await login(email, password);
+        
+        // Pass the role to the login function
+        const success = await login(email, password, role);
         if (success) {
-            navigate('/');
+            if (role === 'ADMIN') {
+                navigate('/');
+            } else {
+                navigate('/student-dashboard');
+            }
         } else {
-            setError('Identifiants invalides (utilisez admin@bourse.com / admin)');
+            setError(`Identifiants invalides pour l'espace ${isStudent ? 'Étudiant' : 'Admin'}.`);
         }
     };
 
@@ -30,25 +39,47 @@ export default function Login() {
             </div>
 
             <div className={`glass-panel ${styles.loginBox}`}>
+                
+                {/* Role Selector */}
+                <div className={styles.roleSelector}>
+                    <div className={`${styles.slider} ${isStudent ? styles.sliderStudent : styles.sliderAdmin}`}></div>
+                    <button 
+                        type="button" 
+                        className={`${styles.roleBtn} ${isStudent ? styles.activeStudent : ''}`}
+                        onClick={() => { setIsStudent(true); setError(''); }}
+                    >
+                        <User size={18} />
+                        Étudiant
+                    </button>
+                    <button 
+                        type="button" 
+                        className={`${styles.roleBtn} ${!isStudent ? styles.activeAdmin : ''}`}
+                        onClick={() => { setIsStudent(false); setError(''); }}
+                    >
+                        <Shield size={18} />
+                        Admin
+                    </button>
+                </div>
+
                 <div className={styles.header}>
-                    <div className={styles.iconContainer}>
-                        <BookOpen size={32} color="var(--accent-color)" />
+                    <div className={`${styles.iconContainer} ${isStudent ? styles.iconContainerStudent : styles.iconContainerAdmin}`}>
+                        <BookOpen size={32} color="white" />
                     </div>
-                    <h2>Administration</h2>
-                    <p>Connectez-vous pour gérer BourseManuels</p>
+                    <h2>{isStudent ? 'Espace Étudiant' : 'Administration'}</h2>
+                    <p>{isStudent ? 'Connectez-vous pour échanger vos manuels' : 'Connectez-vous pour gérer BourseManuels'}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.form}>
                     {error && <div className={styles.error}>{error}</div>}
 
                     <div className={styles.inputGroup}>
-                        <label htmlFor="email">Email Admin</label>
+                        <label htmlFor="email">{isStudent ? 'Email Universitaire' : 'Email Admin'}</label>
                         <div className={styles.inputWrapper}>
                             <Mail className={styles.inputIcon} size={18} />
                             <input
                                 id="email"
                                 type="email"
-                                placeholder="admin@bourse.com"
+                                placeholder={isStudent ? "etudiant@univ.com" : "admin@bourse.com"}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -71,7 +102,7 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <button type="submit" className={styles.loginBtn}>
+                    <button type="submit" className={`${styles.loginBtn} ${isStudent ? styles.btnStudent : styles.btnAdmin}`}>
                         Se connecter
                     </button>
                 </form>

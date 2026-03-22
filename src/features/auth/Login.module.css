@@ -112,16 +112,15 @@
 }
 
 .iconContainer {
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-orange));
     width: 64px;
     height: 64px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
     margin-bottom: 0.5rem;
     color: white;
+    transition: all 0.4s ease;
 }
 
 .header h2 {
@@ -238,19 +237,93 @@
 
 .loginBtn {
     margin-top: 1rem;
-    background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
     color: white !important;
     padding: 1.1rem;
     border-radius: 16px;
     font-weight: 700;
     font-size: 1.1rem;
     transition: all var(--transition-normal);
-    box-shadow: 0 12px 24px -6px var(--accent-glow);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .loginBtn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 30px -5px var(--accent-glow);
     filter: brightness(1.1);
+}
+
+/* --- Role Selector & Dynamic Theming --- */
+
+.roleSelector {
+    display: flex;
+    background: var(--bg-primary);
+    border-radius: 24px;
+    padding: 6px;
+    position: relative;
+    border: 1px solid var(--border-color);
+}
+
+.roleBtn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 18px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+.activeAdmin, .activeStudent {
+    color: white;
+}
+
+.slider {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    height: calc(100% - 12px);
+    width: calc(50% - 6px);
+    border-radius: 18px;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s ease;
+    z-index: 1;
+}
+
+.sliderAdmin {
+    background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+    transform: translateX(100%);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+.sliderStudent {
+    background: linear-gradient(135deg, var(--accent-color), #2563eb);
+    transform: translateX(0);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.iconContainerStudent {
+    background: linear-gradient(135deg, var(--accent-color), #60a5fa);
+    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.4);
+}
+
+.iconContainerAdmin {
+    background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+    box-shadow: 0 10px 20px -5px rgba(249, 115, 22, 0.4);
+}
+
+.btnStudent {
+    background: linear-gradient(135deg, var(--accent-color), #2563eb);
+    box-shadow: 0 12px 24px -6px rgba(37, 99, 235, 0.5);
+}
+
+.btnAdmin {
+    background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+    box-shadow: 0 12px 24px -6px rgba(249, 115, 22, 0.5);
 }

@@ -6,20 +6,35 @@ import UsersList from './features/users/UsersList';
 import AnnoncesList from './features/annonces/AnnoncesList';
 import Moderation from './features/moderation/Moderation';
 import Settings from './features/settings/Settings';
+import StudentLayout from './features/student/StudentLayout';
+import StudentHome from './features/student/StudentHome';
+import LandingPage from './features/landing/LandingPage';
 import { useAuth } from './features/auth/useAuth';
 
-function PrivateRoute({ children }) {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? children : <Navigate to="/login" replace />;
+function PrivateRoute({ children, allowedRoles = [] }) {
+  const { isAuthenticated, user } = useAuth();
+  
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
+  if (allowedRoles.length > 0 && user && !allowedRoles.includes(user.role)) {
+      return <Navigate to="/login" replace />;
+  }
+  
+  return children;
 }
 
 function App() {
   return (
     <Routes>
+      <Route path="/landing" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
 
+      {/* Protected Student Routes */}
+      <Route path="/student-dashboard" element={<PrivateRoute allowedRoles={['STUDENT']}><StudentLayout /></PrivateRoute>}>
+        <Route index element={<StudentHome />} />
+      </Route>
+
       {/* Protected Admin Routes */}
-      <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
+      <Route path="/" element={<PrivateRoute allowedRoles={['ADMIN']}><Layout /></PrivateRoute>}>
         <Route index element={<Dashboard />} />
         <Route path="users" element={<UsersList />} />
         <Route path="annonces" element={<AnnoncesList />} />
