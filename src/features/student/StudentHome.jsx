@@ -103,15 +103,18 @@ export default function StudentHome() {
                             <motion.div
                                 key={i}
                                 className={styles.statCard}
-                                style={{ background: stat.gradient }}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 0.4, delay: 0.1 + i * 0.1 }}
-                                whileHover={{ scale: 1.03 }}
+                                whileHover={{ scale: 1.02 }}
                             >
-                                <Icon size={24} />
-                                <span className={styles.statValue}>{stat.value}</span>
-                                <span className={styles.statLabel}>{stat.label}</span>
+                                <div className={styles.statIconWrap} style={{ background: stat.gradient }}>
+                                    <Icon size={24} color="white" />
+                                </div>
+                                <div className={styles.statContent}>
+                                    <span className={styles.statValue}>{stat.value}</span>
+                                    <span className={styles.statLabel}>{stat.label}</span>
+                                </div>
                             </motion.div>
                         );
                     })}

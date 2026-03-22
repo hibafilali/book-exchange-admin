@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { BookOpen, CheckCircle, XCircle, Search, Eye, Filter } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 import styles from './AnnoncesList.module.css';
 
 const MOCK_ANNONCES = [
@@ -16,6 +18,11 @@ export default function AnnoncesList() {
 
     const updateStatut = (id, newStatut) => {
         setAnnonces(annonces.map(a => a.id === id ? { ...a, statut: newStatut } : a));
+        if (newStatut === 'Validée') {
+            toast.success(`L'annonce a été validée et publiée.`);
+        } else {
+            toast.error(`L'annonce a été refusée.`);
+        }
     };
 
     const filtered = annonces.filter(a => {
@@ -65,8 +72,16 @@ export default function AnnoncesList() {
             </div>
 
             <div className={styles.grid}>
+                <AnimatePresence mode="popLayout">
                 {filtered.map(annonce => (
-                    <div key={annonce.id} className={`${styles.card}`}>
+                    <motion.div 
+                        layout 
+                        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                        key={annonce.id} 
+                        className={`${styles.card}`}
+                    >
                         <div className={styles.cardHeader}>
                             <div className={styles.cardIcon}>
                                 <BookOpen size={22} color="var(--accent-color)" />
@@ -114,8 +129,9 @@ export default function AnnoncesList() {
                                 </button>
                             )}
                         </div>
-                    </div>
+                    </motion.div>
                 ))}
+                </AnimatePresence>
             </div>
         </div>
     );

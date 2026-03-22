@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard } from 'lucide-react';
+import { BookOpen, Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
@@ -38,21 +38,20 @@ export default function StudentLayout() {
                         <span>BourseManuels</span>
                     </div>
 
-                    {/* Search */}
-                    <div className={styles.searchBar}>
-                        <Search size={18} className={styles.searchIcon} />
-                        <input type="text" placeholder="Rechercher un manuel..." className={styles.searchInput}
-                            value={navSearch} onChange={e => setNavSearch(e.target.value)} onKeyDown={handleNavSearch} />
-                    </div>
+                    {/* Removed Search from Navbar to center focus on Hero */}
 
                     {/* Actions */}
                     <div className={styles.actions}>
+                        <button className={styles.dashboardBtn} onClick={() => navigate('/student-dashboard/messages')} title="Messagerie">
+                            <MessageSquare size={16} /> <span className={styles.hideOnMobile}>Messages</span>
+                        </button>
+
                         <button className={styles.dashboardBtn} onClick={() => navigate('/student-dashboard/dashboard')} title="Mon Tableau de Bord">
-                            <LayoutDashboard size={16} /> <span>Dashboard</span>
+                            <LayoutDashboard size={16} /> <span className={styles.hideOnMobile}>Dashboard</span>
                         </button>
 
                         <button className={styles.publishBtn} onClick={() => navigate('/student-dashboard/publish')}>
-                            <Plus size={16} /> <span>Publier</span>
+                            <Plus size={16} /> <span className={styles.hideOnMobile}>Publier</span>
                         </button>
 
                         <button className={styles.iconBtn} onClick={toggleTheme} title={isDarkMode ? 'Mode clair' : 'Mode sombre'}>

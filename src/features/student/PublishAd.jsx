@@ -6,6 +6,7 @@ import {
     UploadCloud, X, ArrowRight, ArrowLeft, Loader2, Sparkles, Building2,
     AlertCircle, PartyPopper
 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import styles from './PublishAd.module.css';
 
 const STEPS = [
@@ -79,7 +80,13 @@ export default function PublishAd() {
         // Simulate DB insertion (Manuel -> Exemplaire -> Annonce)
         setTimeout(() => {
             setIsPublishing(false);
+            toast.success("Annonce publiée avec succès !");
             setShowSuccess(true);
+            
+            // Redirect automatically after showing confetti for a few seconds
+            setTimeout(() => {
+                navigate('/student-dashboard/dashboard');
+            }, 3500);
         }, 1500);
     };
 

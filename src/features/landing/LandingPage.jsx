@@ -104,7 +104,7 @@ export default function LandingPage() {
                             {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
                         <button className={styles.navLogin} onClick={() => navigate('/login')}>Se connecter</button>
-                        <button className={styles.navSignup} onClick={() => navigate('/login')}>
+                        <button className={styles.navSignup} onClick={() => navigate('/register')}>
                             Créer un compte <ArrowRight size={16} />
                         </button>
                     </div>
@@ -220,7 +220,7 @@ export default function LandingPage() {
                     <div className={styles.booksOverlayInner}>
                         <h3>Envie de voir plus de manuels ?</h3>
                         <p>Créez un compte gratuit pour accéder à tout le catalogue et contacter les annonceurs.</p>
-                        <button className={styles.glowBtn} onClick={() => navigate('/login')}>
+                        <button className={styles.glowBtn} onClick={() => navigate('/register')}>
                             <Sparkles size={18} /> Explorer tout le catalogue
                         </button>
                     </div>
@@ -287,7 +287,7 @@ export default function LandingPage() {
                         <h2>Prêt à économiser sur vos études ?</h2>
                         <p>Rejoignez des centaines d'étudiants qui échangent déjà leurs manuels. C'est gratuit, rapide et sécurisé.</p>
                         <div className={styles.ctaButtons}>
-                            <button className={styles.ctaPrimary} onClick={() => navigate('/login')}>
+                            <button className={styles.ctaPrimary} onClick={() => navigate('/register')}>
                                 Commencer gratuitement <ArrowRight size={18} />
                             </button>
                             <button className={styles.ctaSecondary} onClick={() => scrollTo('process')}>En savoir plus</button>
@@ -336,7 +336,7 @@ export default function LandingPage() {
                         <h3>Connectez-vous pour continuer</h3>
                         <p>Créez un compte gratuit pour accéder au catalogue complet, contacter les annonceurs et publier vos propres manuels.</p>
                         <div className={styles.modalActions}>
-                            <button className={styles.modalPrimary} onClick={() => navigate('/login')}>
+                            <button className={styles.modalPrimary} onClick={() => navigate('/register')}>
                                 Créer un compte <ArrowRight size={16} />
                             </button>
                             <button className={styles.modalSecondary} onClick={() => setShowModal(false)}>Plus tard</button>

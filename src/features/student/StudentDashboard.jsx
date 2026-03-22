@@ -165,7 +165,10 @@ export default function StudentDashboard() {
                     <motion.div className={styles.bentoCard} variants={itemVariants}>
                         <div className={styles.cardHeader}>
                             <h2><MessageSquare size={18} /> Messages</h2>
-                            <span className={styles.notifBadge}>2</span>
+                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                <span className={styles.notifBadge}>2</span>
+                                <button className={styles.linkBtn} onClick={() => navigate('/student-dashboard/messages')}>Ouvrir</button>
+                            </div>
                         </div>
                         <div className={styles.msgList}>
                             {MOCK_MESSAGES.map(m => (

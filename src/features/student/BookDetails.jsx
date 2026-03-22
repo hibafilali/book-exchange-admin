@@ -6,6 +6,7 @@ import {
     BookOpen, Hash, Layers, Send, X, Eye, ShieldCheck, Star,
     ChevronLeft, ChevronRight, MessageCircle
 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import ManualCard from './ManualCard';
 import styles from './BookDetails.module.css';
 
@@ -63,6 +64,8 @@ export default function BookDetails() {
 
     const priceLabel = book.typeEchange === 'VENTE' ? `${book.prixVente} DH`
         : book.typeEchange === 'DON' ? 'Gratuit' : 'Prêt gratuit';
+
+    const slugify = (text) => text.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
 
     const handleSendContact = () => {
         if (!contactMsg.trim()) return;
@@ -122,7 +125,15 @@ export default function BookDetails() {
                             <span className={styles.price} style={{ color: typeConf.color }}>{priceLabel}</span>
                             <div className={styles.actionBtns}>
                                 <motion.button className={`${styles.iconAction} ${isFav ? styles.favActive : ''}`}
-                                    onClick={() => setIsFav(!isFav)} whileTap={{ scale: 0.85 }}>
+                                    onClick={() => {
+                                        const newFav = !isFav;
+                                        setIsFav(newFav);
+                                        if (newFav) {
+                                            toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white'} });
+                                        } else {
+                                            toast.success("Retiré des favoris.");
+                                        }
+                                    }} whileTap={{ scale: 0.85 }}>
                                     <Heart size={18} fill={isFav ? '#ef4444' : 'none'} />
                                 </motion.button>
                                 <button className={styles.iconAction}><Share2 size={18} /></button>
@@ -150,7 +161,12 @@ export default function BookDetails() {
                     {/* Owner card */}
                     <motion.div className={styles.ownerCard} variants={fadeUp}>
                         <h3 className={styles.cardLabel}>Propriétaire</h3>
-                        <div className={styles.ownerInfo}>
+                        <div 
+                            className={styles.ownerInfo} 
+                            onClick={() => navigate(`/student-dashboard/user/${slugify(book.proprietaire.nom)}`)}
+                            style={{ cursor: 'pointer' }}
+                            title="Voir le profil du vendeur"
+                        >
                             <div className={styles.ownerAvatar} style={{ background: typeConf.color }}>
                                 {book.proprietaire.nom.charAt(0)}
                             </div>

@@ -1,28 +1,46 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            // In a real app, you would decode the token here
-            return { role: 'ADMIN', name: 'Admin Demo' };
-        }
-        return null;
-    });
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Validation simulée du token au montage avec petit effet de délai visuel
+        const verifyToken = async () => {
+            const token = localStorage.getItem('token');
+            const role = localStorage.getItem('user_role');
+            
+            await new Promise(r => setTimeout(r, 1000)); // Simuler la latence réseau
+            
+            if (token && role) {
+                // Hydrate the user
+                setUser({ 
+                    role: role, 
+                    name: role === 'ADMIN' ? 'Admin BourseManuels' : 'Étudiant BourseManuels' 
+                });
+            }
+            setLoading(false);
+        };
+        verifyToken();
+    }, []);
 
     const login = async (email, password, role) => {
-        // Mock login for UI development
+        // Simuler latence de login
+        await new Promise(r => setTimeout(r, 1200));
+
         if (role === 'ADMIN' && email === 'admin@bourse.com' && password === 'admin') {
             localStorage.setItem('token', 'fake-admin-jwt-token');
-            setUser({ role: 'ADMIN', name: 'Admin Demo' });
+            localStorage.setItem('user_role', 'ADMIN');
+            setUser({ role: 'ADMIN', name: 'Admin BourseManuels' });
             return true;
         }
         
-        // Mock pour authentifier un étudiant très facilement
+        // Mock pour authentifier un étudiant
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
-            setUser({ role: 'STUDENT', name: 'Étudiant Demo' });
+            localStorage.setItem('user_role', 'STUDENT');
+            setUser({ role: 'STUDENT', name: 'Étudiant BourseManuels' });
             return true;
         }
         
@@ -31,11 +49,12 @@ export function AuthProvider({ children }) {
 
     const logout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('user_role');
         setUser(null);
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+        <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, loading }}>
             {children}
         </AuthContext.Provider>
     );

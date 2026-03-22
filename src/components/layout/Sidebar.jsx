@@ -4,11 +4,11 @@ import styles from './Sidebar.module.css';
 import { useAuth } from '../../features/auth/useAuth';
 
 const NAV_ITEMS = [
-    { path: '/', label: 'Tableau de bord', icon: LayoutDashboard },
-    { path: '/users', label: 'Utilisateurs', icon: Users },
-    { path: '/annonces', label: 'Annonces', icon: BookOpen },
-    { path: '/moderation', label: 'Modération', icon: ShieldAlert },
-    { path: '/settings', label: 'Paramètres', icon: Settings },
+    { path: '/admin', label: 'Tableau de bord', icon: LayoutDashboard },
+    { path: '/admin/users', label: 'Utilisateurs', icon: Users },
+    { path: '/admin/annonces', label: 'Annonces', icon: BookOpen },
+    { path: '/admin/moderation', label: 'Modération', icon: ShieldAlert },
+    { path: '/admin/settings', label: 'Paramètres', icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -35,7 +35,7 @@ export default function Sidebar() {
                             <li key={item.path}>
                                 <NavLink
                                     to={item.path}
-                                    end={item.path === '/'}
+                                    end={item.path === '/admin'}
                                     className={({ isActive }) =>
                                         `${styles.navItem} ${isActive ? styles.navItemActive : ''}`
                                     }

@@ -2,12 +2,23 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Search, SlidersHorizontal, X, LayoutGrid, List, ChevronDown,
+    Search, SlidersHorizontal, X, LayoutGrid, List, ChevronDown, Map,
     BookOpen, MapPin, Eye, Heart, ShieldCheck, Hash, Filter, Barcode,
     ChevronUp, RotateCcw, AlertCircle, Sparkles
 } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 import ManualCard from './ManualCard';
 import styles from './SearchExplorer.module.css';
+
+// Fix Leaflet icons issues with Webpack/Vite
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
 
 // ============================
 // 12 MANUELS VARIÉS (Médecine, Droit, Ingénierie, Économie, etc.)
@@ -91,6 +102,59 @@ function ListItem({ annonce, onClick }) {
                 </span>
                 <span className={styles.listPrice}>{priceLabel}</span>
             </div>
+        </motion.div>
+    );
+}
+
+// ============================
+// MAP VIEW BUILDER
+// ============================
+function MapView({ results }) {
+    // Coordonnées fictives pour les grandes villes universitaires
+    const CITY_COORDS = {
+        'Fès': [34.0331, -5.0002],
+        'Casablanca': [33.5731, -7.5898],
+        'Rabat': [34.0208, -6.8416],
+        'Tanger': [35.7595, -5.8339],
+        'Meknès': [33.8945, -5.5475],
+        'Marrakech': [31.6295, -7.9811],
+    };
+
+    return (
+        <motion.div 
+            className={styles.mapContainerWrapper}
+            initial={{ opacity: 0, scale: 0.98 }} 
+            animate={{ opacity: 1, scale: 1 }} 
+            exit={{ opacity: 0 }}
+        >
+            <MapContainer center={[33.8, -6.5]} zoom={6} scrollWheelZoom={true} className={styles.leafletMap}>
+                {/* La tuile "voyager" a des couleurs neutres fluides, modifiée par CSS en Dark Mode */}
+                <TileLayer
+                    url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; CARTO'
+                />
+                {results.map(b => {
+                    const basePoint = CITY_COORDS[b.ville] || [33.5, -7.5];
+                    // Petits décalages pour éviter que les livres d'une même ville soient superposés précisément
+                    const lat = basePoint[0] + (Math.random() * 0.04 - 0.02);
+                    const lng = basePoint[1] + (Math.random() * 0.04 - 0.02);
+                    
+                    return (
+                        <Marker key={b.id} position={[lat, lng]}>
+                            <Popup className={styles.customPopup}>
+                                <div className={styles.popupInner}>
+                                    <img src={b.photoUrl} alt="" className={styles.popupImg} />
+                                    <div className={styles.popupDetails}>
+                                        <strong>{b.titreAnnonce}</strong>
+                                        <p>{b.typeEchange === 'VENTE' ? `${b.prixVente} DH` : TYPE_LABELS[b.typeEchange]}</p>
+                                        <span>📍 Campus {b.ville}</span>
+                                    </div>
+                                </div>
+                            </Popup>
+                        </Marker>
+                    );
+                })}
+            </MapContainer>
         </motion.div>
     );
 }
@@ -315,6 +379,8 @@ export default function SearchExplorer() {
                             onClick={() => setViewMode('grid')} title="Vue grille"><LayoutGrid size={16} /></button>
                         <button className={`${styles.viewBtn} ${viewMode === 'list' ? styles.viewActive : ''}`}
                             onClick={() => setViewMode('list')} title="Vue liste"><List size={16} /></button>
+                        <button className={`${styles.viewBtn} ${viewMode === 'map' ? styles.viewActive : ''}`}
+                            onClick={() => setViewMode('map')} title="Vue carte géolocalisée"><Map size={16} /></button>
                     </div>
                 </div>
             </div>
@@ -366,7 +432,7 @@ export default function SearchExplorer() {
                                 ))}
                             </AnimatePresence>
                         </div>
-                    ) : (
+                    ) : viewMode === 'list' ? (
                         <div className={styles.listView}>
                             <AnimatePresence mode="popLayout">
                                 {results.map(b => (
@@ -374,6 +440,10 @@ export default function SearchExplorer() {
                                         onClick={() => navigate(`/student-dashboard/book/${b.id}`)} />
                                 ))}
                             </AnimatePresence>
+                        </div>
+                    ) : (
+                        <div className={styles.mapView}>
+                            <MapView results={results} />
                         </div>
                     )}
                 </div>

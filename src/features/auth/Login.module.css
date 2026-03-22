@@ -327,3 +327,12 @@
     background: linear-gradient(135deg, var(--accent-orange), #ea580c);
     box-shadow: 0 12px 24px -6px rgba(249, 115, 22, 0.5);
 }
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

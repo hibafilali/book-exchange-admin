@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 import styles from './Login.module.css';
-import { BookOpen, Lock, Mail, User, Shield } from 'lucide-react';
+import { BookOpen, Lock, Mail, User, Shield, Loader2 } from 'lucide-react';
 
 export default function Login() {
     const [isStudent, setIsStudent] = useState(true);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -17,16 +19,23 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setIsLoading(true);
         
-        // Pass the role to the login function
+        // Simuler un appel système
+        await new Promise(r => setTimeout(r, 1200));
+        
         const success = await login(email, password, role);
+        setIsLoading(false);
+        
         if (success) {
+            toast.success(`Connexion réussie ! Bienvenue ${isStudent ? 'Étudiant' : 'Admin'}`, { duration: 3000 });
             if (role === 'ADMIN') {
                 navigate('/');
             } else {
                 navigate('/student-dashboard');
             }
         } else {
+            toast.error("Identifiants invalides.");
             setError(`Identifiants invalides pour l'espace ${isStudent ? 'Étudiant' : 'Admin'}.`);
         }
     };
@@ -102,8 +111,8 @@ export default function Login() {
                         </div>
                     </div>
 
-                    <button type="submit" className={`${styles.loginBtn} ${isStudent ? styles.btnStudent : styles.btnAdmin}`}>
-                        Se connecter
+                    <button type="submit" className={`${styles.loginBtn} ${isStudent ? styles.btnStudent : styles.btnAdmin}`} disabled={isLoading}>
+                        {isLoading ? <><Loader2 size={18} className={styles.spinner} /> Connexion...</> : 'Se connecter'}
                     </button>
                 </form>
             </div>

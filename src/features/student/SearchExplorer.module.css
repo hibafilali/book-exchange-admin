@@ -220,6 +220,53 @@
 .listType { padding: 0.2rem 0.6rem; border-radius: 8px; color: white; font-size: 0.68rem; font-weight: 800; text-transform: uppercase; }
 .listPrice { font-size: 1.05rem; font-weight: 800; color: var(--text-primary); }
 
+/* ====== MAP VIEW ====== */
+.mapView {
+    border-radius: var(--border-radius-xl);
+    overflow: hidden;
+    height: 600px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-md);
+    background: var(--bg-secondary);
+}
+
+.mapContainerWrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.leafletMap {
+    height: 100%;
+    width: 100%;
+    background: var(--bg-primary) !important;
+}
+
+/* Dark mode mapping using CSS filters for generic map tiles */
+[data-theme='dark'] .leafletMap {
+    filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(110%);
+}
+
+/* Reset filter for popup so its content remains standard dark mode */
+[data-theme='dark'] .leafletMap .leaflet-popup {
+    filter: invert(100%) hue-rotate(180deg) brightness(115%) contrast(90%);
+}
+
+.customPopup :global(.leaflet-popup-content-wrapper) {
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
+}
+
+.customPopup :global(.leaflet-popup-content) { margin: 0; width: 200px !important; }
+
+.popupInner { display: flex; flex-direction: column; }
+.popupImg { width: 100%; height: 120px; object-fit: cover; }
+.popupDetails { padding: 0.85rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.popupDetails strong { font-size: 0.9rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.2rem; }
+.popupDetails p { font-size: 0.85rem; font-weight: 700; color: #10b981; margin: 0; }
+.popupDetails span { font-size: 0.75rem; font-weight: 600; margin-top: 0.2rem; }
+
 /* ====== SKELETON ====== */
 .skeleton {
     background: var(--bg-secondary); border: 1px solid var(--border-color);
