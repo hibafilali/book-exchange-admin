@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
                 // Hydrate the user
                 setUser({ 
                     role: role, 
-                    name: role === 'ADMIN' ? 'Admin BourseManuels' : 'Étudiant BourseManuels' 
+                    name: role === 'ADMIN' ? 'Admin BOOK-IN' : 'Étudiant BOOK-IN' 
                 });
             }
             setLoading(false);
@@ -29,10 +29,10 @@ export function AuthProvider({ children }) {
         // Simuler latence de login
         await new Promise(r => setTimeout(r, 1200));
 
-        if (role === 'ADMIN' && email === 'admin@bourse.com' && password === 'admin') {
+        if (role === 'ADMIN' && email === 'admin@book-in.ma' && password === 'admin') {
             localStorage.setItem('token', 'fake-admin-jwt-token');
             localStorage.setItem('user_role', 'ADMIN');
-            setUser({ role: 'ADMIN', name: 'Admin BourseManuels' });
+            setUser({ role: 'ADMIN', name: 'Admin BOOK-IN' });
             return true;
         }
         
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
             localStorage.setItem('user_role', 'STUDENT');
-            setUser({ role: 'STUDENT', name: 'Étudiant BourseManuels' });
+            setUser({ role: 'STUDENT', name: 'Étudiant BOOK-IN' });
             return true;
         }
         

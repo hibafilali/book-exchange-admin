@@ -75,7 +75,7 @@ export default function Login() {
                         <BookOpen size={32} color="white" />
                     </div>
                     <h2>{isStudent ? 'Espace Étudiant' : 'Administration'}</h2>
-                    <p>{isStudent ? 'Connectez-vous pour échanger vos manuels' : 'Connectez-vous pour gérer BourseManuels'}</p>
+                    <p>{isStudent ? 'Connectez-vous pour échanger vos manuels' : 'Connectez-vous pour gérer BOOK-IN'}</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.form}>
@@ -88,7 +88,7 @@ export default function Login() {
                             <input
                                 id="email"
                                 type="email"
-                                placeholder={isStudent ? "etudiant@univ.com" : "admin@bourse.com"}
+                                placeholder={isStudent ? "etudiant@univ.com" : "admin@book-in.ma"}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required

@@ -18,11 +18,11 @@ export default function Sidebar() {
         <aside className={`${styles.sidebar}`}>
             <div className={styles.logoContainer}>
                 <div className={styles.minimalLogo}>
-                    <span className={styles.logoLetter}>N</span>
+                    <span className={styles.logoLetter}>B</span>
                 </div>
                 <div className={styles.brandTitle}>
-                    <span className={styles.logoTextMain}>Nex</span>
-                    <span className={styles.logoTextSub}>Book</span>
+                    <span className={styles.logoTextMain}>BOOK</span>
+                    <span className={styles.logoTextSub}>-IN</span>
                 </div>
             </div>
 

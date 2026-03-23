@@ -74,7 +74,7 @@ export default function Register() {
                         <BookOpen size={28} className={styles.logoIcon} />
                     </div>
                     <h1>Créer un compte</h1>
-                    <p>Rejoignez BourseManuels et commencez à échanger.</p>
+                    <p>Rejoignez BOOK-IN et commencez à échanger.</p>
                 </div>
 
                 <form onSubmit={handleRegister} className={styles.form}>

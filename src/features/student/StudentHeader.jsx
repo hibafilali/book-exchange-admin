@@ -33,7 +33,7 @@ export default function StudentHeader() {
             <div className={styles.headerInner}>
                 <div className={styles.logo}>
                     <div className={styles.logoIcon}><BookOpen size={22} /></div>
-                    <span className={styles.logoText}>BourseManuels</span>
+                    <span className={styles.logoText}>BOOK-IN</span>
                 </div>
 
                 <div className={styles.actions}>

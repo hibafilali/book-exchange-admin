@@ -29,17 +29,18 @@
 
 /* Search */
 .searchBar {
-    flex: 1; max-width: 480px; display: flex; align-items: center;
+    flex: 1; max-width: 580px; display: flex; align-items: center; margin-left: 1.5rem;
     background: var(--bg-primary); border: 1px solid var(--border-color);
-    border-radius: 14px; padding: 0 1rem; height: 42px;
+    border-radius: 12px; padding: 0 1rem; height: 44px;
     transition: all 0.2s ease;
 }
 [data-theme='dark'] .searchBar { background: rgba(30, 41, 59, 0.5); }
 .searchBar:focus-within { border-color: var(--accent-color); box-shadow: 0 0 0 3px var(--accent-glow); }
-.searchIcon { color: var(--text-muted); flex-shrink: 0; }
+.searchIcon { color: var(--text-muted); flex-shrink: 0; margin-right: 0.5rem; }
+
 .searchInput {
-    flex: 1; border: none; background: transparent; padding: 0 0.75rem;
-    font-family: inherit; font-size: 0.9rem; font-weight: 500;
+    flex: 1; border: none; background: transparent; padding: 0;
+    font-family: inherit; font-size: 0.95rem; font-weight: 500;
     color: var(--text-primary); outline: none;
 }
 .searchInput::placeholder { color: var(--text-muted); }

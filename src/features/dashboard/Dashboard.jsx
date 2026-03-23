@@ -50,7 +50,7 @@ export default function Dashboard() {
             <header className={styles.header}>
                 <div>
                     <h1 className={styles.title}>Tableau de Bord</h1>
-                    <p className={styles.subtitle}>Supervision globale de la plateforme BourseManuels</p>
+                    <p className={styles.subtitle}>Supervision globale de la plateforme BOOK-IN</p>
                 </div>
                 <div className={styles.headerActions}>
                     <button className={styles.exportBtn} onClick={handleDownloadReport}

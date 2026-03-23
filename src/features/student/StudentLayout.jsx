@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { BookOpen, Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
+import { Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import BookInLogo from '../../components/common/BookInLogo';
 import styles from './StudentLayout.module.css';
 
 export default function StudentLayout() {
@@ -34,11 +35,21 @@ export default function StudentLayout() {
                 <div className={styles.navInner}>
                     {/* Logo */}
                     <div className={styles.logo} onClick={() => navigate('/student-dashboard')}>
-                        <div className={styles.logoIcon}><BookOpen size={20} /></div>
-                        <span>BourseManuels</span>
+                        <BookInLogo size={20} />
                     </div>
 
-                    {/* Removed Search from Navbar to center focus on Hero */}
+                    {/* Global Search */}
+                    <div className={styles.searchBar}>
+                        <Search size={18} className={styles.searchIcon} />
+                        <input 
+                            className={styles.searchInput}
+                            type="text" 
+                            placeholder="Rechercher (Titre, Auteur, ISBN...)" 
+                            value={navSearch} 
+                            onChange={e => setNavSearch(e.target.value)} 
+                            onKeyDown={handleNavSearch} 
+                        />
+                    </div>
 
                     {/* Actions */}
                     <div className={styles.actions}>
@@ -75,7 +86,7 @@ export default function StudentLayout() {
                                 >
                                     <div className={styles.profileHeader}>
                                         <strong>{user?.name || 'Étudiant'}</strong>
-                                        <span>{user?.email || 'etudiant@bourse.com'}</span>
+                                        <span>{user?.email || 'etudiant@book-in.ma'}</span>
                                     </div>
                                     <button onClick={() => { setShowProfile(false); navigate('/student-dashboard/dashboard'); }}><User size={15} /> Mon Profil</button>
                                     <button onClick={() => { logout(); navigate('/login'); }}><LogOut size={15} /> Déconnexion</button>
