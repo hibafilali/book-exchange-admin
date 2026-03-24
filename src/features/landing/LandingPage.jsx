@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import {
@@ -23,9 +23,9 @@ const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
 const TYPE_LABELS = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
 
 const TESTIMONIALS = [
-    { name: "Salma B.", filiere: "Droit · Casablanca", text: "J'ai trouvé mon Code Civil en 5 minutes. Incroyable !", avatar: "S", color: "#FF5722" },
-    { name: "Youssef K.", filiere: "Informatique · Fès", text: "J'ai donné 8 manuels. La plateforme est super fluide.", avatar: "Y", color: "#3B82F6" },
-    { name: "Amina R.", filiere: "Économie · Rabat", text: "Le prêt entre étudiants, c'est génial. Très économique.", avatar: "A", color: "#10B981" },
+    { name: "Salma B.", filiere: "Droit · Casablanca", text: "5 min chrono pour trouver mon Code Civil. Je recommande à 100% !", avatar: "S", color: "#FF5722" },
+    { name: "Youssef K.", filiere: "Info · Fès", text: "J'ai filé 8 bouquins qui prenaient la poussière. Trop simple.", avatar: "Y", color: "#3B82F6" },
+    { name: "Amina R.", filiere: "Éco · Rabat", text: "Grâce au prêt, j'ai économisé 400 DH ce semestre. Merci !", avatar: "A", color: "#10B981" },
 ];
 
 // ============================
@@ -59,15 +59,15 @@ function AnimatedCounter({ target, suffix = '' }) {
 function Reveal({ children, delay = 0, direction = 'up' }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
-    
+
     const variants = {
-        hidden: { opacity: 0, y: direction === 'up' ? 40 : 0, x: direction === 'left' ? 40 : direction === 'right' ? -40 : 0 },
+        hidden: { opacity: 0, y: direction === 'up' ? 30 : 0, x: direction === 'left' ? 30 : direction === 'right' ? -30 : 0 },
         visible: { opacity: 1, y: 0, x: 0 }
     };
 
     return (
         <motion.div ref={ref} initial="hidden" animate={isInView ? "visible" : "hidden"} variants={variants}
-            transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}>
+            transition={{ type: 'spring', stiffness: 120, damping: 20, delay }}>
             {children}
         </motion.div>
     );
@@ -80,11 +80,32 @@ export default function LandingPage() {
     const navigate = useNavigate();
     const { isDarkMode, toggleTheme } = useTheme();
     const [showModal, setShowModal] = useState(false);
+    const cursorRef = useRef(null);
 
     const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
+    // Custom cursor with lag
+    useEffect(() => {
+        const move = (e) => {
+            if (cursorRef.current) {
+                requestAnimationFrame(() => {
+                    cursorRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+                });
+            }
+        };
+        window.addEventListener('mousemove', move);
+        return () => window.removeEventListener('mousemove', move);
+    }, []);
+
+    // Slight random rotations for book cards
+    const cardRotations = useRef([0.8, -1.2, 0.6]).current;
+
     return (
         <div className={`${styles.page} ${isDarkMode ? styles.dark : styles.light}`}>
+            {/* Custom cursor */}
+            <div ref={cursorRef} className={styles.customCursor} />
+            {/* Noise texture overlay */}
+            <div className={styles.noiseOverlay} />
 
             {/* =============== NAVBAR =============== */}
             <nav className={styles.navbar}>
@@ -119,19 +140,19 @@ export default function LandingPage() {
                 <div className={styles.heroContainer}>
                     {/* Left Column - Stark Typography & CTA */}
                     <div className={styles.heroLeft}>
-                        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
+                        <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ type: 'spring', stiffness: 80, damping: 18 }}>
                             <h1 className={styles.heroTitle}>
-                                BOOK-IN<br/>
+                                BOOK-IN<br />
                                 <span>qualité et innovation</span>
                             </h1>
                             <p className={styles.heroSub}>
-                                La plateforme nouvelle génération pour acheter, prêter et offrir vos manuels universitaires. Zéro intermédiaire, zéro frais cachés.
+                                Achète, prête ou offre tes manuels entre étudiants. Pas d'intermédiaire, pas de frais cachés — juste toi et ta fac.
                             </p>
 
                             {/* Search Bar stylized */}
                             <div className={styles.heroSearch}>
                                 <Search size={20} className={styles.heroSearchIcon} />
-                                <input type="text" placeholder="Rechercher un manuel, ISBN..." className={styles.heroSearchInput} onFocus={() => setShowModal(true)} />
+                                <input type="text" placeholder="Quel livre te manque ?" className={styles.heroSearchInput} onFocus={() => setShowModal(true)} />
                             </div>
                         </motion.div>
                     </div>
@@ -139,14 +160,14 @@ export default function LandingPage() {
                     {/* Right Column - Organic Vector Illustration */}
                     <div className={styles.heroRight}>
                         <motion.div className={styles.illustrationWrapper}
-                            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1, delay: 0.2 }}>
-                            
+                            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 60, damping: 14, delay: 0.3 }}>
+
                             {/* Geometric Abstract Shapes */}
                             <motion.div className={styles.shapeYellowCircle} animate={{ scale: [1, 1.05, 1], rotate: [0, 5, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
                             <motion.div className={styles.shapeBlueWave} animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
                             <motion.div className={styles.shapeTriangle} animate={{ y: [0, 15, 0], rotate: [0, 10, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} />
                             <motion.div className={styles.shapeOrangeAccent} animate={{ x: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
-                            
+
                             {/* Main flat vector character built with inline SVG: Two students exchanging a book */}
                             <svg className={styles.vectorCharacter} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 {/* Student 1 (Left) */}
@@ -179,14 +200,14 @@ export default function LandingPage() {
             <section id="process" className={styles.processSection}>
                 <div className={styles.steps}>
                     {[
-                        { num: '01', icon: Search, title: 'Recherchez', desc: 'Trouvez facilement par filière ou ISBN.', color: '#2563EB', bg: '#EFF6FF' },
-                        { num: '02', icon: Mail, title: 'Connectez', desc: 'Prenez contact de façon sécurisée.', color: '#EA580C', bg: '#FFF7ED' },
-                        { num: '03', icon: BookMarked, title: 'Échangez', desc: 'Donnez une seconde vie aux manuels.', color: '#059669', bg: '#ECFDF5' },
+                        { num: '01', icon: Search, title: 'Cherche', desc: 'Tape le nom, la filière ou l\'ISBN et c\'est parti.', color: '#2563EB', bg: '#EFF6FF' },
+                        { num: '02', icon: Mail, title: 'Contacte', desc: 'Envoie un message au vendeur, fixez un RDV sur le campus.', color: '#EA580C', bg: '#FFF7ED' },
+                        { num: '03', icon: BookMarked, title: 'Échange', desc: 'Récupère ton bouquin. Pas de frais de port, pas de stress.', color: '#059669', bg: '#ECFDF5' },
                     ].map((step, i) => {
                         const Icon = step.icon;
                         return (
                             <Reveal key={i} delay={i * 0.15}>
-                                <div className={styles.stepCard} style={{ background: step.bg, borderColor: step.bg }}>
+                                <div className={styles.stepCard} style={{ background: step.bg, borderColor: step.bg, transform: `rotate(${i === 1 ? -0.5 : i === 2 ? 0.4 : 0}deg)` }}>
                                     <div className={styles.stepIcon} style={{ background: 'white', color: step.color, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
                                         <Icon size={24} />
                                     </div>
@@ -203,7 +224,7 @@ export default function LandingPage() {
             <section id="books" className={styles.booksSection}>
                 <Reveal>
                     <div className={styles.booksSectionHeader}>
-                        <h2 className={styles.sectionTitle}>Catalogue récent</h2>
+                        <h2 className={styles.sectionTitle}>Les petites dernières 📚</h2>
                         <button className={styles.seeAllBtn} onClick={() => setShowModal(true)}>
                             Voir tout <ChevronRight size={18} />
                         </button>
@@ -212,7 +233,7 @@ export default function LandingPage() {
                 <div className={styles.booksGrid}>
                     {TEASER_BOOKS.map((b, i) => (
                         <Reveal key={b.id} delay={i * 0.08}>
-                            <div className={styles.bookCard} onClick={() => setShowModal(true)}>
+                            <div className={styles.bookCard} onClick={() => setShowModal(true)} style={{ transform: `rotate(${cardRotations[i]}deg)` }}>
                                 <div className={styles.bookImgWrap}>
                                     <img src={b.photo} alt={b.titre} className={styles.bookImg} loading="lazy" />
                                     <div className={styles.bookRibbon} style={{ background: TYPE_COLORS[b.type] }}>{TYPE_LABELS[b.type]}</div>
@@ -254,7 +275,7 @@ export default function LandingPage() {
 
                 <Reveal>
                     <div className={styles.sectionHeaderCentered} style={{ textAlign: 'center', marginTop: '5rem', marginBottom: '3rem' }}>
-                        <h2 className={styles.sectionTitle}>Ils l'utilisent</h2>
+                        <h2 className={styles.sectionTitle}>La parole aux étudiants 💬</h2>
                         <div className={styles.titleUnderline} style={{ width: '60px', height: '4px', background: 'var(--accent-color)', margin: '1rem auto' }}></div>
                     </div>
                 </Reveal>
@@ -282,11 +303,11 @@ export default function LandingPage() {
                 <Reveal>
                     <div className={styles.ctaFinalCard}>
                         <div className={styles.ctaFinalContent}>
-                            <h2>Prêt à révolutionner vos études ?</h2>
-                            <p>Rejoignez des centaines d'étudiants qui échangent déjà leurs manuels. Gratuit, rapide et solidaire.</p>
+                            <h2>T'attends quoi pour nous rejoindre ?</h2>
+                            <p>Des centaines d'étudiants échangent déjà leurs bouquins. Gratuit, rapide, et entre nous.</p>
                             <div className={styles.ctaButtons}>
                                 <button className={styles.ctaPrimary} onClick={() => navigate('/register')}>
-                                    Créer mon compte <ArrowRight size={18} />
+                                    Je m'inscris <ArrowRight size={18} />
                                 </button>
                             </div>
                         </div>
@@ -302,7 +323,7 @@ export default function LandingPage() {
                 <div className={styles.footerInner}>
                     <div className={styles.footerBrand}>
                         <BookInLogo size={20} />
-                        <p>L'économie circulaire au service de l'éducation.</p>
+                        <p>Fait par des étudiants, pour des étudiants. ❤️</p>
                     </div>
                 </div>
                 <div className={styles.footerBottom}>
@@ -319,13 +340,13 @@ export default function LandingPage() {
                         transition={{ duration: 0.25 }}
                     >
                         <div className={styles.modalIcon}><Heart size={32} /></div>
-                        <h3>Rejoignez la communauté</h3>
-                        <p>Créez un profil pour rechercher librement, contacter les vendeurs et publier vos manuels.</p>
+                        <h3>Hey, crée-toi un compte d'abord 😉</h3>
+                        <p>C'est gratuit, ça prend 30 secondes, et tu pourras chercher, contacter et publier librement.</p>
                         <div className={styles.modalActions}>
                             <button className={styles.modalPrimary} onClick={() => navigate('/register')}>
-                                Créer mon compte <ArrowRight size={16} />
+                                C'est parti ! <ArrowRight size={16} />
                             </button>
-                            <button className={styles.modalSecondary} onClick={() => setShowModal(false)}>Continuer la visite</button>
+                            <button className={styles.modalSecondary} onClick={() => setShowModal(false)}>Je regarde encore un peu</button>
                         </div>
                     </motion.div>
                 </div>
