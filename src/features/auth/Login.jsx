@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import styles from './Login.module.css';
-import { BookOpen, Lock, Mail, User, Shield, Loader2 } from 'lucide-react';
+import { BookOpen, Lock, Mail, User, Shield, Loader2, ArrowRight } from 'lucide-react';
+import BookInLogo from '../../components/common/BookInLogo';
 
 export default function Login() {
     const [isStudent, setIsStudent] = useState(true);
@@ -41,80 +43,126 @@ export default function Login() {
     };
 
     return (
-        <div className={styles.container}>
-            <div className={styles.backgroundBlobs}>
-                <div className={styles.blob1}></div>
-                <div className={styles.blob2}></div>
+        <div className={styles.page}>
+            {/* LEFT SIDE: VISUAL area (Desktop only) */}
+            <div className={styles.visualSide}>
+                <div className={styles.visualContent}>
+                    {/* Organic Blobs */}
+                    <motion.div className={styles.blobOrange} animate={{ scale: [1, 1.1, 1], rotate: [0, 5, 0] }} transition={{ duration: 8, repeat: Infinity }} />
+                    <motion.div className={styles.blobBlue} animate={{ y: [0, -20, 0] }} transition={{ duration: 6, repeat: Infinity }} />
+                    
+                    {/* Scholar Illustration SVG */}
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }} 
+                        animate={{ opacity: 1, scale: 1 }} 
+                        transition={{ duration: 0.8 }}
+                    >
+                        <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M180 320 C 180 320 150 200 120 200 C 80 200 60 220 60 280 C 60 330 90 370 140 370 Z" fill="#3B82F6" />
+                            <path d="M100 370 L 80 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
+                            <circle cx="120" cy="140" r="35" fill="#FFC9A9" />
+                            <path d="M320 320 C 320 320 350 200 380 200 C 420 200 440 220 440 280 C 440 330 410 370 360 370 Z" fill="#10B981" />
+                            <path d="M400 370 L 420 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
+                            <circle cx="380" cy="140" r="35" fill="#FDBA74" />
+                            <path d="M220 240 L 260 230 L 280 260 L 240 270 Z" fill="#FF5722" />
+                        </svg>
+                    </motion.div>
+
+                    <motion.div 
+                        className={styles.visualText}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                    >
+                        <h1>Votre savoir a de la valeur.</h1>
+                        <p>Rejoignez la plus grande communauté d'échange de manuels au Maroc.</p>
+                    </motion.div>
+                </div>
             </div>
 
-            <div className={`glass-panel ${styles.loginBox}`}>
-                
-                {/* Role Selector */}
-                <div className={styles.roleSelector}>
-                    <div className={`${styles.slider} ${isStudent ? styles.sliderStudent : styles.sliderAdmin}`}></div>
-                    <button 
-                        type="button" 
-                        className={`${styles.roleBtn} ${isStudent ? styles.activeStudent : ''}`}
-                        onClick={() => { setIsStudent(true); setError(''); }}
-                    >
-                        <User size={18} />
-                        Étudiant
-                    </button>
-                    <button 
-                        type="button" 
-                        className={`${styles.roleBtn} ${!isStudent ? styles.activeAdmin : ''}`}
-                        onClick={() => { setIsStudent(false); setError(''); }}
-                    >
-                        <Shield size={18} />
-                        Admin
-                    </button>
-                </div>
-
-                <div className={styles.header}>
-                    <div className={`${styles.iconContainer} ${isStudent ? styles.iconContainerStudent : styles.iconContainerAdmin}`}>
-                        <BookOpen size={32} color="white" />
-                    </div>
-                    <h2>{isStudent ? 'Espace Étudiant' : 'Administration'}</h2>
-                    <p>{isStudent ? 'Connectez-vous pour échanger vos manuels' : 'Connectez-vous pour gérer BOOK-IN'}</p>
-                </div>
-
-                <form onSubmit={handleSubmit} className={styles.form}>
-                    {error && <div className={styles.error}>{error}</div>}
-
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="email">{isStudent ? 'Email Universitaire' : 'Email Admin'}</label>
-                        <div className={styles.inputWrapper}>
-                            <Mail className={styles.inputIcon} size={18} />
-                            <input
-                                id="email"
-                                type="email"
-                                placeholder={isStudent ? "etudiant@univ.com" : "admin@book-in.ma"}
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
+            {/* RIGHT SIDE: AUTH FORM */}
+            <div className={styles.formSide}>
+                <motion.div 
+                    className={styles.loginCard}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+                >
+                    <div className={styles.cardHeader}>
+                        <BookInLogo size={32} />
+                        <div className={styles.cardTitle}>
+                            <h2>Ravi de vous revoir !</h2>
+                            <p>Accédez à votre espace sécurisé.</p>
                         </div>
                     </div>
 
-                    <div className={styles.inputGroup}>
-                        <label htmlFor="password">Mot de passe</label>
-                        <div className={styles.inputWrapper}>
-                            <Lock className={styles.inputIcon} size={18} />
-                            <input
-                                id="password"
-                                type="password"
-                                placeholder="••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                        </div>
+                    {/* Elegant Role Toggle */}
+                    <div className={styles.roleToggle}>
+                        <button 
+                            className={`${styles.roleOption} ${isStudent ? styles.roleActive : ''}`}
+                            onClick={() => setIsStudent(true)}
+                        >
+                            <span>Espace Étudiant</span>
+                            {isStudent && <motion.div layoutId="activeTab" className={styles.activeBar} />}
+                        </button>
+                        <button 
+                            className={`${styles.roleOption} ${!isStudent ? styles.roleActive : ''}`}
+                            onClick={() => setIsStudent(false)}
+                        >
+                            <span>Espace Admin</span>
+                            {!isStudent && <motion.div layoutId="activeTab" className={styles.activeBar} />}
+                        </button>
                     </div>
 
-                    <button type="submit" className={`${styles.loginBtn} ${isStudent ? styles.btnStudent : styles.btnAdmin}`} disabled={isLoading}>
-                        {isLoading ? <><Loader2 size={18} className={styles.spinner} /> Connexion...</> : 'Se connecter'}
-                    </button>
-                </form>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <div className={styles.inputGroup}>
+                            <label>Adresse Email</label>
+                            <div className={styles.field}>
+                                <Mail size={18} className={styles.fieldIcon} />
+                                <input 
+                                    type="email" 
+                                    placeholder={isStudent ? "etudiant@book-in.ma" : "admin@book-in.ma"}
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required 
+                                />
+                            </div>
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label>Mot de passe</label>
+                            <div className={styles.field}>
+                                <Lock size={18} className={styles.fieldIcon} />
+                                <input 
+                                    type="password" 
+                                    placeholder="••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required 
+                                />
+                            </div>
+                        </div>
+
+                        <button 
+                            type="submit" 
+                            className={styles.submitBtn} 
+                            disabled={isLoading}
+                            style={{ background: isStudent ? '#FF5722' : '#0F172A' }}
+                        >
+                            {isLoading ? <Loader2 size={18} className={styles.spinning} /> : 'Continuer'}
+                            {!isLoading && <ArrowRight size={18} />}
+                        </button>
+                    </form>
+
+                    <div className={styles.cardFooter}>
+                        {isStudent && (
+                            <p>Pas encore de compte ? <button onClick={() => navigate('/register')}>S'inscrire gratuitement</button></p>
+                        )}
+                        {!isStudent && (
+                            <p>Réservé aux collaborateurs BOOK-IN.</p>
+                        )}
+                    </div>
+                </motion.div>
             </div>
         </div>
     );

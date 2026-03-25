@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Mail, Lock, Building2, MapPin, GraduationCap, ArrowRight, BookOpen, AlertCircle, Loader2 } from 'lucide-react';
+import { User, Mail, Lock, Building2, MapPin, GraduationCap, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import styles from './Register.module.css';
+import BookInLogo from '../../components/common/BookInLogo';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -56,97 +57,114 @@ export default function Register() {
         toast.success("Bienvenue dans la communauté ! Redirection vers la page de connexion...", { duration: 4000 });
         navigate('/login');
     };
-
     return (
         <div className={styles.page}>
-            <div className={styles.blob1}></div>
-            <div className={styles.blob2}></div>
-            <div className={styles.blob3}></div>
-
-            <motion.div 
-                className={styles.registerContainer}
-                initial={{ opacity: 0, scale: 0.95, y: 30 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-            >
-                <div className={styles.formHeader}>
-                    <div className={styles.logoWrap}>
-                        <BookOpen size={28} className={styles.logoIcon} />
-                    </div>
-                    <h1>Créer un compte</h1>
-                    <p>Rejoignez BOOK-IN et commencez à échanger.</p>
-                </div>
-
-                <form onSubmit={handleRegister} className={styles.form}>
-                    <div className={styles.formSectionTitle}>Informations Personnelles</div>
-                    <div className={styles.inputGrid}>
-                        <div className={styles.inputGroup}>
-                            <User size={18} className={styles.inputIcon} />
-                            <input type="text" name="prenom" placeholder="Prénom" 
-                                value={formData.prenom} onChange={handleInputChange} required />
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <User size={18} className={styles.inputIcon} />
-                            <input type="text" name="nom" placeholder="Nom" 
-                                value={formData.nom} onChange={handleInputChange} required />
-                        </div>
-                        <div className={styles.inputGroup} style={{ gridColumn: '1 / -1' }}>
-                            <Mail size={18} className={styles.inputIcon} />
-                            <input type="email" name="email" placeholder="Adresse Email universitaire ou personnelle" 
-                                value={formData.email} onChange={handleInputChange} required />
-                        </div>
-                    </div>
-
-                    <div className={styles.formSectionTitle}>Sécurité</div>
-                    <div className={styles.inputGrid}>
-                        <div className={styles.inputGroup}>
-                            <Lock size={18} className={styles.inputIcon} />
-                            <input type="password" name="password" placeholder="Mot de passe" 
-                                value={formData.password} onChange={handleInputChange} required />
-                        </div>
-                        <div className={`${styles.inputGroup} ${errors.passwordMismatch ? styles.inputError : ''}`}>
-                            <Lock size={18} className={styles.inputIcon} />
-                            <input type="password" name="confirmPassword" placeholder="Confirmer le mot de passe" 
-                                value={formData.confirmPassword} onChange={handleInputChange} required />
-                        </div>
-                        <AnimatePresence>
-                            {errors.passwordMismatch && (
-                                <motion.div className={styles.errorText} initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, height: 0 }}>
-                                    <AlertCircle size={14} /> {errors.passwordMismatch}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </div>
-
-                    <div className={styles.formSectionTitle}>Profil Étudiant</div>
-                    <div className={styles.inputGrid}>
-                        <div className={styles.inputGroup} style={{ gridColumn: '1 / -1' }}>
-                            <GraduationCap size={18} className={styles.inputIcon} />
-                            <input type="text" name="filiere" placeholder="Filière (ex: Informatique, Droit...)" 
-                                value={formData.filiere} onChange={handleInputChange} required />
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <Building2 size={18} className={styles.inputIcon} />
-                            <input type="text" name="etablissement" placeholder="Établissement (ex: ENSA)" 
-                                value={formData.etablissement} onChange={handleInputChange} />
-                        </div>
-                        <div className={styles.inputGroup}>
-                            <MapPin size={18} className={styles.inputIcon} />
-                            <input type="text" name="ville" placeholder="Ville d'échange" 
-                                value={formData.ville} onChange={handleInputChange} />
-                        </div>
-                    </div>
-
-                    <button type="submit" className={styles.submitBtn} disabled={isLoading || errors.passwordMismatch}>
-                        {isLoading ? <Loader2 size={20} className="animate-spin" /> : 'S\'inscrire'}
-                        {!isLoading && <ArrowRight size={18} />}
-                    </button>
+            {/* LEFT SIDE: Visual (Desktop) */}
+            <div className={styles.visualSide}>
+                <div className={styles.visualContent}>
+                    <motion.div className={styles.blobGreen} animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 10, repeat: Infinity }} />
+                    <motion.div className={styles.blobBlue} animate={{ x: [-10, 10, -10] }} transition={{ duration: 8, repeat: Infinity }} />
                     
-                    <div className={styles.footerLinks}>
-                        Vous avez déjà un compte ? <a onClick={(e) => { e.preventDefault(); navigate('/login'); }} href="#">Se connecter</a>
+                    <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M180 320 C 180 320 150 200 120 200 C 80 200 60 220 60 280 C 60 330 90 370 140 370 Z" fill="#10B981" />
+                        <path d="M100 370 L 80 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
+                        <circle cx="120" cy="140" r="35" fill="#FFC9A9" />
+                        <path d="M320 320 C 320 320 350 200 380 200 C 420 200 440 220 440 280 C 440 330 410 370 360 370 Z" fill="#3B82F6" />
+                        <path d="M400 370 L 420 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
+                        <circle cx="380" cy="140" r="35" fill="#FDBA74" />
+                        <path d="M220 240 L 260 230 L 280 260 L 240 270 Z" fill="#FF5722" />
+                    </svg>
+
+                    <div className={styles.visualText}>
+                        <h1>Pas de gâchis, juste du partage.</h1>
+                        <p>Donnez une seconde vie à vos livres et économisez sur vos prochains semestres.</p>
                     </div>
-                </form>
-            </motion.div>
+                </div>
+            </div>
+
+            {/* RIGHT SIDE: Register Form */}
+            <div className={styles.formSide}>
+                <motion.div 
+                    className={styles.registerCard}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                >
+                    <div className={styles.cardHeader}>
+                        <BookInLogo size={32} />
+                        <div className={styles.cardTitle}>
+                            <h2>Créer un compte</h2>
+                            <p>C'est gratuit et ça prend 2 minutes.</p>
+                        </div>
+                    </div>
+
+                    <form onSubmit={handleRegister} className={styles.formSpace}>
+                        <div className={styles.inputRow}>
+                            <div className={styles.inputGroup}>
+                                <label>Prénom</label>
+                                <div className={styles.field}>
+                                    <User size={16} className={styles.fieldIcon} />
+                                    <input type="text" name="prenom" placeholder="Ex: Omar" value={formData.prenom} onChange={handleInputChange} required />
+                                </div>
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label>Nom</label>
+                                <div className={styles.field}>
+                                    <User size={16} className={styles.fieldIcon} />
+                                    <input type="text" name="nom" placeholder="Ex: Benslim" value={formData.nom} onChange={handleInputChange} required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label>Email Universitaire</label>
+                            <div className={styles.field}>
+                                <Mail size={16} className={styles.fieldIcon} />
+                                <input type="email" name="email" placeholder="etudiant@univ.ma" value={formData.email} onChange={handleInputChange} required />
+                            </div>
+                        </div>
+
+                        <div className={styles.inputRow}>
+                            <div className={styles.inputGroup}>
+                                <label>Mot de passe</label>
+                                <div className={styles.field}>
+                                    <Lock size={16} className={styles.fieldIcon} />
+                                    <input type="password" name="password" placeholder="••••••••" value={formData.password} onChange={handleInputChange} required />
+                                </div>
+                            </div>
+                            <div className={styles.inputGroup}>
+                                <label>Confirmer</label>
+                                <div className={styles.field}>
+                                    <Lock size={16} className={styles.fieldIcon} />
+                                    <input type="password" name="confirmPassword" placeholder="••••••••" value={formData.confirmPassword} onChange={handleInputChange} required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className={styles.inputGroup}>
+                            <label>Filière & Établissement</label>
+                            <div className={styles.inputRow}>
+                                <div className={styles.field} style={{ flex: 1.5 }}>
+                                    <GraduationCap size={16} className={styles.fieldIcon} />
+                                    <input type="text" name="filiere" placeholder="Filière" value={formData.filiere} onChange={handleInputChange} required />
+                                </div>
+                                <div className={styles.field} style={{ flex: 1 }}>
+                                    <Building2 size={16} className={styles.fieldIcon} />
+                                    <input type="text" name="etablissement" placeholder="Fac" value={formData.etablissement} onChange={handleInputChange} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" className={styles.submitBtn} disabled={isLoading}>
+                            {isLoading ? <Loader2 size={18} className={styles.spinning} /> : 'Créer mon compte'}
+                            {!isLoading && <ArrowRight size={18} />}
+                        </button>
+                    </form>
+
+                    <div className={styles.cardFooter}>
+                        Vous avez déjà un compte ? <button onClick={() => navigate('/login')}>Se connecter</button>
+                    </div>
+                </motion.div>
+            </div>
         </div>
     );
 }
