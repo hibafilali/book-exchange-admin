@@ -44,6 +44,7 @@ export default function Login() {
 
     return (
         <div className={styles.page}>
+            <div className={styles.noiseOverlay} />
             {/* LEFT SIDE: VISUAL area (Desktop only) */}
             <div className={styles.visualSide}>
                 <div className={styles.visualContent}>

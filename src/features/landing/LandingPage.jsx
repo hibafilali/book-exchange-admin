@@ -111,7 +111,7 @@ export default function LandingPage() {
             <nav className={styles.navbar}>
                 <div className={styles.navInner}>
                     <div className={styles.navLogo} onClick={() => scrollTo('hero')}>
-                        <BookInLogo size={22} />
+                        <BookInLogo size={18} />
                     </div>
                     <div className={styles.navLinks}>
                         <button onClick={() => scrollTo('process')}>Comment ça marche</button>
@@ -128,70 +128,100 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* =============== HERO VIBE (SCHOLAR EDUCATION STYLE) =============== */}
-            <section className={styles.hero}>
-                {/* Organic curved background separator */}
+            {/* =============== HERO SECTION (SCHOLAR EDUCATION CLONE) =============== */}
+            <section id="hero" className={styles.hero}>
+                {/* Scholar Organic Background System */}
                 <div className={styles.heroBgCurve}>
-                    <svg viewBox="0 0 1440 800" preserveAspectRatio="none">
-                        <path d="M0,0 C400,0 600,800 1440,800 L1440,0 Z" fill="var(--hero-bg-curve)" />
+                    <svg viewBox="0 0 1440 800" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        {/* Large Organic Swoop (Left) */}
+                        <path d="M0 0 H 800 Q 1000 400 800 800 H 0 V 0Z" fill={isDarkMode ? "var(--bg-secondary)" : "#FFFFFF"} style={{ transition: 'fill 0.4s ease' }} />
+                        {/* Blue Bottom Wave */}
+                        <path d="M0 720 Q 400 650 800 720 T 1440 700 V 800 H 0 V 720Z" fill="#1E40AF" />
                     </svg>
                 </div>
 
                 <div className={styles.heroContainer}>
-                    {/* Left Column - Stark Typography & CTA */}
+                    {/* Left Column - Scholar Style Typography */}
                     <div className={styles.heroLeft}>
-                        <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ type: 'spring', stiffness: 80, damping: 18 }}>
+                        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
                             <h1 className={styles.heroTitle}>
                                 BOOK-IN<br />
-                                <span>qualité et innovation</span>
+                                <span>Votre savoir a de la valeur.</span>
                             </h1>
+                            <h2 className={styles.heroH2}>Vends, prête ou offre tes manuels au Maroc.</h2>
                             <p className={styles.heroSub}>
-                                Achète, prête ou offre tes manuels entre étudiants. Pas d'intermédiaire, pas de frais cachés — juste toi et ta fac.
+                                Rejoignez la plus grande communauté d'échange de manuels au Maroc. Vends, prête ou offre tes livres à d'autres étudiants, sans intermédiaire.
                             </p>
+
+                            <button className={styles.heroCta} onClick={() => navigate('/register')}>CRÉER UN COMPTE</button>
 
                             {/* Search Bar stylized */}
                             <div className={styles.heroSearch}>
-                                <Search size={20} className={styles.heroSearchIcon} />
-                                <input type="text" placeholder="Quel livre te manque ?" className={styles.heroSearchInput} onFocus={() => setShowModal(true)} />
+                                <Search size={18} className={styles.heroSearchIcon} />
+                                <input type="text" placeholder="Quel manuel cherches-tu ?" className={styles.heroSearchInput} onFocus={() => setShowModal(true)} />
                             </div>
                         </motion.div>
                     </div>
 
-                    {/* Right Column - Organic Vector Illustration */}
+                    {/* Right Column - Scholar Style Illustration (Dual Student Exchange) */}
                     <div className={styles.heroRight}>
-                        <motion.div className={styles.illustrationWrapper}
-                            initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 60, damping: 14, delay: 0.3 }}>
+                        <div className={styles.illustrationWrapper}>
+                            {/* Scholar Yellow Circle Background */}
+                            <div className={styles.shapeGoldCircle} />
 
-                            {/* Geometric Abstract Shapes */}
-                            <motion.div className={styles.shapeYellowCircle} animate={{ scale: [1, 1.05, 1], rotate: [0, 5, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }} />
-                            <motion.div className={styles.shapeBlueWave} animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} />
-                            <motion.div className={styles.shapeTriangle} animate={{ y: [0, 15, 0], rotate: [0, 10, 0] }} transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }} />
-                            <motion.div className={styles.shapeOrangeAccent} animate={{ x: [0, -10, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} />
+                            {/* Scholar Geometric Ornaments */}
+                            <div className={styles.shapeSmallTriangle} />
+                            <div className={styles.shapeMutedOrange} />
 
-                            {/* Main flat vector character built with inline SVG: Two students exchanging a book */}
                             <svg className={styles.vectorCharacter} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                {/* Student 1 (Left) */}
-                                <path d="M180 320 C 180 320 150 200 120 200 C 80 200 60 220 60 280 C 60 330 90 370 140 370 Z" fill="#3B82F6" />
-                                <path d="M100 370 L 80 480" stroke="#1E293B" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M140 340 L 140 460" stroke="#0F172A" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round" />
-                                <circle cx="120" cy="140" r="35" fill="#FFC9A9" />
-                                <path d="M140 100 C 100 80 80 120 90 150 C 70 140 90 100 140 100 Z" fill="#0F172A" />
-                                <path d="M140 230 L 220 260" stroke="#FFC9A9" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" />
+                                <defs>
+                                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                        <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
+                                        <feOffset dx="0" dy="5" result="offsetblur" />
+                                        <feComponentTransfer><feFuncA type="linear" slope="0.1" /></feComponentTransfer>
+                                        <feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge>
+                                    </filter>
+                                </defs>
 
-                                {/* Student 2 (Right) */}
-                                <path d="M320 320 C 320 320 350 200 380 200 C 420 200 440 220 440 280 C 440 330 410 370 360 370 Z" fill="#10B981" />
-                                <path d="M400 370 L 420 480" stroke="#1E293B" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M360 340 L 360 460" stroke="#0F172A" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round" />
-                                <circle cx="380" cy="140" r="35" fill="#FDBA74" />
-                                <path d="M380 105 C 420 105 430 140 400 160 C 420 150 410 110 380 105 Z" fill="#78350F" />
-                                <path d="M360 230 L 280 270" stroke="#FDBA74" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" />
+                                {/* Student 1 (Left) - Vivid Blue + Glasses */}
+                                <motion.g id="student-left" animate={{ y: [0, -5, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
+                                    <circle cx="150" cy="180" r="30" fill="#FFC9A9" />
+                                    <path d="M120 160 Q 150 145 180 160" stroke="#1E293B" strokeWidth="15" strokeLinecap="round" />
+                                    <circle cx="140" cy="180" r="8" stroke="#1E293B" strokeWidth="2" fill="white" />
+                                    <circle cx="160" cy="180" r="8" stroke="#1E293B" strokeWidth="2" fill="white" />
+                                    <path d="M148 180 H 152" stroke="#1E293B" strokeWidth="1" />
 
-                                {/* The Book being exchanged */}
-                                <path d="M220 240 L 260 230 L 280 260 L 240 270 Z" fill="#FF5722" />
-                                <path d="M215 245 L 255 235 L 275 265 L 235 275 Z" fill="#FFFFFF" opacity="0.3" />
+                                    <path d="M110 420 Q 150 430 190 420 L 180 240 Q 150 225 120 240 Z" fill={isDarkMode ? "#1E40AF" : "#3B82F6"} filter="url(#shadow)" />
+                                    <path d="M110 420 L 190 420 L 185 460 L 115 460 Z" fill="#F1F5F9" />
+                                    <path d="M175 300 C 210 300, 230 290, 250 275" stroke="#FFC9A9" strokeWidth="18" strokeLinecap="round" />
+                                </motion.g>
+
+                                {/* Student 2 (Right) - Emerald Green */}
+                                <motion.g id="student-right" animate={{ y: [0, -4, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
+                                    <circle cx="350" cy="180" r="30" fill="#FFC9A9" />
+                                    <path d="M320 160 Q 350 145 380 160" stroke={isDarkMode ? "#065F46" : "#10B981"} strokeWidth="15" strokeLinecap="round" />
+
+                                    <path d="M310 420 Q 350 430 390 420 L 380 240 Q 350 225 320 240 Z" fill={isDarkMode ? "#065F46" : "#10B981"} filter="url(#shadow)" />
+                                    <path d="M310 420 L 390 420 L 385 460 L 315 460 Z" fill="#F1F5F9" />
+                                    <path d="M325 300 C 290 300, 270 290, 250 275" stroke="#FFC9A9" strokeWidth="18" strokeLinecap="round" />
+                                </motion.g>
+
+                                {/* THE EXCHANGE - STACK OF THREE BOOKS */}
+                                <motion.g id="exchange-object" animate={{ scale: [1, 1.05, 1], rotate: [-2, 2, -2] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
+                                    {/* Bottom Book (Deep Emerald Green) */}
+                                    <rect x="225" y="275" width="55" height="15" rx="2" fill="#065F46" transform="rotate(-5 225 275)" />
+                                    <path d="M228 285 H 275" stroke="white" strokeWidth="1" strokeOpacity="0.2" transform="rotate(-5 225 275)" />
+
+                                    {/* Middle Book (Sapphire Blue) */}
+                                    <rect x="228" y="260" width="55" height="15" rx="2" fill="#1E40AF" transform="rotate(3 228 260)" />
+                                    <path d="M231 270 H 278" stroke="white" strokeWidth="1" strokeOpacity="0.2" transform="rotate(3 228 260)" />
+
+                                    {/* Top Book (Coral Orange #FF5722) */}
+                                    <rect x="225" y="245" width="55" height="15" rx="2" fill="#FF5722" transform="rotate(-2 225 245)" />
+                                    <path d="M228 255 h 45" stroke="white" strokeWidth="1" strokeOpacity="0.3" transform="rotate(-2 225 245)" />
+                                </motion.g>
                             </svg>
-
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </section>

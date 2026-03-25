@@ -59,6 +59,7 @@ export default function Register() {
     };
     return (
         <div className={styles.page}>
+            <div className={styles.noiseOverlay} />
             {/* LEFT SIDE: Visual (Desktop) */}
             <div className={styles.visualSide}>
                 <div className={styles.visualContent}>
@@ -66,35 +67,36 @@ export default function Register() {
                     <motion.div className={styles.blobBlue} animate={{ x: [-10, 10, -10] }} transition={{ duration: 8, repeat: Infinity }} />
                     
                     <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Background Elements */}
+                        {/* Organic Shapes Background */}
                         <circle cx="250" cy="250" r="180" fill="#FABE24" fillOpacity="0.1" />
-                        <rect x="380" y="150" width="40" height="40" rx="8" transform="rotate(15 380 150)" fill="#FF5722" fillOpacity="0.2" />
-                        <path d="M100 150 L130 120 L160 150 Z" fill="#3B82F6" fillOpacity="0.2" />
+                        <path d="M50 300 C 50 200 150 150 250 200 C 350 250 450 200 450 300" stroke="#3B82F6" strokeWidth="40" strokeOpacity="0.05" strokeLinecap="round" />
+                        <circle cx="400" cy="150" r="60" fill="#FF5722" fillOpacity="0.08" />
                         
-                        {/* Table */}
-                        <rect x="100" y="380" width="300" height="12" rx="6" fill="#E2E8F0" />
+                        {/* Two Students Exchanging Books */}
+                        {/* Student 1 (Left - Giving) */}
+                        <circle cx="150" cy="180" r="35" fill="#1E293B" />
+                        <circle cx="150" cy="190" r="30" fill="#FFC9A9" />
+                        <path d="M100 380 L200 380 L180 240 C 180 240 150 220 120 240 Z" fill="#3B82F6" />
+                        <path d="M150 320 Q 220 320 250 280" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
                         
-                        {/* Student sitting */}
-                        {/* Hair/Head */}
-                        <circle cx="250" cy="180" r="35" fill="#1E293B" />
-                        <circle cx="250" cy="190" r="30" fill="#FFC9A9" />
+                        {/* Student 2 (Right - Receiving) */}
+                        <circle cx="350" cy="180" r="35" fill="#1E293B" />
+                        <circle cx="350" cy="190" r="30" fill="#FDBA74" />
+                        <path d="M300 380 L400 380 L380 240 C 380 240 350 220 320 240 Z" fill="#FF5722" />
+                        <path d="M350 320 Q 280 320 250 280" stroke="#FDBA74" strokeWidth="12" strokeLinecap="round" />
+
+                        {/* The Exchanged Book */}
+                        <rect x="220" y="250" width="60" height="40" rx="4" transform="rotate(-5 220 250)" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="2" />
+                        <path d="M225 270 H 275" stroke="#E2E8F0" strokeWidth="1" />
                         
-                        {/* Body/Shirt */}
-                        <path d="M190 380 L310 380 L290 240 C 290 240 250 220 210 240 Z" fill="#3B82F6" />
+                        {/* Happy Faces */}
+                        <circle cx="140" cy="185" r="2" fill="#1E293B" />
+                        <circle cx="160" cy="185" r="2" fill="#1E293B" />
+                        <path d="M142 200 Q 150 208 158 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
                         
-                        {/* Arms (Resting on table) */}
-                        <path d="M190 320 C 170 320 150 350 150 380" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
-                        <path d="M310 320 C 330 320 350 350 350 380" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
-                        
-                        {/* Books Stack */}
-                        <rect x="160" y="350" width="80" height="15" rx="3" fill="#FFFFFF" stroke="#E2E8F0" />
-                        <rect x="160" y="335" width="80" height="15" rx="3" fill="#3B82F6" />
-                        <rect x="160" y="320" width="80" height="15" rx="3" fill="#FFFFFF" stroke="#E2E8F0" />
-                        
-                        {/* Smiles/Eyes (Engaged) */}
-                        <circle cx="240" cy="185" r="2" fill="#1E293B" />
-                        <circle cx="260" cy="185" r="2" fill="#1E293B" />
-                        <path d="M242 200 C 242 200 250 208 258 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
+                        <circle cx="340" cy="185" r="2" fill="#1E293B" />
+                        <circle cx="360" cy="185" r="2" fill="#1E293B" />
+                        <path d="M342 200 Q 350 208 358 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
                     </svg>
 
                     <div className={styles.visualText}>
@@ -112,10 +114,10 @@ export default function Register() {
                     animate={{ opacity: 1, scale: 1 }}
                 >
                     <div className={styles.cardHeader}>
-                        <BookInLogo size={32} />
+                        <BookInLogo size={24} />
                         <div className={styles.cardTitle}>
                             <h2>Créer un compte</h2>
-                            <p>C'est gratuit et ça prend 2 minutes.</p>
+                            <p>C'est rapide et gratuit.</p>
                         </div>
                     </div>
 
@@ -140,7 +142,7 @@ export default function Register() {
                         <div className={styles.inputGroup}>
                             <label>Email Universitaire</label>
                             <div className={styles.field}>
-                                <Mail size={16} className={styles.fieldIcon} />
+                                <Mail size={14} className={styles.fieldIcon} />
                                 <input type="email" name="email" placeholder="etudiant@univ.ma" value={formData.email} onChange={handleInputChange} required />
                             </div>
                         </div>

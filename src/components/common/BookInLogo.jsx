@@ -27,7 +27,7 @@ export default function BookInLogo({ size = 24, className = '' }) {
             </svg>
             {/* Wordmark */}
             <span style={{ fontWeight: 900, fontSize: `${size * 0.85}px`, letterSpacing: '-0.02em', lineHeight: 1 }}>
-                <span style={{ color: '#0F172A' }}>BOOK</span>
+                <span style={{ color: 'currentColor' }}>BOOK</span>
                 <span style={{ color: '#FF5722' }}>-IN</span>
             </span>
         </span>
