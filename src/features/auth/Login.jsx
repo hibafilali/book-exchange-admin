@@ -58,13 +58,30 @@ export default function Login() {
                         transition={{ duration: 0.8 }}
                     >
                         <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M180 320 C 180 320 150 200 120 200 C 80 200 60 220 60 280 C 60 330 90 370 140 370 Z" fill="#3B82F6" />
-                            <path d="M100 370 L 80 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
-                            <circle cx="120" cy="140" r="35" fill="#FFC9A9" />
-                            <path d="M320 320 C 320 320 350 200 380 200 C 420 200 440 220 440 280 C 440 330 410 370 360 370 Z" fill="#10B981" />
-                            <path d="M400 370 L 420 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
-                            <circle cx="380" cy="140" r="35" fill="#FDBA74" />
-                            <path d="M220 240 L 260 230 L 280 260 L 240 270 Z" fill="#FF5722" />
+                            {/* Background Elements */}
+                            <circle cx="250" cy="250" r="180" fill="#3B82F6" fillOpacity="0.05" />
+                            <rect x="350" y="100" width="50" height="50" rx="12" transform="rotate(-15 350 100)" fill="#FABE24" fillOpacity="0.2" />
+                            <circle cx="120" cy="150" r="20" fill="#FF5722" fillOpacity="0.1" />
+                            
+                            {/* Table Surface */}
+                            <rect x="100" y="380" width="300" height="8" rx="4" fill="#E2E8F0" />
+                            
+                            {/* Professional Student (Scholar) */}
+                            {/* Hair/Head */}
+                            <circle cx="250" cy="180" r="35" fill="#1E293B" />
+                            <circle cx="250" cy="190" r="30" fill="#FFC9A9" />
+                            
+                            {/* Glasses (Scholar vibe) */}
+                            <circle cx="235" cy="190" r="8" stroke="#1E293B" strokeWidth="1.5" />
+                            <circle cx="265" cy="190" r="8" stroke="#1E293B" strokeWidth="1.5" />
+                            <path d="M243 190 L 257 190" stroke="#1E293B" strokeWidth="1.5" />
+                            
+                            {/* Body (Reading pose) */}
+                            <path d="M200 380 L300 380 L280 240 C 280 240 250 225 220 240 Z" fill="#FF5722" />
+                            
+                            {/* Open Book */}
+                            <path d="M200 340 L250 330 L300 340 L300 375 L250 365 L200 375 Z" fill="#FFFFFF" stroke="#E2E8F0" />
+                            <path d="M250 330 L 250 365" stroke="#E2E8F0" strokeWidth="1" />
                         </svg>
                     </motion.div>
 

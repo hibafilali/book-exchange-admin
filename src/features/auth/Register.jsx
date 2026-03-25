@@ -66,13 +66,35 @@ export default function Register() {
                     <motion.div className={styles.blobBlue} animate={{ x: [-10, 10, -10] }} transition={{ duration: 8, repeat: Infinity }} />
                     
                     <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M180 320 C 180 320 150 200 120 200 C 80 200 60 220 60 280 C 60 330 90 370 140 370 Z" fill="#10B981" />
-                        <path d="M100 370 L 80 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
-                        <circle cx="120" cy="140" r="35" fill="#FFC9A9" />
-                        <path d="M320 320 C 320 320 350 200 380 200 C 420 200 440 220 440 280 C 440 330 410 370 360 370 Z" fill="#3B82F6" />
-                        <path d="M400 370 L 420 480" stroke="#1E293B" strokeWidth="22" strokeLinecap="round" />
-                        <circle cx="380" cy="140" r="35" fill="#FDBA74" />
-                        <path d="M220 240 L 260 230 L 280 260 L 240 270 Z" fill="#FF5722" />
+                        {/* Background Elements */}
+                        <circle cx="250" cy="250" r="180" fill="#FABE24" fillOpacity="0.1" />
+                        <rect x="380" y="150" width="40" height="40" rx="8" transform="rotate(15 380 150)" fill="#FF5722" fillOpacity="0.2" />
+                        <path d="M100 150 L130 120 L160 150 Z" fill="#3B82F6" fillOpacity="0.2" />
+                        
+                        {/* Table */}
+                        <rect x="100" y="380" width="300" height="12" rx="6" fill="#E2E8F0" />
+                        
+                        {/* Student sitting */}
+                        {/* Hair/Head */}
+                        <circle cx="250" cy="180" r="35" fill="#1E293B" />
+                        <circle cx="250" cy="190" r="30" fill="#FFC9A9" />
+                        
+                        {/* Body/Shirt */}
+                        <path d="M190 380 L310 380 L290 240 C 290 240 250 220 210 240 Z" fill="#3B82F6" />
+                        
+                        {/* Arms (Resting on table) */}
+                        <path d="M190 320 C 170 320 150 350 150 380" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
+                        <path d="M310 320 C 330 320 350 350 350 380" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
+                        
+                        {/* Books Stack */}
+                        <rect x="160" y="350" width="80" height="15" rx="3" fill="#FFFFFF" stroke="#E2E8F0" />
+                        <rect x="160" y="335" width="80" height="15" rx="3" fill="#3B82F6" />
+                        <rect x="160" y="320" width="80" height="15" rx="3" fill="#FFFFFF" stroke="#E2E8F0" />
+                        
+                        {/* Smiles/Eyes (Engaged) */}
+                        <circle cx="240" cy="185" r="2" fill="#1E293B" />
+                        <circle cx="260" cy="185" r="2" fill="#1E293B" />
+                        <path d="M242 200 C 242 200 250 208 258 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
                     </svg>
 
                     <div className={styles.visualText}>
