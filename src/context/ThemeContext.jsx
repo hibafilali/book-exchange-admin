@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useLayoutEffect, useState } from 'react';
 
 const ThemeContext = createContext();
 
@@ -8,7 +8,7 @@ export function ThemeProvider({ children }) {
         return saved ? saved === 'dark' : false; // Default to light
     });
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     }, [isDarkMode]);

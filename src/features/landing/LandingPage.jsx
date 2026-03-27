@@ -1,22 +1,26 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     BookOpen, Search, ArrowRight, DollarSign, Leaf,
     Users, BookMarked, TrendingUp, Heart, MapPin, Eye,
-    ChevronRight, Mail, Sun, Moon, Star, Quote, ShieldCheck
+    ChevronLeft, ChevronRight, Mail, Sun, Moon, Star, Quote, ShieldCheck
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import BookInLogo from '../../components/common/BookInLogo';
 import styles from './LandingPage.module.css';
+import livresIllustration from '../../assets/LIVRES.png';
+
 
 // ============================
 // MOCK DATA
 // ============================
 const TEASER_BOOKS = [
-    { id: 1, titre: "Algorithmes et Structures", auteur: "Thomas H. Cormen", type: "VENTE", prix: 150, etat: "NEUF", nbVues: 230, ville: "Fès", photo: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=500&fit=crop" },
-    { id: 2, titre: "Droit Civil", auteur: "Jean Carbonnier", type: "DON", prix: null, etat: "BON", nbVues: 45, ville: "Casablanca", photo: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=500&fit=crop" },
-    { id: 3, titre: "Macroéconomie", auteur: "Gregory Mankiw", type: "PRET", prix: null, etat: "BON", nbVues: 180, ville: "Rabat", photo: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=500&fit=crop" },
+    { id: 1, titre: "Introduction aux Algorithmes", auteur: "Thomas H. Cormen", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: "/admin/assets/books/cormen_new.png" },
+    { id: 2, titre: "Macroéconomie", auteur: "N. Gregory Mankiw", type: "VENTE", prix: 120, etat: "Bon", nbVues: 145, ville: "Casablanca", photo: "/admin/assets/books/mankiw_new.png" },
+    { id: 3, titre: "Biologie", auteur: "Campbell & Reece", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: "/admin/assets/books/biologie_campbell.png" },
+    { id: 4, titre: "Physique Quantique", auteur: "Claude Cohen-Tannoudji", type: "VENTE", prix: 200, etat: "Neuf", nbVues: 120, ville: "Marrakech", photo: "/admin/assets/books/physique_quantique.png" },
+    { id: 5, titre: "Analyse Mathématique", auteur: "Walter Rudin", type: "PRET", prix: null, etat: "Très bon", nbVues: 95, ville: "Tanger", photo: "/admin/assets/books/algo_cormen.png" },
 ];
 
 const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
@@ -27,6 +31,100 @@ const TESTIMONIALS = [
     { name: "Youssef K.", filiere: "Info · Fès", text: "J'ai filé 8 bouquins qui prenaient la poussière. Trop simple.", avatar: "Y", color: "#3B82F6" },
     { name: "Amina R.", filiere: "Éco · Rabat", text: "Grâce au prêt, j'ai économisé 400 DH ce semestre. Merci !", avatar: "A", color: "#10B981" },
 ];
+
+const SLIDES = [
+    {
+        bg: "linear-gradient(90deg, #FDE093 0%, #FFA87D 100%)",
+        textColor: "#1A0F2E",
+        titleParts: ["Tes manuels,", "à portée de clic", ""],
+        highlightBg: "#34D399",
+        highlightColor: "#1A0F2E",
+        highlightRotate: "-2deg",
+        highlightFont: "'Caveat', cursive",
+        subtitle: "Vendez, achetez ou échangez vos livres de cours entre étudiants marocains. C'est gratuit et en 2 clics.",
+        cta: "Vendre mes livres",
+        ctaBg: "#1A0F2E",
+        ctaColor: "#FFFFFF",
+        heroImage: null,
+        heroImageAlt: ""
+    },
+    {
+        bg: "linear-gradient(135deg, #32115B 0%, #4C1D95 50%, #5B21B6 100%)",
+        textColor: "#FFFFFF",
+        titleParts: ["Économisez jusqu'à", "-70% sur vos manuels", ""],
+        highlightBg: "transparent",
+        highlightColor: "#FDE047",
+        highlightRotate: "-1deg",
+        highlightFont: "'Caveat', cursive",
+        subtitle: "Des centaines de manuels universitaires d'occasion vérifiés. De Casablanca à Fès, la réussite sans se ruiner.",
+        cta: "Explorer le catalogue",
+        ctaBg: "#D4AF37",
+        ctaColor: "#32115B",
+        heroImage: null,
+        heroImageAlt: ""
+    },
+    {
+        bg: "linear-gradient(135deg, #FFCCEA 0%, #F9A8D4 50%, #F472B6 100%)",
+        textColor: "#311024",
+        titleParts: ["En panne", "d'inspiration ?", ""],
+        highlightBg: "transparent",
+        highlightColor: "#7C3AED",
+        highlightRotate: "-3deg",
+        highlightFont: "'Caveat', cursive",
+        subtitle: "Consultez notre catalogue intelligent. Trouvez votre prochain manuel par filière, ville ou ISBN.",
+        cta: "Découvrir le catalogue",
+        ctaBg: "#7C3AED",
+        ctaColor: "#FFFFFF",
+        heroImage: null,
+        heroImageAlt: ""
+    },
+    {
+        bg: "linear-gradient(135deg, #183B25 0%, #166534 50%, #15803D 100%)",
+        textColor: "#FFFFFF",
+        titleParts: ["Top Ventes 2026 :", "Les Indispensables", ""],
+        highlightBg: "transparent",
+        highlightColor: "#FCD34D",
+        highlightRotate: "-2deg",
+        highlightFont: "'Caveat', cursive",
+        subtitle: "La sélection validée par les profs et les anciens lauréats. Cormen, Mankiw, Campbell... Foncez !",
+        cta: "Voir la sélection",
+        ctaBg: "#D4AF37",
+        ctaColor: "#183B25",
+        heroImage: null,
+        heroImageAlt: ""
+    }
+];
+
+/* Decorative SVG accents rendered per-slide */
+const SlideDecoration = ({ slideIndex }) => {
+    const decos = [
+        // Slide 0: purple — stars + swoosh
+        <>
+            <span style={{ position: 'absolute', top: '12%', left: '48%', fontSize: '32px', opacity: 0.25, color: '#1A0F2E' }}>✦</span>
+            <span style={{ position: 'absolute', bottom: '18%', left: '42%', fontSize: '22px', opacity: 0.2, color: '#1A0F2E', transform: 'rotate(-30deg)' }}>⤻</span>
+            <span style={{ position: 'absolute', top: '70%', left: '52%', fontSize: '18px', opacity: 0.15, color: '#1A0F2E' }}>✧</span>
+        </>,
+        // Slide 1: deep purple — gold sparkles
+        <>
+            <span style={{ position: 'absolute', top: '8%', left: '12%', fontSize: '26px', opacity: 0.4, color: '#FDE047' }}>✴</span>
+            <span style={{ position: 'absolute', bottom: '22%', left: '38%', fontSize: '36px', opacity: 0.25, color: '#FDE047', transform: 'rotate(-15deg)' }}>✦</span>
+            <span style={{ position: 'absolute', top: '55%', left: '50%', fontSize: '20px', opacity: 0.3, color: '#FDE047' }}>✧</span>
+        </>,
+        // Slide 2: pink — flowers + birds
+        <>
+            <span style={{ position: 'absolute', top: '10%', left: '55%', fontSize: '28px', opacity: 0.2, color: '#7C3AED' }}>❀</span>
+            <span style={{ position: 'absolute', bottom: '25%', left: '32%', fontSize: '34px', opacity: 0.15, color: '#311024' }}>✿</span>
+            <span style={{ position: 'absolute', top: '65%', left: '48%', fontSize: '20px', opacity: 0.2, color: '#7C3AED' }}>🕊</span>
+        </>,
+        // Slide 3: green — gold stars   
+        <>
+            <span style={{ position: 'absolute', top: '15%', left: '50%', fontSize: '30px', opacity: 0.3, color: '#FCD34D' }}>✦</span>
+            <span style={{ position: 'absolute', bottom: '30%', left: '35%', fontSize: '22px', opacity: 0.4, color: '#FCD34D' }}>✧</span>
+            <span style={{ position: 'absolute', top: '60%', left: '55%', fontSize: '16px', opacity: 0.25, color: '#FCD34D' }}>★</span>
+        </>
+    ];
+    return decos[slideIndex] || null;
+};
 
 // ============================
 // ANIMATED COUNTER
@@ -80,7 +178,25 @@ export default function LandingPage() {
     const navigate = useNavigate();
     const { isDarkMode, toggleTheme } = useTheme();
     const [showModal, setShowModal] = useState(false);
+    const [slide, setSlide] = useState(0);
+    const handlePrev = () => {
+        setSlide(s => (s === 0 ? SLIDES.length - 1 : s - 1));
+    };
+
+    const handleNext = () => {
+        setSlide(s => (s === SLIDES.length - 1 ? 0 : s + 1));
+    };
+
+    const currentSlideData = SLIDES[slide];
     const cursorRef = useRef(null);
+
+    // Auto-play Carousel
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setSlide((prev) => (prev + 1) % SLIDES.length);
+        }, 6000);
+        return () => clearInterval(timer);
+    }, []);
 
     const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
@@ -107,6 +223,11 @@ export default function LandingPage() {
             {/* Noise texture overlay */}
             <div className={styles.noiseOverlay} />
 
+            {/* =============== PROMO BAR =============== */}
+            <div className={styles.promoBar}>
+                <span>LIVRAISON OFFERTE DÈS 25€ DE LIVRES D'OCCASION —— <strong>TROUVE TON MANUEL EN 2 MIN</strong></span>
+            </div>
+
             {/* =============== NAVBAR =============== */}
             <nav className={styles.navbar}>
                 <div className={styles.navInner}>
@@ -118,110 +239,148 @@ export default function LandingPage() {
                         <button onClick={() => scrollTo('books')}>Catalogue</button>
                         <button onClick={() => scrollTo('proof')}>Témoignages</button>
                     </div>
+                    <div className={styles.navSearch}>
+                        <Search size={16} className={styles.navSearchIcon} />
+                        <input type="text" placeholder="Rechercher par titre, auteur ou ISBN..." className={styles.navSearchInput} />
+                    </div>
                     <div className={styles.navActions}>
-                        <button className={styles.themeToggle} onClick={toggleTheme}>
+                        <button id="theme-toggle" className={styles.themeToggle} onClick={toggleTheme} aria-label="Toggle theme">
                             {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
-                        <button className={styles.navLogin} onClick={() => navigate('/login')}>Connexion</button>
-                        <button className={styles.navSignup} onClick={() => navigate('/register')}>CRÉER UN COMPTE</button>
+                        <button id="nav-login" className={styles.navLogin} onClick={() => navigate('/login')}>Connexion</button>
+                        <button id="nav-signup" className={styles.navSignup} onClick={() => navigate('/register')}>CRÉER UN COMPTE</button>
                     </div>
                 </div>
             </nav>
 
-            {/* =============== HERO SECTION (SCHOLAR EDUCATION CLONE) =============== */}
-            <section id="hero" className={styles.hero}>
-                {/* Scholar Organic Background System */}
-                <div className={styles.heroBgCurve}>
-                    <svg viewBox="0 0 1440 800" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Large Organic Swoop (Left) */}
-                        <path d="M0 0 H 800 Q 1000 400 800 800 H 0 V 0Z" fill={isDarkMode ? "var(--bg-secondary)" : "#FFFFFF"} style={{ transition: 'fill 0.4s ease' }} />
-                        {/* Blue Bottom Wave */}
-                        <path d="M0 720 Q 400 650 800 720 T 1440 700 V 800 H 0 V 720Z" fill="#1E40AF" />
-                    </svg>
-                </div>
+            {/* =============== NEW CAROUSEEL HERO (MARKETPLACE STYLE) =============== */}
+            <section id="hero" className={styles.heroCarousel}>
+                <div className={styles.carouselWrapper}>
+                    <button className={styles.navArrowPrev} onClick={handlePrev} aria-label="Slide Précédente">
+                        <ChevronLeft size={24} />
+                    </button>
 
-                <div className={styles.heroContainer}>
-                    {/* Left Column - Scholar Style Typography */}
-                    <div className={styles.heroLeft}>
-                        <motion.div initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
-                            <h1 className={styles.heroTitle}>
-                                BOOK-IN<br />
-                                <span>Votre savoir a de la valeur.</span>
-                            </h1>
-                            <h2 className={styles.heroH2}>Vends, prête ou offre tes manuels au Maroc.</h2>
-                            <p className={styles.heroSub}>
-                                Rejoignez la plus grande communauté d'échange de manuels au Maroc. Vends, prête ou offre tes livres à d'autres étudiants, sans intermédiaire.
-                            </p>
+                    <div
+                        className={styles.heroBanner}
+                        style={{ background: currentSlideData.bg }}
+                    >
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={slide}
+                                initial={{ opacity: 0, x: 30 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -30 }}
+                                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                                className={styles.bannerContent}
+                            >
+                                <SlideDecoration slideIndex={slide} />
 
-                            <button className={styles.heroCta} onClick={() => navigate('/register')}>CRÉER UN COMPTE</button>
+                                <div className={styles.bannerText}>
+                                    <h2 className={styles.bannerTitle} style={{ color: currentSlideData.textColor }}>
+                                        {currentSlideData.titleParts[0]}
+                                        <br />
+                                        <span className={styles.bannerHighlight} style={{
+                                            background: currentSlideData.highlightBg,
+                                            color: currentSlideData.highlightColor,
+                                            transform: `rotate(${currentSlideData.highlightRotate})`,
+                                            fontFamily: currentSlideData.highlightFont
+                                        }}>
+                                            {currentSlideData.titleParts[1]}
+                                        </span>
+                                        {currentSlideData.titleParts[2] && <><br />{currentSlideData.titleParts[2]}</>}
+                                    </h2>
+                                    <p className={styles.bannerSubtitle} style={{ color: currentSlideData.textColor, opacity: 0.85 }}>
+                                        {currentSlideData.subtitle}
+                                    </p>
+                                    <button
+                                        className={styles.bannerCta}
+                                        onClick={() => navigate('/register')}
+                                        style={{ background: currentSlideData.ctaBg, color: currentSlideData.ctaColor }}
+                                    >
+                                        {currentSlideData.cta}
+                                        <ArrowRight size={18} />
+                                    </button>
+                                </div>
+                                {/* Photographic Visual for the first slide */}
+                                <div className={styles.bannerHeroVisual}>
+                                    {slide === 0 && (
+                                        <>
+                                            <div className={styles.occasionBadge}>
+                                                <span className={styles.occasionText}>d'occasion</span>
+                                                <svg className={styles.occasionArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#1A0F2E" strokeWidth="3" fill="none" strokeDasharray="0" />
+                                                    <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" />
+                                                </svg>
+                                            </div>
 
-                            {/* Search Bar stylized */}
-                            <div className={styles.heroSearch}>
-                                <Search size={18} className={styles.heroSearchIcon} />
-                                <input type="text" placeholder="Quel manuel cherches-tu ?" className={styles.heroSearchInput} onFocus={() => setShowModal(true)} />
-                            </div>
-                        </motion.div>
+                                            <div className={styles.discountBadge}>
+                                                <svg className={styles.sketchCircle} viewBox="0 0 100 100">
+                                                    <path d="M50,10 C20,10 10,40 10,60 C10,85 40,95 70,85 C95,75 95,30 70,15 C60,10 40,10 30,15" stroke="#FF5722" strokeWidth="3" fill="none" />
+                                                </svg>
+                                                <span className={styles.discountValue}>-70%</span>
+                                                <span className={styles.discountLabel}>du prix initial</span>
+                                            </div>
+
+                                            <div className={styles.moinscherLabel}>
+                                                <span>moins cher</span>
+                                                <svg className={styles.squigglyLine} viewBox="0 0 100 20">
+                                                    <path d="M5,15 Q25,5 50,15 T95,15" stroke="#3B82F6" strokeWidth="2" fill="none" />
+                                                </svg>
+                                            </div>
+                                            <img 
+                                                src={livresIllustration} 
+                                                alt="Main tenant une pile de manuels scolaires français d'occasion" 
+                                                className={styles.realBooksImage}
+                                            />
+                                        </>
+                                    )}
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {/* Pagination Pill */}
+                        <div className={styles.paginationPill}>
+                            {SLIDES.map((_, index) => (
+                                <div
+                                    key={index}
+                                    className={`${styles.pDot} ${slide === index ? styles.pDotActive : ''}`}
+                                    onClick={() => setSlide(index)}
+                                />
+                            ))}
+                        </div>
                     </div>
 
-                    {/* Right Column - Scholar Style Illustration (Dual Student Exchange) */}
-                    <div className={styles.heroRight}>
-                        <div className={styles.illustrationWrapper}>
-                            {/* Scholar Yellow Circle Background */}
-                            <div className={styles.shapeGoldCircle} />
+                    <button className={styles.navArrowNext} onClick={handleNext} aria-label="Slide Suivante">
+                        <ChevronRight size={24} />
+                    </button>
+                </div>
+            </section>
 
-                            {/* Scholar Geometric Ornaments */}
-                            <div className={styles.shapeSmallTriangle} />
-                            <div className={styles.shapeMutedOrange} />
-
-                            <svg className={styles.vectorCharacter} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <defs>
-                                    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                                        <feGaussianBlur in="SourceAlpha" stdDeviation="5" />
-                                        <feOffset dx="0" dy="5" result="offsetblur" />
-                                        <feComponentTransfer><feFuncA type="linear" slope="0.1" /></feComponentTransfer>
-                                        <feMerge><feMergeNode /><feMergeNode in="SourceGraphic" /></feMerge>
-                                    </filter>
-                                </defs>
-
-                                {/* Student 1 (Left) - Vivid Blue + Glasses */}
-                                <motion.g id="student-left" animate={{ y: [0, -5, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}>
-                                    <circle cx="150" cy="180" r="30" fill="#FFC9A9" />
-                                    <path d="M120 160 Q 150 145 180 160" stroke="#1E293B" strokeWidth="15" strokeLinecap="round" />
-                                    <circle cx="140" cy="180" r="8" stroke="#1E293B" strokeWidth="2" fill="white" />
-                                    <circle cx="160" cy="180" r="8" stroke="#1E293B" strokeWidth="2" fill="white" />
-                                    <path d="M148 180 H 152" stroke="#1E293B" strokeWidth="1" />
-
-                                    <path d="M110 420 Q 150 430 190 420 L 180 240 Q 150 225 120 240 Z" fill={isDarkMode ? "#1E40AF" : "#3B82F6"} filter="url(#shadow)" />
-                                    <path d="M110 420 L 190 420 L 185 460 L 115 460 Z" fill="#F1F5F9" />
-                                    <path d="M175 300 C 210 300, 230 290, 250 275" stroke="#FFC9A9" strokeWidth="18" strokeLinecap="round" />
-                                </motion.g>
-
-                                {/* Student 2 (Right) - Emerald Green */}
-                                <motion.g id="student-right" animate={{ y: [0, -4, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}>
-                                    <circle cx="350" cy="180" r="30" fill="#FFC9A9" />
-                                    <path d="M320 160 Q 350 145 380 160" stroke={isDarkMode ? "#065F46" : "#10B981"} strokeWidth="15" strokeLinecap="round" />
-
-                                    <path d="M310 420 Q 350 430 390 420 L 380 240 Q 350 225 320 240 Z" fill={isDarkMode ? "#065F46" : "#10B981"} filter="url(#shadow)" />
-                                    <path d="M310 420 L 390 420 L 385 460 L 315 460 Z" fill="#F1F5F9" />
-                                    <path d="M325 300 C 290 300, 270 290, 250 275" stroke="#FFC9A9" strokeWidth="18" strokeLinecap="round" />
-                                </motion.g>
-
-                                {/* THE EXCHANGE - STACK OF THREE BOOKS */}
-                                <motion.g id="exchange-object" animate={{ scale: [1, 1.05, 1], rotate: [-2, 2, -2] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}>
-                                    {/* Bottom Book (Deep Emerald Green) */}
-                                    <rect x="225" y="275" width="55" height="15" rx="2" fill="#065F46" transform="rotate(-5 225 275)" />
-                                    <path d="M228 285 H 275" stroke="white" strokeWidth="1" strokeOpacity="0.2" transform="rotate(-5 225 275)" />
-
-                                    {/* Middle Book (Sapphire Blue) */}
-                                    <rect x="228" y="260" width="55" height="15" rx="2" fill="#1E40AF" transform="rotate(3 228 260)" />
-                                    <path d="M231 270 H 278" stroke="white" strokeWidth="1" strokeOpacity="0.2" transform="rotate(3 228 260)" />
-
-                                    {/* Top Book (Coral Orange #FF5722) */}
-                                    <rect x="225" y="245" width="55" height="15" rx="2" fill="#FF5722" transform="rotate(-2 225 245)" />
-                                    <path d="M228 255 h 45" stroke="white" strokeWidth="1" strokeOpacity="0.3" transform="rotate(-2 225 245)" />
-                                </motion.g>
-                            </svg>
+            {/* =============== BEST SELLERS (IMAGE 8 STYLE) =============== */}
+            <section className={styles.bestSellers}>
+                <div className={styles.bestSellersInner}>
+                    <div className={styles.bestSellersMenu}>
+                        <div className={styles.bestSellersMenuTitle}>
+                            <h3>Meilleures Ventes</h3>
                         </div>
+                    </div>
+                    <div className={styles.bestSellersGrid}>
+                        {TEASER_BOOKS.map((b, i) => (
+                            <div key={b.id} className={styles.bestBookCard} onClick={() => setShowModal(true)}>
+                                <div className={styles.bestBookImgWrap}>
+                                    <img src={b.photo} alt={b.titre} loading="lazy" />
+                                    <div className={styles.bestBookLabel} style={{ background: TYPE_COLORS[b.type] }}>{TYPE_LABELS[b.type]}</div>
+                                    {b.etat && <div className={styles.bestBookEtat}>{b.etat}</div>}
+                                </div>
+                                <div className={styles.bestBookInfo}>
+                                    <h4>{b.titre}</h4>
+                                    <p className={styles.bestBookAuthor}>{b.auteur}</p>
+                                    <div className={styles.bestBookPrice}>
+                                        {b.prix ? <span className={styles.priceTag}>{b.prix} DH</span> : <span className={styles.freeTag}>Gratuit</span>}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
