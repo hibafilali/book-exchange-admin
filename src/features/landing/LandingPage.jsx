@@ -34,12 +34,12 @@ const TESTIMONIALS = [
 
 const SLIDES = [
     {
-        bg: "linear-gradient(90deg, #FDE093 0%, #FFA87D 100%)",
+        bg: "#128568",
         textColor: "#1A0F2E",
         titleParts: ["Tes manuels,", "à portée de clic", ""],
-        highlightBg: "#34D399",
-        highlightColor: "#1A0F2E",
-        highlightRotate: "-2deg",
+        highlightBg: "transparent",
+        highlightColor: "#FF5722",
+        highlightRotate: "0deg",
         highlightFont: "'Caveat', cursive",
         subtitle: "Vendez, achetez ou échangez vos livres de cours entre étudiants marocains. C'est gratuit et en 2 clics.",
         cta: "Vendre mes livres",
@@ -327,9 +327,19 @@ export default function LandingPage() {
                                                     <path d="M5,15 Q25,5 50,15 T95,15" stroke="#3B82F6" strokeWidth="2" fill="none" />
                                                 </svg>
                                             </div>
-                                            <img 
-                                                src={livresIllustration} 
-                                                alt="Main tenant une pile de manuels scolaires français d'occasion" 
+
+                                            <div className={styles.premiumStamp}>
+                                                <svg viewBox="0 0 100 100">
+                                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#EA580C" strokeWidth="2" strokeDasharray="5,3" />
+                                                    <text x="50" y="45" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">SATISFAIT</text>
+                                                    <text x="50" y="60" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">OU ÉCHANGÉ</text>
+                                                </svg>
+                                            </div>
+
+                                            <div className={styles.floatingIconPen}>🖋️</div>
+                                            <img
+                                                src={livresIllustration}
+                                                alt="Main tenant une pile de manuels scolaires français d'occasion"
                                                 className={styles.realBooksImage}
                                             />
                                         </>

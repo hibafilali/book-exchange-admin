@@ -360,19 +360,20 @@
     align-items: center;
     position: relative;
     width: 100%;
-    overflow: visible; /* Ensure image doesn't get clipped */
+    overflow: visible;
+    /* Ensure image doesn't get clipped */
 }
 
 /* Style de la nouvelle image */
 .realBooksImage {
-    width: 150%; 
-    max-width: 650px; 
+    width: 150%;
+    max-width: 650px;
     height: auto;
     object-fit: contain;
-    object-position: right center; 
-    transform: scale(1.2) translateX(5%); 
+    object-position: right center;
+    transform: scale(1.2) translateX(5%);
     animation: none;
-    pointer-events: none; 
+    pointer-events: none;
 }
 
 /* Handwritten decoration */
@@ -465,9 +466,58 @@
     margin-top: -5px;
 }
 
+/* Magnificent Details */
+.premiumStamp {
+    position: absolute;
+    top: 10%;
+    left: 45%;
+    width: 80px;
+    height: 80px;
+    opacity: 0.3;
+    transform: rotate(-15deg);
+    pointer-events: none;
+}
+
+.floatingIconPen,
+.floatingIconGlasses {
+    position: absolute;
+    font-size: 1.5rem;
+    opacity: 0.4;
+    filter: grayscale(0.5);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.floatingIconPen {
+    top: 20%;
+    left: 55%;
+    animation: floatPen 4s ease-in-out infinite;
+    color: #1A0F2E;
+    /* Visibility on white */
+}
+
+@keyframes floatPen {
+
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    50% {
+        transform: translate(10px, -15px) rotate(10deg);
+    }
+}
+
 @keyframes photographicFadeIn {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .heroMainImage {
