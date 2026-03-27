@@ -10,6 +10,7 @@ import { useTheme } from '../../context/ThemeContext';
 import BookInLogo from '../../components/common/BookInLogo';
 import styles from './LandingPage.module.css';
 import livresIllustration from '../../assets/LIVRES.png';
+import megaphoneWoman from '../../assets/megaphone-woman.png';
 
 
 // ============================
@@ -49,17 +50,17 @@ const SLIDES = [
         heroImageAlt: ""
     },
     {
-        bg: "linear-gradient(135deg, #32115B 0%, #4C1D95 50%, #5B21B6 100%)",
+        bg: "#3B108E",
         textColor: "#FFFFFF",
-        titleParts: ["Économisez jusqu'à", "-70% sur vos manuels", ""],
+        titleParts: ["ÉCHANGEZ VOS LIVRES", "Zéro Dirham, Réussite Totale", ""],
         highlightBg: "transparent",
-        highlightColor: "#FDE047",
-        highlightRotate: "-1deg",
-        highlightFont: "'Caveat', cursive",
-        subtitle: "Des centaines de manuels universitaires d'occasion vérifiés. De Casablanca à Fès, la réussite sans se ruiner.",
-        cta: "Explorer le catalogue",
-        ctaBg: "#D4AF37",
-        ctaColor: "#32115B",
+        highlightColor: "#FACC15",
+        highlightRotate: "0deg",
+        highlightFont: "'Inter', sans-serif",
+        subtitle: "N'attendez pas ! Rejoignez notre communauté d'étudiants. Boostez votre semestre en échangeant vos manuels usagés contre ceux qu'il vous faut, gratuitement !",
+        cta: "Proposer un échange",
+        ctaBg: "#FACC15",
+        ctaColor: "#000000",
         heroImage: null,
         heroImageAlt: ""
     },
@@ -104,11 +105,17 @@ const SlideDecoration = ({ slideIndex }) => {
             <span style={{ position: 'absolute', bottom: '18%', left: '42%', fontSize: '22px', opacity: 0.2, color: '#1A0F2E', transform: 'rotate(-30deg)' }}>⤻</span>
             <span style={{ position: 'absolute', top: '70%', left: '52%', fontSize: '18px', opacity: 0.15, color: '#1A0F2E' }}>✧</span>
         </>,
-        // Slide 1: deep purple — gold sparkles
+        // Slide 1: deep purple — PARTAGE watermark + arrows
         <>
-            <span style={{ position: 'absolute', top: '8%', left: '12%', fontSize: '26px', opacity: 0.4, color: '#FDE047' }}>✴</span>
-            <span style={{ position: 'absolute', bottom: '22%', left: '38%', fontSize: '36px', opacity: 0.25, color: '#FDE047', transform: 'rotate(-15deg)' }}>✦</span>
-            <span style={{ position: 'absolute', top: '55%', left: '50%', fontSize: '20px', opacity: 0.3, color: '#FDE047' }}>✧</span>
+            <div className={styles.watermarkTroc}>PARTAGE</div>
+            <div className={styles.watermarkArrows}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" style={{ width: '100%', height: '100%', color: 'white', opacity: 0.08 }}>
+                    <path d="M21 2v6h-6" />
+                    <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+                    <path d="M3 22v-6h6" />
+                    <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+                </svg>
+            </div>
         </>,
         // Slide 2: pink — flowers + birds
         <>
@@ -264,6 +271,7 @@ export default function LandingPage() {
                         className={styles.heroBanner}
                         style={{ background: currentSlideData.bg }}
                     >
+                        <SlideDecoration slideIndex={slide} />
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={slide}
@@ -271,9 +279,8 @@ export default function LandingPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -30 }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                                className={styles.bannerContent}
+                                className={`${styles.bannerContent} ${slide === 1 ? styles.bannerContentFlipped : ''}`}
                             >
-                                <SlideDecoration slideIndex={slide} />
 
                                 <div className={styles.bannerText}>
                                     <h2 className={styles.bannerTitle} style={{ color: currentSlideData.textColor }}>
@@ -293,7 +300,7 @@ export default function LandingPage() {
                                         {currentSlideData.subtitle}
                                     </p>
                                     <button
-                                        className={styles.bannerCta}
+                                        className={`${styles.bannerCta} ${slide === 1 ? styles.bannerCtaRect : ''}`}
                                         onClick={() => navigate('/register')}
                                         style={{ background: currentSlideData.ctaBg, color: currentSlideData.ctaColor }}
                                     >
@@ -341,6 +348,30 @@ export default function LandingPage() {
                                                 src={livresIllustration}
                                                 alt="Main tenant une pile de manuels scolaires français d'occasion"
                                                 className={styles.realBooksImage}
+                                            />
+                                        </>
+                                    )}
+
+                                    {slide === 1 && (
+                                        <>
+                                            {/* Studio Atmosphere */}
+                                            <div className={styles.groundCement} />
+                                            <div className={styles.megaphoneLight} />
+
+                                            {/* handwritten sticker */}
+                                            <div className={styles.gratuitBadge}>
+                                                <span className={styles.gratuitText}>c'est gratuit</span>
+                                                <svg className={styles.gratuitArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#FACC15" strokeWidth="3" fill="none" />
+                                                    <path d="M85,75 L95,85 L80,90" stroke="#FACC15" strokeWidth="3" fill="none" />
+                                                </svg>
+                                            </div>
+
+                                            {/* Mascot */}
+                                            <img
+                                                src={megaphoneWoman}
+                                                alt="Étudiante avec un mégaphone"
+                                                className={styles.megaphoneWomanStudio}
                                             />
                                         </>
                                     )}
