@@ -25,6 +25,13 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                     fill="none" 
                     xmlns="http://www.w3.org/2000/svg"
                 >
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#FF5722" />
+                            <stop offset="100%" stopColor="#EA580C" />
+                        </linearGradient>
+                    </defs>
+
                     {/* Background glow or subtle shape */}
                     <circle cx="20" cy="20" r="18" fill={isDarkMode ? 'rgba(255,167,38,0.05)' : 'rgba(255,87,34,0.03)'} />
                     
@@ -38,7 +45,7 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                     />
                     <path 
                         d="M10 25C10 18 18 5 25 5C32 5 35 12 35 12" 
-                        stroke="#FF5722" 
+                        stroke="url(#logoGradient)" 
                         strokeWidth="3.5" 
                         strokeLinecap="round" 
                         opacity={isDarkMode ? 1 : 0.9}
@@ -47,7 +54,7 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                     {/* The "y" tail detail - Orange for Brand y */}
                     <path 
                         d="M20 15V25" 
-                        stroke="#FF5722" 
+                        stroke="url(#logoGradient)" 
                         strokeWidth="3.5" 
                         strokeLinecap="round" 
                     />

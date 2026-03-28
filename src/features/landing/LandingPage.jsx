@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import YTeraLogo from '../../components/common/YTeraLogo';
+import HowItWorksStepper from './HowItWorksStepper';
 import styles from './LandingPage.module.css';
 import livresIllustration from '../../assets/LIVRES.png';
 import megaphoneWoman from '../../assets/megaphone-woman.png';
@@ -23,6 +24,12 @@ import book2 from '../../assets/book2.png';
 import book3 from '../../assets/book3.png';
 import book4 from '../../assets/book4.png';
 import book5 from '../../assets/book5.png';
+import book6 from '../../assets/book6.png';
+import book7 from '../../assets/book7.png';
+import book8 from '../../assets/book8.png';
+import book9 from '../../assets/book9.png';
+import book10 from '../../assets/book10.png';
+
 
 
 
@@ -31,20 +38,25 @@ import book5 from '../../assets/book5.png';
 // MOCK DATA
 // ============================
 const TEASER_BOOKS = [
-    { id: 1, titre: "Engineering Chemistry", auteur: "K. Dinakaran & G. Sasikumar", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: book1 },
-    { id: 2, titre: "Anatomie Humaine", auteur: "Dr. Salim Alaoui", type: "VENTE", prix: 250, etat: "Comme neuf", nbVues: 145, ville: "Casablanca", photo: book2 },
-    { id: 3, titre: "Droit Civil : Les Obligations", auteur: "Prof. Yassir Benani", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: book3 },
-    { id: 4, titre: "Principes de Macroéconomie", auteur: "Dr. Amina El Fassi", type: "VENTE", prix: 150, etat: "Très bon", nbVues: 120, ville: "Marrakech", photo: book4 },
-    { id: 5, titre: "Mathématiques pour Ingénieurs", auteur: "Prof. Kamal Ziani", type: "PRET", prix: null, etat: "Bon", nbVues: 95, ville: "Tanger", photo: book5 },
+    { id: 1, titre: "Anatomie Humaine", auteur: "Dr. Salim Alaoui", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: "/admin/src/assets/book1.png" },
+    { id: 2, titre: "Mathématiques pour Ingénieurs", auteur: "Prof. Kamal Ziani", type: "VENTE", prix: 250, etat: "Comme neuf", nbVues: 145, ville: "Casablanca", photo: "/admin/src/assets/book2.png" },
+    { id: 3, titre: "Droit Civil : Les Obligations", auteur: "Prof. Yassir Benani", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: "/admin/src/assets/book3.png" },
+    { id: 4, titre: "Principes de Macroéconomie", auteur: "Dr. Amina El Fassi", type: "VENTE", prix: 150, etat: "Très bon", nbVues: 120, ville: "Marrakech", photo: "/admin/src/assets/book4.png" },
+    { id: 5, titre: "Analyse Mathématique", auteur: "Prof. Jean-Pierre Girard", type: "PRET", prix: null, etat: "Bon", nbVues: 95, ville: "Tanger", photo: "/admin/src/assets/book5.png" },
+    { id: 6, titre: "Chimie Organique", auteur: "Dr. Sophie Meyer", type: "VENTE", prix: 190, etat: "Très bon", nbVues: 210, ville: "Fès", photo: "/admin/src/assets/book6.png" },
+    { id: 7, titre: "Physique pour Scientifiques", auteur: "Prof. David Halliday", type: "VENTE", prix: 210, etat: "Comme neuf", nbVues: 115, ville: "Casablanca", photo: "/admin/src/assets/book7.png" },
+    { id: 8, titre: "Introduction au Marketing", auteur: "Prof. Philip Kotler", type: "DON", prix: null, etat: "Bon", nbVues: 160, ville: "Rabat", photo: "/admin/src/assets/book8.png" },
+    { id: 9, titre: "Psychologie Contemporaine", auteur: "Dr. Jane Smith", type: "VENTE", prix: 170, etat: "Très bon", nbVues: 130, ville: "Marrakech", photo: "/admin/src/assets/book9.png" },
+    { id: 10, titre: "Réseaux Informatiques", auteur: "Prof. Alex Turner", type: "PRET", prix: null, etat: "Bon", nbVues: 85, ville: "Tanger", photo: "/admin/src/assets/book10.png" },
 ];
 
 const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
 const TYPE_LABELS = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
 
 const TESTIMONIALS = [
-    { name: "Salma B.", filiere: "Droit · Casablanca", text: "5 min chrono pour trouver mon Code Civil. Je recommande à 100% !", avatar: "S", color: "#FF5722" },
-    { name: "Youssef K.", filiere: "Info · Fès", text: "J'ai filé 8 bouquins qui prenaient la poussière. Trop simple.", avatar: "Y", color: "#3B82F6" },
-    { name: "Amina R.", filiere: "Éco · Rabat", text: "Grâce au prêt, j'ai économisé 400 DH ce semestre. Merci !", avatar: "A", color: "#10B981" },
+    { name: "Salma B.", filiere: "Droit · Casablanca", text: "5 min chrono pour trouver mon Code Civil. Je recommande à 100% !", avatar: "S", color: "#FF5722", rating: 5, verified: true },
+    { name: "Youssef K.", filiere: "Info · Fès", text: "J'ai filé 8 bouquins qui prenaient la poussière. Trop simple.", avatar: "Y", color: "#3B82F6", rating: 5, verified: true },
+    { name: "Amina R.", filiere: "Éco · Rabat", text: "Grâce au prêt, j'ai économisé 400 DH ce semestre. Merci !", avatar: "A", color: "#10B981", rating: 5, verified: true },
 ];
 
 const SLIDES = [
@@ -146,14 +158,14 @@ const SlideDecoration = ({ slideIndex }) => {
             {/* Background Texture */}
             <div className={`${styles.dotGrid} ${styles.dotGridTopLeft}`} style={{ opacity: 0.12 }} />
             <div className={`${styles.dotGrid} ${styles.dotGridBottomRight}`} style={{ bottom: '10%', right: '5%', opacity: 0.12 }} />
-            
+
             {/* Hand-Drawn Badge Circle - Now to the right of the Button */}
             <div className={styles.circularBadge} style={{ right: '5%', bottom: '8%', top: 'auto', left: 'auto' }}>
                 <svg className={styles.sketchCircleDrawn} viewBox="0 0 100 100" style={{ transform: 'rotate(10deg)' }}>
                     <path d="M50,10 C30,12 10,30 12,55 C15,80 40,92 65,88 C90,82 95,55 88,30 C82,10 60,8 45,15" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" fill="none" />
                 </svg>
                 <div className={styles.circularBadgeInner} style={{ fontSize: '0.65rem', lineHeight: 1.2 }}>
-                    ÉCONOMIE<br/>SOLIDAIRE
+                    ÉCONOMIE<br />SOLIDAIRE
                 </div>
             </div>
 
@@ -168,7 +180,7 @@ const SlideDecoration = ({ slideIndex }) => {
                 {/* Arrow towards center */}
                 <path d="M15,65 Q25,55 35,62" className={styles.sketchLine} strokeDasharray="5,3" />
                 <path d="M32,58 L37,63 L30,66" className={styles.sketchLine} />
-                
+
                 {/* Scribble near top */}
                 <path d="M25,12 Q30,8 35,15" className={styles.sketchLine} opacity="0.5" />
             </svg>
@@ -238,6 +250,19 @@ export default function LandingPage() {
         setSlide(s => (s === SLIDES.length - 1 ? 0 : s + 1));
     };
 
+    const bookSliderRef = useRef(null);
+    const scrollSlider = (direction) => {
+        if (bookSliderRef.current) {
+            const { scrollLeft, clientWidth } = bookSliderRef.current;
+            const scrollAmount = clientWidth * 0.8;
+            bookSliderRef.current.scrollTo({
+                left: direction === 'left' ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+    };
+
+
     const currentSlideData = SLIDES[slide];
     const cursorRef = useRef(null);
 
@@ -273,6 +298,11 @@ export default function LandingPage() {
             <div ref={cursorRef} className={styles.customCursor} />
             {/* Noise texture overlay */}
             <div className={styles.noiseOverlay} />
+            
+            {/* Background Atmosphere Blobs */}
+            <div className={`${styles.blurBlob} ${styles.blobOrange}`} />
+            <div className={`${styles.blurBlob} ${styles.blobTeal}`} />
+            <div className={`${styles.blurBlob} ${styles.blobIndigo}`} />
 
             {/* =============== PROMO BAR =============== */}
             <div className={styles.promoBar}>
@@ -316,7 +346,7 @@ export default function LandingPage() {
                         style={{ background: currentSlideData.bg }}
                     >
                         <SlideDecoration slideIndex={slide} />
-                        
+
                         {/* ZONE DROITE & FLOTTANTE : Les 5 Assets (Turnkey Structure) */}
                         {slide === 2 && (
                             <div className={styles.tealStaticAssets}>
@@ -327,32 +357,32 @@ export default function LandingPage() {
                                 <div className={`${styles.floatingPlus} ${styles.floatingPlus1}`}>+</div>
                                 <div className={`${styles.floatingPlus} ${styles.floatingPlus2}`}>x</div>
 
-                                <img 
-                                    src={phoneIllustration} 
-                                    alt="Téléphone app Book-In" 
-                                    className={styles.phoneIllustration} 
+                                <img
+                                    src={phoneIllustration}
+                                    alt="Téléphone app Book-In"
+                                    className={styles.phoneIllustration}
                                 />
                                 <div className={styles.calendarWrapper}>
-                                    <img 
-                                        src={examCalendar} 
-                                        alt="Calendrier Examens" 
-                                        className={styles.examCalendar} 
+                                    <img
+                                        src={examCalendar}
+                                        alt="Calendrier Examens"
+                                        className={styles.examCalendar}
                                     />
                                 </div>
-                                <img 
-                                    src={thinkingWoman} 
-                                    alt="Étudiante qui réfléchit" 
-                                    className={styles.womanImage} 
+                                <img
+                                    src={thinkingWoman}
+                                    alt="Étudiante qui réfléchit"
+                                    className={styles.womanImage}
                                 />
-                                <img 
-                                    src={thoughtBubble} 
-                                    alt="Bulle de pensée livres" 
-                                    className={styles.thoughtBubble} 
+                                <img
+                                    src={thoughtBubble}
+                                    alt="Bulle de pensée livres"
+                                    className={styles.thoughtBubble}
                                 />
-                                <img 
-                                    src={solidaireLabel} 
-                                    alt="Label Emprunt Solidaire" 
-                                    className={styles.empruntBadge} 
+                                <img
+                                    src={solidaireLabel}
+                                    alt="Label Emprunt Solidaire"
+                                    className={styles.empruntBadge}
                                 />
                             </div>
                         )}
@@ -484,7 +514,7 @@ export default function LandingPage() {
                                                     src={heroMascot}
                                                     alt="Mascotte yTera"
                                                     className={`${styles.megaphoneWomanStudio} ${currentSlideData.mascotClass || ''}`}
-                                                    style={{ 
+                                                    style={{
                                                         objectPosition: 'left bottom',
                                                         filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))'
                                                     }}
@@ -514,102 +544,69 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* =============== TROUVEZ VOTRE PROCHAIN MANUEL =============== */}
+            {/* =============== SECTION: SUGGESTIONS POUR VOUS =============== */}
             <section className={styles.bestSellers}>
-                <div className={styles.bestSellersInner}>
-                    <div className={styles.bestSellersMenu}>
-                        <div className={styles.bestSellersMenuTitle}>
-                            <h3>Trouvez votre prochain manuel</h3>
+                <Reveal>
+                    <div className={styles.bestSellersHeader}>
+                        <h2 className={styles.sectionTitleLeft}>Suggestions pour vous</h2>
+                        <div className={styles.headerNavGroup}>
+                            <button className={styles.viewAllButton}>
+                                Voir tout <ChevronRight size={18} />
+                            </button>
+                            <div className={styles.sliderNavButtons}>
+                                <button className={styles.navArrow} onClick={() => scrollSlider('left')}>
+                                    <ChevronLeft size={24} />
+                                </button>
+                                <button className={styles.navArrow} onClick={() => scrollSlider('right')}>
+                                    <ChevronRight size={24} />
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div className={styles.bestSellersGrid}>
-                        {TEASER_BOOKS.map((b, i) => (
-                            <div key={b.id} className={styles.bestBookCard} onClick={() => setShowModal(true)}>
-                                <div className={styles.bestBookImgWrap}>
-                                    <img src={b.photo} alt={b.titre} loading="lazy" />
-                                    <div className={styles.bestBookLabel} style={{ background: TYPE_COLORS[b.type] }}>{TYPE_LABELS[b.type]}</div>
-                                    {b.etat && <div className={styles.bestBookEtat}>{b.etat}</div>}
-                                </div>
-                                <div className={styles.bestBookInfo}>
-                                    <h4>{b.titre}</h4>
-                                    <p className={styles.bestBookAuthor}>{b.auteur}</p>
-                                    <div className={styles.bestBookPrice}>
-                                        {b.prix ? <span className={styles.priceTag}>{b.prix} DH</span> : <span className={styles.freeTag}>Gratuit</span>}
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* =============== CATEGORIES (NEW SECTION) =============== */}
-            <section className={styles.categoriesSection}>
-                <Reveal>
-                    <div className={styles.sectionHeaderCentered}>
-                        <h2 className={styles.sectionTitle}>Parcourez par Filière</h2>
-                        <p className={styles.sectionSubtitle}>Trouvez rapidement les manuels spécifiques à votre domaine d'étude.</p>
-                        <div className={styles.titleUnderline}></div>
-                    </div>
                 </Reveal>
-                <div className={styles.categoriesGrid}>
-                    {[
-                        { icon: Stethoscope, name: 'Médecine', count: '120+', color: '#EF4444' },
-                        { icon: GraduationCap, name: 'Ingénierie', count: '85+', color: '#3B82F6' },
-                        { icon: Gavel, name: 'Droit', count: '64+', color: '#8B5CF6' },
-                        { icon: Landmark, name: 'Économie', count: '92+', color: '#10B981' },
-                        { icon: Languages, name: 'Langues', count: '45+', color: '#F59E0B' },
-                    ].map((cat, i) => {
-                        const Icon = cat.icon;
-                        return (
-                            <Reveal key={i} delay={i * 0.1}>
-                                <div className={styles.categoryCard} onClick={() => setShowModal(true)}>
-                                    <div className={styles.categoryIcon} style={{ color: cat.color }}>
-                                        <Icon size={32} />
+
+                <div className={styles.bestSellersSlider} ref={bookSliderRef}>
+                    {TEASER_BOOKS.map((b, i) => (
+                        <div key={b.id} className={styles.sliderItem}>
+                            <Reveal delay={i * 0.05}>
+                                <div className={styles.bestBookCard} onClick={() => setShowModal(true)}>
+                                    <div className={styles.bestBookImgWrap}>
+                                        <img src={b.photo} alt={b.titre} loading="lazy" />
+
+                                        {/* Floating Badge (Top Left) */}
+                                        <div className={styles.floatingBadge} style={{ color: TYPE_COLORS[b.type] }}>
+                                            {TYPE_LABELS[b.type]}
+                                        </div>
+
+                                        {/* Floating Action Buttons (Top Right) */}
+                                        <div className={styles.actionButtons}>
+                                            <button className={styles.actionBtn}><Eye size={16} /></button>
+                                            <button className={styles.actionBtn}><Heart size={16} /></button>
+                                        </div>
                                     </div>
-                                    <div className={styles.categoryInfo}>
-                                        <h3>{cat.name}</h3>
-                                        <span>{cat.count} livres</span>
+
+                                    <div className={styles.bestBookInfoMinimal}>
+                                        <h4 className={styles.bestBookTitle}>{b.titre}</h4>
+                                        <div className={styles.bestBookPriceMinimal}>
+                                            {b.prix ? (
+                                                <span className={styles.priceTag}>{b.prix} DH</span>
+                                            ) : (
+                                                <span className={styles.freeTag}>Gratuit</span>
+                                            )}
+                                        </div>
                                     </div>
-                                    <ArrowRight size={18} className={styles.categoryArrow} />
                                 </div>
                             </Reveal>
-                        );
-                    })}
+                        </div>
+                    ))}
                 </div>
             </section>
 
-            {/* =============== COMMENT ÇA MARCHE ? =============== */}
-            <section id="process" className={styles.processSection}>
-                <Reveal>
-                    <div className={styles.sectionHeaderCentered}>
-                        <h2 className={styles.sectionTitle}>Comment ça marche ? 📚</h2>
-                        <div className={styles.titleUnderline}></div>
-                    </div>
-                </Reveal>
-                <div className={styles.steps}>
-                    {[
-                        { num: '01', icon: Search, title: 'Trouve ton manuel', desc: 'Recherche par titre, filière ou module. C\'est simple et rapide.', color: '#3B82F6', bg: 'rgba(59, 130, 246, 0.05)' },
-                        { num: '02', icon: Mail, title: 'Contacte le propriétaire', desc: 'Discute en direct pour un prêt, un don ou un achat en toute sécurité.', color: '#FF5722', bg: 'rgba(255, 87, 34, 0.05)' },
-                        { num: '03', icon: BookOpen, title: 'Échangez sur le campus', desc: 'Remise en main propre, pas de frais de livraison. Économique et solidaire.', color: '#10B981', bg: 'rgba(16, 185, 129, 0.05)' },
-                    ].map((step, i) => {
-                        const Icon = step.icon;
-                        return (
-                            <Reveal key={i} delay={i * 0.15}>
-                                <div className={styles.stepCard} style={{ borderColor: step.color }}>
-                                    <div className={styles.stepIcon} style={{ background: step.bg, color: step.color }}>
-                                        <Icon size={28} />
-                                    </div>
-                                    <h3>{step.title}</h3>
-                                    <p>{step.desc}</p>
-                                </div>
-                            </Reveal>
-                        );
-                    })}
-                </div>
-            </section>
 
-            {/* =============== SOCIAL PROOF =============== */}
+            {/* =============== COMMENT ÇA MARCHE ? (PREMIUM STEPPER) =============== */}
+            <HowItWorksStepper />
+
+            {/* =============== SOCIAL PROOF (ORANGE REFINEMENT) =============== */}
             <section id="proof" className={styles.proofSection}>
                 <div className={styles.statsBar}>
                     {[
@@ -623,7 +620,9 @@ export default function LandingPage() {
                             <Reveal key={i} delay={i * 0.1}>
                                 <div className={styles.statItem}>
                                     <Icon size={22} className={styles.statIcon} />
-                                    <span className={styles.statValue}><AnimatedCounter target={s.value} suffix={s.suffix} /></span>
+                                    <span className={styles.statValue} style={{ color: '#FF5722' }}>
+                                        <AnimatedCounter target={s.value} suffix={s.suffix} />
+                                    </span>
                                     <span className={styles.statLabel}>{s.label}</span>
                                 </div>
                             </Reveal>
@@ -632,53 +631,83 @@ export default function LandingPage() {
                 </div>
 
                 <Reveal>
-                    <div className={styles.sectionHeaderCentered} style={{ textAlign: 'center', marginTop: '5rem', marginBottom: '3rem' }}>
+                    <div className={styles.sectionHeaderCentered} style={{ marginTop: '3.5rem' }}>
                         <h2 className={styles.sectionTitle}>La parole aux étudiants 💬</h2>
-                        <div className={styles.titleUnderline} style={{ width: '60px', height: '4px', background: 'var(--accent-color)', margin: '1rem auto' }}></div>
+                        <div className={styles.titleUnderline}></div>
                     </div>
                 </Reveal>
                 <div className={styles.testimonials}>
                     {TESTIMONIALS.map((t, i) => (
                         <Reveal key={i} delay={0.1 + i * 0.12}>
-                            <div className={styles.testimonialCard}>
-                                <Quote size={24} className={styles.quoteIcon} />
-                                <p className={styles.testimonialText}>{t.text}</p>
+                            <motion.div 
+                                className={styles.testimonialCard}
+                                whileHover={{ 
+                                    y: -8,
+                                    scale: 1.02,
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                <div className={styles.testimonialHeader}>
+                                    <div className={styles.quoteCircle}>
+                                        <Quote size={20} className={styles.quoteIcon} />
+                                    </div>
+                                    <div className={styles.ratingStars}>
+                                        {[...Array(5)].map((_, idx) => (
+                                            <Star key={idx} size={14} fill="#FFB800" stroke="#FFB800" />
+                                        ))}
+                                    </div>
+                                </div>
+                                
+                                <p className={styles.testimonialText}>"{t.text}"</p>
+                                
                                 <div className={styles.testimonialAuthor}>
-                                    <div className={styles.testimonialAvatar} style={{ background: t.color }}>{t.avatar}</div>
-                                    <div>
-                                        <strong>{t.name}</strong>
+                                    <div className={styles.testimonialAvatar} style={{ 
+                                        background: `linear-gradient(135deg, ${t.color}, #EA580C)` 
+                                    }}>
+                                        {t.avatar}
+                                    </div>
+                                    <div className={styles.authorMeta}>
+                                        <div className={styles.authorNameRow}>
+                                            <strong>{t.name}</strong>
+                                            {t.verified && (
+                                                <div className={styles.verifiedBadge} title="Étudiant vérifié">
+                                                    <ShieldCheck size={14} />
+                                                </div>
+                                            )}
+                                        </div>
                                         <span>{t.filiere}</span>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </Reveal>
                     ))}
                 </div>
             </section>
 
-            {/* =============== L'IMPACT ÉTUDIANT =============== */}
+            {/* =============== L'IMPACT ÉTUDIANT (PREMIUM ORANGE) =============== */}
             <section className={styles.impactSection}>
                 <Reveal>
-                    <div className={styles.sectionHeaderCentered} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                    <div className={styles.sectionHeaderCentered}>
                         <h2 className={styles.sectionTitle}>L'impact Book-In 🌍</h2>
                         <p className={styles.sectionSubtitle}>Plus qu'une plateforme, un mouvement étudiant.</p>
+                        <div className={styles.titleUnderline}></div>
                     </div>
                 </Reveal>
                 <div className={styles.impactGrid}>
                     <Reveal delay={0.1} direction="left">
                         <div className={styles.impactCard}>
-                            <div className={styles.impactIcon} style={{ color: '#FF5722' }}><DollarSign size={40} /></div>
+                            <div className={styles.impactIcon} style={{ color: '#FF5722' }}><DollarSign size={36} /></div>
                             <h3>Argent économisé</h3>
                             <p>Les étudiants économisent en moyenne <strong>450 DH par semestre</strong> en privilégiant l'occasion et le prêt.</p>
-                            <div className={styles.impactStats}>450 DH</div>
+                            <div className={styles.impactStats} style={{ opacity: 0.1, color: '#FF5722' }}>450 DH</div>
                         </div>
                     </Reveal>
                     <Reveal delay={0.2} direction="right">
                         <div className={styles.impactCard}>
-                            <div className={styles.impactIcon} style={{ color: '#10B981' }}><Leaf size={40} /></div>
+                            <div className={styles.impactIcon} style={{ color: '#FF8A65' }}><Leaf size={36} /></div>
                             <h3>Impact écologique</h3>
                             <p>Chaque livre échangé évite la production d'un nouveau manuel. Donnez une <strong>seconde vie au papier</strong>.</p>
-                            <div className={styles.impactStats}>-1.2kg CO2</div>
+                            <div className={styles.impactStats} style={{ opacity: 0.1, color: '#FF8A65' }}>-1.2kg CO2</div>
                         </div>
                     </Reveal>
                 </div>
@@ -725,16 +754,57 @@ export default function LandingPage() {
                 </Reveal>
             </section>
 
-            {/* =============== FOOTER =============== */}
+            {/* =============== FOOTER (PREMIUM FAT FOOTER) =============== */}
             <footer className={styles.footer}>
                 <div className={styles.footerInner}>
-                    <div className={styles.footerBrand}>
-                        <YTeraLogo size={20} />
-                        <p>Fait par des étudiants, pour des étudiants. ❤️</p>
+                    <div className={styles.footerGrid}>
+                        {/* Column 1: Brand */}
+                        <div className={styles.footerColumn}>
+                            <YTeraLogo size={22} />
+                            <p>La première plateforme solidaire d'échange de manuels scolaires au Maroc. Fait par des étudiants, pour des étudiants.</p>
+                        </div>
+
+                        {/* Column 2: Catalogue */}
+                        <div className={styles.footerColumn}>
+                            <h4>Catalogue</h4>
+                            <ul className={styles.footerList}>
+                                <li><a href="#books">Médecine</a></li>
+                                <li><a href="#books">Ingénierie</a></li>
+                                <li><a href="#books">Droit & Économie</a></li>
+                                <li><a href="#books">Classes Préparatoires</a></li>
+                            </ul>
+                        </div>
+
+                        {/* Column 3: Plateforme */}
+                        <div className={styles.footerColumn}>
+                            <h4>Plateforme</h4>
+                            <ul className={styles.footerList}>
+                                <li><a href="#process">Comment ça marche</a></li>
+                                <li><a href="#impact">Notre Impact</a></li>
+                                <li><a href="#proof">Témoignages</a></li>
+                                <li><a href="#hero">Vendre un livre</a></li>
+                            </ul>
+                        </div>
+
+                        {/* Column 4: Communauté */}
+                        <div className={styles.footerColumn}>
+                            <h4>Communauté</h4>
+                            <ul className={styles.footerList}>
+                                <li><a href="#">Centre d'aide</a></li>
+                                <li><a href="#">Charte de confiance</a></li>
+                                <li><a href="#">Contactez-nous</a></li>
+                                <li><a href="#">Instagram</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.footerBottom}>
-                    <span>© 2026 BOOK-IN</span>
+
+                    <div className={styles.footerBottom}>
+                        <span>© 2026 BOOK-IN — Tous droits réservés.</span>
+                        <div className={styles.footerLegal}>
+                            <a href="#" style={{ marginRight: '1.5rem', color: 'inherit' }}>Mentions légales</a>
+                            <a href="#" style={{ color: 'inherit' }}>Confidentialité</a>
+                        </div>
+                    </div>
                 </div>
             </footer>
 
