@@ -72,11 +72,11 @@ const SLIDES = [
     {
         bg: "#3A7C88",
         textColor: "#FFFFFF",
-        titleColor: "#060a14", /* Even darker for pop */
+        titleColor: "#FFFFFF", /* Switched to White for much better readability */
         subtitleColor: "#f8fafc", /* Slate 50 */
         titleParts: ["EXAMENS PROCHES ?", "RÉVISEZ SANS VOUS RUINER !", ""],
         highlightBg: "transparent",
-        highlightColor: "#0F172A",
+        highlightColor: "#FACC15", /* Bright yellow highlight */
         highlightRotate: "0deg",
         highlightFont: "'Inter', sans-serif",
         subtitle: "Solidarité étudiante : accédez à prix solidaire aux manuels de révision dont vous avez besoin.",
