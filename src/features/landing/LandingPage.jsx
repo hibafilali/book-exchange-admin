@@ -11,6 +11,11 @@ import BookInLogo from '../../components/common/BookInLogo';
 import styles from './LandingPage.module.css';
 import livresIllustration from '../../assets/LIVRES.png';
 import megaphoneWoman from '../../assets/megaphone-woman.png';
+import phoneIllustration from '../../assets/phone-illustration.png';
+import thinkingWoman from '../../assets/thinking-woman-new.png';
+import examCalendar from '../../assets/exam-calendar-drawing.png';
+import thoughtBubble from '../../assets/thought-bubble-drawing.png';
+import solidaireLabel from '../../assets/emprunt-solidaire-label.png';
 
 
 // ============================
@@ -65,19 +70,22 @@ const SLIDES = [
         heroImageAlt: ""
     },
     {
-        bg: "linear-gradient(135deg, #FFCCEA 0%, #F9A8D4 50%, #F472B6 100%)",
-        textColor: "#311024",
-        titleParts: ["En panne", "d'inspiration ?", ""],
+        bg: "#3A7C88",
+        textColor: "#FFFFFF",
+        titleColor: "#060a14", /* Even darker for pop */
+        subtitleColor: "#f8fafc", /* Slate 50 */
+        titleParts: ["EXAMENS PROCHES ?", "RÉVISEZ SANS VOUS RUINER !", ""],
         highlightBg: "transparent",
-        highlightColor: "#7C3AED",
-        highlightRotate: "-3deg",
-        highlightFont: "'Caveat', cursive",
-        subtitle: "Consultez notre catalogue intelligent. Trouvez votre prochain manuel par filière, ville ou ISBN.",
-        cta: "Découvrir le catalogue",
-        ctaBg: "#7C3AED",
+        highlightColor: "#0F172A",
+        highlightRotate: "0deg",
+        highlightFont: "'Inter', sans-serif",
+        subtitle: "Solidarité étudiante : accédez à prix solidaire aux manuels de révision dont vous avez besoin.",
+        cta: "Emprunter des manuels",
+        ctaBg: "#2B1B41",
         ctaColor: "#FFFFFF",
         heroImage: null,
-        heroImageAlt: ""
+        heroImageAlt: "",
+        isTealHero: true
     },
     {
         bg: "linear-gradient(135deg, #183B25 0%, #166534 50%, #15803D 100%)",
@@ -117,12 +125,8 @@ const SlideDecoration = ({ slideIndex }) => {
                 </svg>
             </div>
         </>,
-        // Slide 2: pink — flowers + birds
-        <>
-            <span style={{ position: 'absolute', top: '10%', left: '55%', fontSize: '28px', opacity: 0.2, color: '#7C3AED' }}>❀</span>
-            <span style={{ position: 'absolute', bottom: '25%', left: '32%', fontSize: '34px', opacity: 0.15, color: '#311024' }}>✿</span>
-            <span style={{ position: 'absolute', top: '65%', left: '48%', fontSize: '20px', opacity: 0.2, color: '#7C3AED' }}>🕊</span>
-        </>,
+        // Slide 2: Teal — no deco needed, assets will be in visual
+        null,
         // Slide 3: green — gold stars   
         <>
             <span style={{ position: 'absolute', top: '15%', left: '50%', fontSize: '30px', opacity: 0.3, color: '#FCD34D' }}>✦</span>
@@ -272,6 +276,47 @@ export default function LandingPage() {
                         style={{ background: currentSlideData.bg }}
                     >
                         <SlideDecoration slideIndex={slide} />
+                        
+                        {/* ZONE DROITE & FLOTTANTE : Les 5 Assets (Turnkey Structure) */}
+                        {slide === 2 && (
+                            <div className={styles.tealStaticAssets}>
+                                {/* Artisanal Texture Accents */}
+                                <div className={styles.heroTealTexture} />
+                                <div className={`${styles.dotGrid} ${styles.dotGridTopLeft}`} />
+                                <div className={`${styles.dotGrid} ${styles.dotGridBottomRight}`} />
+                                <div className={`${styles.floatingPlus} ${styles.floatingPlus1}`}>+</div>
+                                <div className={`${styles.floatingPlus} ${styles.floatingPlus2}`}>x</div>
+
+                                <img 
+                                    src={phoneIllustration} 
+                                    alt="Téléphone app Book-In" 
+                                    className={styles.phoneIllustration} 
+                                />
+                                <div className={styles.calendarWrapper}>
+                                    <img 
+                                        src={examCalendar} 
+                                        alt="Calendrier Examens" 
+                                        className={styles.examCalendar} 
+                                    />
+                                </div>
+                                <img 
+                                    src={thinkingWoman} 
+                                    alt="Étudiante qui réfléchit" 
+                                    className={styles.womanImage} 
+                                />
+                                <img 
+                                    src={thoughtBubble} 
+                                    alt="Bulle de pensée livres" 
+                                    className={styles.thoughtBubble} 
+                                />
+                                <img 
+                                    src={solidaireLabel} 
+                                    alt="Label Emprunt Solidaire" 
+                                    className={styles.empruntBadge} 
+                                />
+                            </div>
+                        )}
+
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={slide}
@@ -283,20 +328,35 @@ export default function LandingPage() {
                             >
 
                                 <div className={styles.bannerText}>
-                                    <h2 className={styles.bannerTitle} style={{ color: currentSlideData.textColor }}>
-                                        {currentSlideData.titleParts[0]}
-                                        <br />
-                                        <span className={styles.bannerHighlight} style={{
-                                            background: currentSlideData.highlightBg,
-                                            color: currentSlideData.highlightColor,
-                                            transform: `rotate(${currentSlideData.highlightRotate})`,
-                                            fontFamily: currentSlideData.highlightFont
-                                        }}>
-                                            {currentSlideData.titleParts[1]}
-                                        </span>
-                                        {currentSlideData.titleParts[2] && <><br />{currentSlideData.titleParts[2]}</>}
-                                    </h2>
-                                    <p className={styles.bannerSubtitle} style={{ color: currentSlideData.textColor, opacity: 0.85 }}>
+                                    <h1 className={styles.bannerTitle} style={{ color: currentSlideData.titleColor || currentSlideData.textColor }}>
+                                        {slide === 2 ? (
+                                            <>
+                                                EXAMENS PROCHES ?<br />
+                                                RÉVISEZ SANS<br />
+                                                VOUS <span style={{ position: 'relative', display: 'inline-block' }}>
+                                                    RUINER !
+                                                    <svg className={styles.sketchyUnderline} viewBox="0 0 100 12" preserveAspectRatio="none">
+                                                        <path d="M5,7 Q25,2 45,8 T85,5" stroke="#FACC15" strokeWidth="3" fill="none" strokeLinecap="round" />
+                                                    </svg>
+                                                </span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                {currentSlideData.titleParts[0]}
+                                                <br />
+                                                <span className={styles.bannerHighlight} style={{
+                                                    background: currentSlideData.highlightBg,
+                                                    color: currentSlideData.highlightColor,
+                                                    transform: `rotate(${currentSlideData.highlightRotate})`,
+                                                    fontFamily: currentSlideData.highlightFont
+                                                }}>
+                                                    {currentSlideData.titleParts[1]}
+                                                </span>
+                                                {currentSlideData.titleParts[2] && <><br />{currentSlideData.titleParts[2]}</>}
+                                            </>
+                                        )}
+                                    </h1>
+                                    <p className={styles.bannerSubtitle} style={{ color: currentSlideData.subtitleColor || currentSlideData.textColor, opacity: 0.9 }}>
                                         {currentSlideData.subtitle}
                                     </p>
                                     <button
@@ -310,69 +370,74 @@ export default function LandingPage() {
                                 </div>
                                 {/* Photographic Visual for the first slide */}
                                 <div className={styles.bannerHeroVisual}>
-                                    {slide === 0 && (
+                                    {/* Traditional flex-right visual for other slides */}
+                                    {slide !== 2 && (
                                         <>
-                                            <div className={styles.occasionBadge}>
-                                                <span className={styles.occasionText}>d'occasion</span>
-                                                <svg className={styles.occasionArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#1A0F2E" strokeWidth="3" fill="none" strokeDasharray="0" />
-                                                    <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" />
-                                                </svg>
-                                            </div>
+                                            {slide === 0 && (
+                                                <>
+                                                    <div className={styles.occasionBadge}>
+                                                        <span className={styles.occasionText}>d'occasion</span>
+                                                        <svg className={styles.occasionArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#1A0F2E" strokeWidth="3" fill="none" strokeDasharray="0" />
+                                                            <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" />
+                                                        </svg>
+                                                    </div>
 
-                                            <div className={styles.discountBadge}>
-                                                <svg className={styles.sketchCircle} viewBox="0 0 100 100">
-                                                    <path d="M50,10 C20,10 10,40 10,60 C10,85 40,95 70,85 C95,75 95,30 70,15 C60,10 40,10 30,15" stroke="#FF5722" strokeWidth="3" fill="none" />
-                                                </svg>
-                                                <span className={styles.discountValue}>-70%</span>
-                                                <span className={styles.discountLabel}>du prix initial</span>
-                                            </div>
+                                                    <div className={styles.discountBadge}>
+                                                        <svg className={styles.sketchCircle} viewBox="0 0 100 100">
+                                                            <path d="M50,10 C20,10 10,40 10,60 C10,85 40,95 70,85 C95,75 95,30 70,15 C60,10 40,10 30,15" stroke="#FF5722" strokeWidth="3" fill="none" />
+                                                        </svg>
+                                                        <span className={styles.discountValue}>-70%</span>
+                                                        <span className={styles.discountLabel}>du prix initial</span>
+                                                    </div>
 
-                                            <div className={styles.moinscherLabel}>
-                                                <span>moins cher</span>
-                                                <svg className={styles.squigglyLine} viewBox="0 0 100 20">
-                                                    <path d="M5,15 Q25,5 50,15 T95,15" stroke="#3B82F6" strokeWidth="2" fill="none" />
-                                                </svg>
-                                            </div>
+                                                    <div className={styles.moinscherLabel}>
+                                                        <span>moins cher</span>
+                                                        <svg className={styles.squigglyLine} viewBox="0 0 100 20">
+                                                            <path d="M5,15 Q25,5 50,15 T95,15" stroke="#3B82F6" strokeWidth="2" fill="none" />
+                                                        </svg>
+                                                    </div>
 
-                                            <div className={styles.premiumStamp}>
-                                                <svg viewBox="0 0 100 100">
-                                                    <circle cx="50" cy="50" r="45" fill="none" stroke="#EA580C" strokeWidth="2" strokeDasharray="5,3" />
-                                                    <text x="50" y="45" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">SATISFAIT</text>
-                                                    <text x="50" y="60" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">OU ÉCHANGÉ</text>
-                                                </svg>
-                                            </div>
+                                                    <div className={styles.premiumStamp}>
+                                                        <svg viewBox="0 0 100 100">
+                                                            <circle cx="50" cy="50" r="45" fill="none" stroke="#EA580C" strokeWidth="2" strokeDasharray="5,3" />
+                                                            <text x="50" y="45" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">SATISFAIT</text>
+                                                            <text x="50" y="60" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">OU ÉCHANGÉ</text>
+                                                        </svg>
+                                                    </div>
 
-                                            <div className={styles.floatingIconPen}>🖋️</div>
-                                            <img
-                                                src={livresIllustration}
-                                                alt="Main tenant une pile de manuels scolaires français d'occasion"
-                                                className={styles.realBooksImage}
-                                            />
-                                        </>
-                                    )}
+                                                    <div className={styles.floatingIconPen}>🖋️</div>
+                                                    <img
+                                                        src={livresIllustration}
+                                                        alt="Main tenant une pile de manuels scolaires français d'occasion"
+                                                        className={styles.realBooksImage}
+                                                    />
+                                                </>
+                                            )}
 
-                                    {slide === 1 && (
-                                        <>
-                                            {/* Studio Atmosphere */}
-                                            <div className={styles.groundCement} />
-                                            <div className={styles.megaphoneLight} />
+                                            {slide === 1 && (
+                                                <>
+                                                    {/* Studio Atmosphere */}
+                                                    <div className={styles.groundCement} />
+                                                    <div className={styles.megaphoneLight} />
 
-                                            {/* handwritten sticker */}
-                                            <div className={styles.gratuitBadge}>
-                                                <span className={styles.gratuitText}>c'est gratuit</span>
-                                                <svg className={styles.gratuitArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#FACC15" strokeWidth="3" fill="none" />
-                                                    <path d="M85,75 L95,85 L80,90" stroke="#FACC15" strokeWidth="3" fill="none" />
-                                                </svg>
-                                            </div>
+                                                    {/* handwritten sticker */}
+                                                    <div className={styles.gratuitBadge}>
+                                                        <span className={styles.gratuitText}>c'est gratuit</span>
+                                                        <svg className={styles.gratuitArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#FACC15" strokeWidth="3" fill="none" />
+                                                            <path d="M85,75 L95,85 L80,90" stroke="#FACC15" strokeWidth="3" fill="none" />
+                                                        </svg>
+                                                    </div>
 
-                                            {/* Mascot */}
-                                            <img
-                                                src={megaphoneWoman}
-                                                alt="Étudiante avec un mégaphone"
-                                                className={styles.megaphoneWomanStudio}
-                                            />
+                                                    {/* Mascot */}
+                                                    <img
+                                                        src={megaphoneWoman}
+                                                        alt="Étudiante avec un mégaphone"
+                                                        className={styles.megaphoneWomanStudio}
+                                                    />
+                                                </>
+                                            )}
                                         </>
                                     )}
                                 </div>
