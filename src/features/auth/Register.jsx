@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Lock, Building2, MapPin, GraduationCap, ArrowRight, Loader2 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import styles from './Register.module.css';
-import BookInLogo from '../../components/common/BookInLogo';
+import YTeraLogo from '../../components/common/YTeraLogo';
 
 export default function Register() {
     const navigate = useNavigate();
@@ -114,7 +114,7 @@ export default function Register() {
                     animate={{ opacity: 1, scale: 1 }}
                 >
                     <div className={styles.cardHeader}>
-                        <BookInLogo size={24} />
+                        <YTeraLogo size={24} showSlogan={false} />
                         <div className={styles.cardTitle}>
                             <h2>Créer un compte</h2>
                             <p>C'est rapide et gratuit.</p>

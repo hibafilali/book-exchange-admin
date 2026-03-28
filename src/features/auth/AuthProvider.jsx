@@ -16,8 +16,7 @@ export function AuthProvider({ children }) {
             if (token && role) {
                 // Hydrate the user
                 setUser({ 
-                    role: role, 
-                    name: role === 'ADMIN' ? 'Admin BOOK-IN' : 'Étudiant BOOK-IN' 
+                    name: role === 'ADMIN' ? 'Admin yTera' : 'Étudiant yTera' 
                 });
             }
             setLoading(false);
@@ -29,10 +28,10 @@ export function AuthProvider({ children }) {
         // Simuler latence de login
         await new Promise(r => setTimeout(r, 1200));
 
-        if (role === 'ADMIN' && email === 'admin@book-in.ma' && password === 'admin') {
+        if (role === 'ADMIN' && email === 'admin@ytera.ma' && password === 'admin') {
             localStorage.setItem('token', 'fake-admin-jwt-token');
             localStorage.setItem('user_role', 'ADMIN');
-            setUser({ role: 'ADMIN', name: 'Admin BOOK-IN' });
+            setUser({ role: 'ADMIN', name: 'Admin yTera' });
             return true;
         }
         
@@ -40,7 +39,7 @@ export function AuthProvider({ children }) {
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
             localStorage.setItem('user_role', 'STUDENT');
-            setUser({ role: 'STUDENT', name: 'Étudiant BOOK-IN' });
+            setUser({ role: 'STUDENT', name: 'Étudiant yTera' });
             return true;
         }
         

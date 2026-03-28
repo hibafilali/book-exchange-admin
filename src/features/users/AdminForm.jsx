@@ -48,7 +48,7 @@ export default function AdminForm({ onSubmit, onCancel, initialData = null, isEd
                 <label>Email Professionnel</label>
                 <div className={styles.inputWrapper}>
                     <Mail size={16} />
-                    <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="admin@book-in.ma" />
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="admin@ytera.ma" />
                 </div>
             </div>
 

@@ -1,16 +1,25 @@
-# React + Vite
+# yTera - Le savoir qui circule.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plateforme d'échange de manuels scolaires et universitaires entre étudiants au Maroc. yTera permet aux étudiants de donner une seconde vie à leurs livres, d'économiser sur les frais de scolarité et de favoriser l'entraide sur le campus.
 
-Currently, two official plugins are available:
+## Fonctionnalités
+- **Catalogue Dynamique** : Parcourez les dernières annonces de manuels par filière, ville ou ISBN.
+- **Messagerie Instantanée** : Contactez directement les vendeurs pour fixer un rendez-vous.
+- **Espace Étudiant** : Gérez vos annonces, vos favoris et vos messages.
+- **Tableau de Bord Admin** : Supervision globale, modération des contenus et gestion des utilisateurs.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
+Assurez-vous d'avoir Node.js installé.
 
-## React Compiler
+```bash
+npm install
+npm run dev
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies
+- **Frontend** : React, Vite, Framer Motion, Lucide-React
+- **Design** : CSS Modules (Aesthetics prioritizes a premium look)
+- **Routing** : React Router DOM v7
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Licence
+© 2026 yTera. Tous droits réservés.

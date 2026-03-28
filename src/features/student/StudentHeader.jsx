@@ -3,6 +3,7 @@ import { Bell, Plus, User, BookOpen, Sun, Moon, LogOut } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentHeader.module.css';
 
 export default function StudentHeader() {
@@ -31,9 +32,8 @@ export default function StudentHeader() {
     return (
         <header className={styles.header}>
             <div className={styles.headerInner}>
-                <div className={styles.logo}>
-                    <div className={styles.logoIcon}><BookOpen size={22} /></div>
-                    <span className={styles.logoText}>BOOK-IN</span>
+                <div className={styles.logo} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+                    <YTeraLogo size={20} showSlogan={false} />
                 </div>
 
                 <div className={styles.actions}>

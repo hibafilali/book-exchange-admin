@@ -51,7 +51,7 @@ export default function Settings() {
                                     </div>
                                     <div className={styles.inputGroup}>
                                         <label>Email professionnel</label>
-                                        <input type="email" defaultValue="admin@book-in.ma" />
+                                        <input type="email" defaultValue="admin@ytera.ma" />
                                     </div>
                                     <div className={styles.inputGroup}>
                                         <label>Rôle</label>

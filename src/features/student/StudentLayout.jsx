@@ -5,7 +5,7 @@ import { Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard, MessageSq
 import { useAuth } from '../auth/useAuth';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
-import BookInLogo from '../../components/common/BookInLogo';
+import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentLayout.module.css';
 
 export default function StudentLayout() {
@@ -35,7 +35,7 @@ export default function StudentLayout() {
                 <div className={styles.navInner}>
                     {/* Logo */}
                     <div className={styles.logo} onClick={() => navigate('/student-dashboard')}>
-                        <BookInLogo size={20} />
+                        <YTeraLogo size={20} />
                     </div>
 
                     {/* Global Search */}
@@ -86,7 +86,7 @@ export default function StudentLayout() {
                                 >
                                     <div className={styles.profileHeader}>
                                         <strong>{user?.name || 'Étudiant'}</strong>
-                                        <span>{user?.email || 'etudiant@book-in.ma'}</span>
+                                        <span>{user?.email || 'etudiant@ytera.ma'}</span>
                                     </div>
                                     <button onClick={() => { setShowProfile(false); navigate('/student-dashboard/dashboard'); }}><User size={15} /> Mon Profil</button>
                                     <button onClick={() => { logout(); navigate('/login'); }}><LogOut size={15} /> Déconnexion</button>

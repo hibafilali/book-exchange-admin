@@ -4,29 +4,38 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     BookOpen, Search, ArrowRight, DollarSign, Leaf,
     Users, BookMarked, TrendingUp, Heart, MapPin, Eye,
-    ChevronLeft, ChevronRight, Mail, Sun, Moon, Star, Quote, ShieldCheck
+    ChevronLeft, ChevronRight, Mail, Sun, Moon, Star, Quote, ShieldCheck,
+    Stethoscope, GraduationCap, Gavel, Landmark, Languages
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import BookInLogo from '../../components/common/BookInLogo';
+import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './LandingPage.module.css';
 import livresIllustration from '../../assets/LIVRES.png';
 import megaphoneWoman from '../../assets/megaphone-woman.png';
+import heroMascot from '../../assets/hero-mascot.png';
 import phoneIllustration from '../../assets/phone-illustration.png';
 import thinkingWoman from '../../assets/thinking-woman-new.png';
 import examCalendar from '../../assets/exam-calendar-drawing.png';
 import thoughtBubble from '../../assets/thought-bubble-drawing.png';
 import solidaireLabel from '../../assets/emprunt-solidaire-label.png';
+import book1 from '../../assets/book1.png';
+import book2 from '../../assets/book2.png';
+import book3 from '../../assets/book3.png';
+import book4 from '../../assets/book4.png';
+import book5 from '../../assets/book5.png';
+
+
 
 
 // ============================
 // MOCK DATA
 // ============================
 const TEASER_BOOKS = [
-    { id: 1, titre: "Introduction aux Algorithmes", auteur: "Thomas H. Cormen", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: "/admin/assets/books/cormen_new.png" },
-    { id: 2, titre: "Macroéconomie", auteur: "N. Gregory Mankiw", type: "VENTE", prix: 120, etat: "Bon", nbVues: 145, ville: "Casablanca", photo: "/admin/assets/books/mankiw_new.png" },
-    { id: 3, titre: "Biologie", auteur: "Campbell & Reece", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: "/admin/assets/books/biologie_campbell.png" },
-    { id: 4, titre: "Physique Quantique", auteur: "Claude Cohen-Tannoudji", type: "VENTE", prix: 200, etat: "Neuf", nbVues: 120, ville: "Marrakech", photo: "/admin/assets/books/physique_quantique.png" },
-    { id: 5, titre: "Analyse Mathématique", auteur: "Walter Rudin", type: "PRET", prix: null, etat: "Très bon", nbVues: 95, ville: "Tanger", photo: "/admin/assets/books/algo_cormen.png" },
+    { id: 1, titre: "Engineering Chemistry", auteur: "K. Dinakaran & G. Sasikumar", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: book1 },
+    { id: 2, titre: "Anatomie Humaine", auteur: "Dr. Salim Alaoui", type: "VENTE", prix: 250, etat: "Comme neuf", nbVues: 145, ville: "Casablanca", photo: book2 },
+    { id: 3, titre: "Droit Civil : Les Obligations", auteur: "Prof. Yassir Benani", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: book3 },
+    { id: 4, titre: "Principes de Macroéconomie", auteur: "Dr. Amina El Fassi", type: "VENTE", prix: 150, etat: "Très bon", nbVues: 120, ville: "Marrakech", photo: book4 },
+    { id: 5, titre: "Mathématiques pour Ingénieurs", auteur: "Prof. Kamal Ziani", type: "PRET", prix: null, etat: "Bon", nbVues: 95, ville: "Tanger", photo: book5 },
 ];
 
 const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
@@ -67,7 +76,8 @@ const SLIDES = [
         ctaBg: "#FACC15",
         ctaColor: "#000000",
         heroImage: null,
-        heroImageAlt: ""
+        heroImageAlt: "",
+        isFlipped: true
     },
     {
         bg: "#3A7C88",
@@ -88,19 +98,23 @@ const SLIDES = [
         isTealHero: true
     },
     {
-        bg: "linear-gradient(135deg, #183B25 0%, #166534 50%, #15803D 100%)",
+        bg: "#801C1E",
         textColor: "#FFFFFF",
-        titleParts: ["Top Ventes 2026 :", "Les Indispensables", ""],
+        titleParts: ["Ne laissez plus vos manuels", "prendre de la poussière", "sur l’étagère."],
         highlightBg: "transparent",
-        highlightColor: "#FCD34D",
-        highlightRotate: "-2deg",
-        highlightFont: "'Caveat', cursive",
-        subtitle: "La sélection validée par les profs et les anciens lauréats. Cormen, Mankiw, Campbell... Foncez !",
-        cta: "Voir la sélection",
-        ctaBg: "#D4AF37",
-        ctaColor: "#183B25",
-        heroImage: null,
-        heroImageAlt: ""
+        highlightColor: "#FF5722",
+        highlightRotate: "0deg",
+        highlightFont: "'Inter', sans-serif",
+        subtitle: "Achetez, Vendez, Échangez vos manuels d'occasion. Intégrez notre économie circulaire solidaire.",
+        cta: "S'INSCRIRE GRATUITEMENT",
+        ctaBg: "#FF5722",
+        ctaColor: "#FFFFFF",
+        heroImage: heroMascot,
+        heroImageAlt: "Mascotte yTera",
+        isFlipped: true,
+        titleClass: styles.bannerTitleSlide3,
+        textClass: styles.bannerTextSlide3,
+        mascotClass: styles.mascotSlide3
     }
 ];
 
@@ -127,12 +141,38 @@ const SlideDecoration = ({ slideIndex }) => {
         </>,
         // Slide 2: Teal — no deco needed, assets will be in visual
         null,
-        // Slide 3: green — gold stars   
-        <>
-            <span style={{ position: 'absolute', top: '15%', left: '50%', fontSize: '30px', opacity: 0.3, color: '#FCD34D' }}>✦</span>
-            <span style={{ position: 'absolute', bottom: '30%', left: '35%', fontSize: '22px', opacity: 0.4, color: '#FCD34D' }}>✧</span>
-            <span style={{ position: 'absolute', top: '60%', left: '55%', fontSize: '16px', opacity: 0.25, color: '#FCD34D' }}>★</span>
-        </>
+        // Slide 3: Red - Hand-Drawn Design Details
+        <div className={styles.redSlideDecoration}>
+            {/* Background Texture */}
+            <div className={`${styles.dotGrid} ${styles.dotGridTopLeft}`} style={{ opacity: 0.12 }} />
+            <div className={`${styles.dotGrid} ${styles.dotGridBottomRight}`} style={{ bottom: '10%', right: '5%', opacity: 0.12 }} />
+            
+            {/* Hand-Drawn Badge Circle - Now to the right of the Button */}
+            <div className={styles.circularBadge} style={{ right: '5%', bottom: '8%', top: 'auto', left: 'auto' }}>
+                <svg className={styles.sketchCircleDrawn} viewBox="0 0 100 100" style={{ transform: 'rotate(10deg)' }}>
+                    <path d="M50,10 C30,12 10,30 12,55 C15,80 40,92 65,88 C90,82 95,55 88,30 C82,10 60,8 45,15" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" fill="none" />
+                </svg>
+                <div className={styles.circularBadgeInner} style={{ fontSize: '0.65rem', lineHeight: 1.2 }}>
+                    ÉCONOMIE<br/>SOLIDAIRE
+                </div>
+            </div>
+
+            {/* Handwritten Keywords - Positioned AROUND the girl */}
+            <span className={styles.handwrittenKeyword} style={{ top: '10%', left: '38%', fontSize: '1.8rem', transform: 'rotate(-8deg)', color: '#FCD34D' }}>ÉCHANGE</span>
+            <span className={styles.handwrittenKeyword} style={{ top: '75%', left: '8%', fontSize: '1.5rem', transform: 'rotate(12deg)' }}>VENTE</span>
+            <span className={styles.handwrittenKeyword} style={{ top: '20%', left: '8%', fontSize: '1.6rem', transform: 'rotate(-10deg)', color: '#FCD34D' }}>ACHAT</span>
+            <span className={styles.handwrittenKeyword} style={{ bottom: '15%', left: '42%', fontSize: '1.4rem', transform: 'rotate(-5deg)' }}>PRÊT</span>
+
+            {/* Sketch Arrows */}
+            <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+                {/* Arrow towards center */}
+                <path d="M15,65 Q25,55 35,62" className={styles.sketchLine} strokeDasharray="5,3" />
+                <path d="M32,58 L37,63 L30,66" className={styles.sketchLine} />
+                
+                {/* Scribble near top */}
+                <path d="M25,12 Q30,8 35,15" className={styles.sketchLine} opacity="0.5" />
+            </svg>
+        </div>
     ];
     return decos[slideIndex] || null;
 };
@@ -236,14 +276,14 @@ export default function LandingPage() {
 
             {/* =============== PROMO BAR =============== */}
             <div className={styles.promoBar}>
-                <span>LIVRAISON OFFERTE DÈS 25€ DE LIVRES D'OCCASION —— <strong>TROUVE TON MANUEL EN 2 MIN</strong></span>
+                <span>LIVRAISON OFFERTE DÈS 25€ DE LIVRES D'OCCASION —— <strong>TROUVEZ VOTRE MANUEL EN 2 MIN</strong></span>
             </div>
 
             {/* =============== NAVBAR =============== */}
             <nav className={styles.navbar}>
                 <div className={styles.navInner}>
                     <div className={styles.navLogo} onClick={() => scrollTo('hero')}>
-                        <BookInLogo size={18} />
+                        <YTeraLogo size={18} />
                     </div>
                     <div className={styles.navLinks}>
                         <button onClick={() => scrollTo('process')}>Comment ça marche</button>
@@ -324,11 +364,11 @@ export default function LandingPage() {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -30 }}
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                                className={`${styles.bannerContent} ${slide === 1 ? styles.bannerContentFlipped : ''}`}
+                                className={`${styles.bannerContent} ${currentSlideData.isFlipped ? styles.bannerContentFlipped : ''}`}
                             >
 
-                                <div className={styles.bannerText}>
-                                    <h1 className={styles.bannerTitle} style={{ color: currentSlideData.titleColor || currentSlideData.textColor }}>
+                                <div className={`${styles.bannerText} ${currentSlideData.textClass || ''}`}>
+                                    <h1 className={`${styles.bannerTitle} ${currentSlideData.titleClass || ''}`} style={{ color: currentSlideData.titleColor || currentSlideData.textColor }}>
                                         {slide === 2 ? (
                                             <>
                                                 EXAMENS PROCHES ?<br />
@@ -378,8 +418,8 @@ export default function LandingPage() {
                                                     <div className={styles.occasionBadge}>
                                                         <span className={styles.occasionText}>d'occasion</span>
                                                         <svg className={styles.occasionArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                            <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#1A0F2E" strokeWidth="3" fill="none" strokeDasharray="0" />
-                                                            <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" />
+                                                            <path d="M20,20 C40,10 70,30 50,60 C30,90 80,90 90,80" stroke="#1A0F2E" strokeWidth="3" fill="none" pathLength="1" className={styles.sketchPath} />
+                                                            <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" pathLength="1" className={styles.sketchPathArrowhead} />
                                                         </svg>
                                                     </div>
 
@@ -430,13 +470,25 @@ export default function LandingPage() {
                                                         </svg>
                                                     </div>
 
-                                                    {/* Mascot */}
+                                                    {/* Mascot Slide 1 */}
                                                     <img
                                                         src={megaphoneWoman}
                                                         alt="Étudiante avec un mégaphone"
                                                         className={styles.megaphoneWomanStudio}
                                                     />
                                                 </>
+                                            )}
+
+                                            {slide === 3 && (
+                                                <img
+                                                    src={heroMascot}
+                                                    alt="Mascotte yTera"
+                                                    className={`${styles.megaphoneWomanStudio} ${currentSlideData.mascotClass || ''}`}
+                                                    style={{ 
+                                                        objectPosition: 'left bottom',
+                                                        filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))'
+                                                    }}
+                                                />
                                             )}
                                         </>
                                     )}
@@ -462,12 +514,12 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* =============== BEST SELLERS (IMAGE 8 STYLE) =============== */}
+            {/* =============== TROUVEZ VOTRE PROCHAIN MANUEL =============== */}
             <section className={styles.bestSellers}>
                 <div className={styles.bestSellersInner}>
                     <div className={styles.bestSellersMenu}>
                         <div className={styles.bestSellersMenuTitle}>
-                            <h3>Meilleures Ventes</h3>
+                            <h3>Trouvez votre prochain manuel</h3>
                         </div>
                     </div>
                     <div className={styles.bestSellersGrid}>
@@ -491,23 +543,35 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* =============== PROCESS BENTO BOXES (PASTEL LIGHT) =============== */}
-            <section id="process" className={styles.processSection}>
-                <div className={styles.steps}>
+            {/* =============== CATEGORIES (NEW SECTION) =============== */}
+            <section className={styles.categoriesSection}>
+                <Reveal>
+                    <div className={styles.sectionHeaderCentered}>
+                        <h2 className={styles.sectionTitle}>Parcourez par Filière</h2>
+                        <p className={styles.sectionSubtitle}>Trouvez rapidement les manuels spécifiques à votre domaine d'étude.</p>
+                        <div className={styles.titleUnderline}></div>
+                    </div>
+                </Reveal>
+                <div className={styles.categoriesGrid}>
                     {[
-                        { num: '01', icon: Search, title: 'Cherche', desc: 'Tape le nom, la filière ou l\'ISBN et c\'est parti.', color: '#2563EB', bg: '#EFF6FF' },
-                        { num: '02', icon: Mail, title: 'Contacte', desc: 'Envoie un message au vendeur, fixez un RDV sur le campus.', color: '#EA580C', bg: '#FFF7ED' },
-                        { num: '03', icon: BookMarked, title: 'Échange', desc: 'Récupère ton bouquin. Pas de frais de port, pas de stress.', color: '#059669', bg: '#ECFDF5' },
-                    ].map((step, i) => {
-                        const Icon = step.icon;
+                        { icon: Stethoscope, name: 'Médecine', count: '120+', color: '#EF4444' },
+                        { icon: GraduationCap, name: 'Ingénierie', count: '85+', color: '#3B82F6' },
+                        { icon: Gavel, name: 'Droit', count: '64+', color: '#8B5CF6' },
+                        { icon: Landmark, name: 'Économie', count: '92+', color: '#10B981' },
+                        { icon: Languages, name: 'Langues', count: '45+', color: '#F59E0B' },
+                    ].map((cat, i) => {
+                        const Icon = cat.icon;
                         return (
-                            <Reveal key={i} delay={i * 0.15}>
-                                <div className={styles.stepCard} style={{ background: step.bg, borderColor: step.bg, transform: `rotate(${i === 1 ? -0.5 : i === 2 ? 0.4 : 0}deg)` }}>
-                                    <div className={styles.stepIcon} style={{ background: 'white', color: step.color, boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>
-                                        <Icon size={24} />
+                            <Reveal key={i} delay={i * 0.1}>
+                                <div className={styles.categoryCard} onClick={() => setShowModal(true)}>
+                                    <div className={styles.categoryIcon} style={{ color: cat.color }}>
+                                        <Icon size={32} />
                                     </div>
-                                    <h3 style={{ color: '#0F172A' }}>{step.title}</h3>
-                                    <p style={{ color: '#475569' }}>{step.desc}</p>
+                                    <div className={styles.categoryInfo}>
+                                        <h3>{cat.name}</h3>
+                                        <span>{cat.count} livres</span>
+                                    </div>
+                                    <ArrowRight size={18} className={styles.categoryArrow} />
                                 </div>
                             </Reveal>
                         );
@@ -515,34 +579,33 @@ export default function LandingPage() {
                 </div>
             </section>
 
-            {/* =============== FEATURED BOOKS =============== */}
-            <section id="books" className={styles.booksSection}>
+            {/* =============== COMMENT ÇA MARCHE ? =============== */}
+            <section id="process" className={styles.processSection}>
                 <Reveal>
-                    <div className={styles.booksSectionHeader}>
-                        <h2 className={styles.sectionTitle}>Les petites dernières 📚</h2>
-                        <button className={styles.seeAllBtn} onClick={() => setShowModal(true)}>
-                            Voir tout <ChevronRight size={18} />
-                        </button>
+                    <div className={styles.sectionHeaderCentered}>
+                        <h2 className={styles.sectionTitle}>Comment ça marche ? 📚</h2>
+                        <div className={styles.titleUnderline}></div>
                     </div>
                 </Reveal>
-                <div className={styles.booksGrid}>
-                    {TEASER_BOOKS.map((b, i) => (
-                        <Reveal key={b.id} delay={i * 0.08}>
-                            <div className={styles.bookCard} onClick={() => setShowModal(true)} style={{ transform: `rotate(${cardRotations[i]}deg)` }}>
-                                <div className={styles.bookImgWrap}>
-                                    <img src={b.photo} alt={b.titre} className={styles.bookImg} loading="lazy" />
-                                    <div className={styles.bookRibbon} style={{ background: TYPE_COLORS[b.type] }}>{TYPE_LABELS[b.type]}</div>
-                                </div>
-                                <div className={styles.bookBody}>
-                                    <h3>{b.titre}</h3>
-                                    <p className={styles.bookAuthor}>{b.auteur}</p>
-                                    <div className={styles.bookMeta}>
-                                        <span><MapPin size={13} /> {b.ville}</span>
+                <div className={styles.steps}>
+                    {[
+                        { num: '01', icon: Search, title: 'Trouve ton manuel', desc: 'Recherche par titre, filière ou module. C\'est simple et rapide.', color: '#3B82F6', bg: 'rgba(59, 130, 246, 0.05)' },
+                        { num: '02', icon: Mail, title: 'Contacte le propriétaire', desc: 'Discute en direct pour un prêt, un don ou un achat en toute sécurité.', color: '#FF5722', bg: 'rgba(255, 87, 34, 0.05)' },
+                        { num: '03', icon: BookOpen, title: 'Échangez sur le campus', desc: 'Remise en main propre, pas de frais de livraison. Économique et solidaire.', color: '#10B981', bg: 'rgba(16, 185, 129, 0.05)' },
+                    ].map((step, i) => {
+                        const Icon = step.icon;
+                        return (
+                            <Reveal key={i} delay={i * 0.15}>
+                                <div className={styles.stepCard} style={{ borderColor: step.color }}>
+                                    <div className={styles.stepIcon} style={{ background: step.bg, color: step.color }}>
+                                        <Icon size={28} />
                                     </div>
+                                    <h3>{step.title}</h3>
+                                    <p>{step.desc}</p>
                                 </div>
-                            </div>
-                        </Reveal>
-                    ))}
+                            </Reveal>
+                        );
+                    })}
                 </div>
             </section>
 
@@ -593,21 +656,70 @@ export default function LandingPage() {
                 </div>
             </section>
 
+            {/* =============== L'IMPACT ÉTUDIANT =============== */}
+            <section className={styles.impactSection}>
+                <Reveal>
+                    <div className={styles.sectionHeaderCentered} style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                        <h2 className={styles.sectionTitle}>L'impact Book-In 🌍</h2>
+                        <p className={styles.sectionSubtitle}>Plus qu'une plateforme, un mouvement étudiant.</p>
+                    </div>
+                </Reveal>
+                <div className={styles.impactGrid}>
+                    <Reveal delay={0.1} direction="left">
+                        <div className={styles.impactCard}>
+                            <div className={styles.impactIcon} style={{ color: '#FF5722' }}><DollarSign size={40} /></div>
+                            <h3>Argent économisé</h3>
+                            <p>Les étudiants économisent en moyenne <strong>450 DH par semestre</strong> en privilégiant l'occasion et le prêt.</p>
+                            <div className={styles.impactStats}>450 DH</div>
+                        </div>
+                    </Reveal>
+                    <Reveal delay={0.2} direction="right">
+                        <div className={styles.impactCard}>
+                            <div className={styles.impactIcon} style={{ color: '#10B981' }}><Leaf size={40} /></div>
+                            <h3>Impact écologique</h3>
+                            <p>Chaque livre échangé évite la production d'un nouveau manuel. Donnez une <strong>seconde vie au papier</strong>.</p>
+                            <div className={styles.impactStats}>-1.2kg CO2</div>
+                        </div>
+                    </Reveal>
+                </div>
+            </section>
+
+            {/* =============== LA GARANTIE ÉTUDIANTE =============== */}
+            <section className={styles.guaranteeSection}>
+                <Reveal>
+                    <div className={styles.guaranteeBox}>
+                        <div className={styles.guaranteeContent}>
+                            <div className={styles.guaranteeBadge}><ShieldCheck size={24} /> La Garantie Étudiante</div>
+                            <h2>Une plateforme faite par vous, pour vous.</h2>
+                            <p>Parce qu'on connaît la réalité du terrain, notre plateforme est conçue pour simplifier la vie des étudiants marocains :</p>
+                            <ul>
+                                <li><Star size={18} /> Profils étudiants vérifiés</li>
+                                <li><Star size={18} /> Communauté d'entraide active</li>
+                                <li><Star size={18} /> Aucun frais de mise en relation</li>
+                            </ul>
+                        </div>
+                        <div className={styles.guaranteeMascot}>
+                            <img src={thoughtBubble} alt="Garantie Book-In" />
+                        </div>
+                    </div>
+                </Reveal>
+            </section>
+
             {/* =============== CTA FINAL =============== */}
             <section className={styles.ctaFinal}>
                 <Reveal>
                     <div className={styles.ctaFinalCard}>
                         <div className={styles.ctaFinalContent}>
-                            <h2>T'attends quoi pour nous rejoindre ?</h2>
-                            <p>Des centaines d'étudiants échangent déjà leurs bouquins. Gratuit, rapide, et entre nous.</p>
+                            <h2>Des manuels dorment sur tes étagères ?</h2>
+                            <p>Fais de la place et aide un autre étudiant en publiant tes livres en quelques clics.</p>
                             <div className={styles.ctaButtons}>
                                 <button className={styles.ctaPrimary} onClick={() => navigate('/register')}>
-                                    Je m'inscris <ArrowRight size={18} />
+                                    Mettre en ligne un livre <ArrowRight size={18} />
                                 </button>
                             </div>
                         </div>
                         <div className={styles.ctaFinalGraphic}>
-                            <ShieldCheck size={180} className={styles.ctaFinalIcon} />
+                            <BookOpen size={180} className={styles.ctaFinalIcon} />
                         </div>
                     </div>
                 </Reveal>
@@ -617,7 +729,7 @@ export default function LandingPage() {
             <footer className={styles.footer}>
                 <div className={styles.footerInner}>
                     <div className={styles.footerBrand}>
-                        <BookInLogo size={20} />
+                        <YTeraLogo size={20} />
                         <p>Fait par des étudiants, pour des étudiants. ❤️</p>
                     </div>
                 </div>

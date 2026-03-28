@@ -129,7 +129,7 @@ export default function Header() {
                                 </div>
                                 <div className={styles.userInfo}>
                                     <p className={styles.userName}>{user?.name || 'Admin'}</p>
-                                    <p className={styles.userEmail}>{user?.email || 'admin@book-in.ma'}</p>
+                                    <p className={styles.userEmail}>{user?.email || 'admin@ytera.ma'}</p>
                                 </div>
                             </div>
                             <div className={styles.dropdownList}>

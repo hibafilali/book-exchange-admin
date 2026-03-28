@@ -30,7 +30,7 @@ export default function SplashScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
             >
-                BOOK-IN
+                yTera
             </motion.h2>
         </div>
     );

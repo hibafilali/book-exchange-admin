@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import styles from './Login.module.css';
 import { BookOpen, Lock, Mail, User, Shield, Loader2, ArrowRight } from 'lucide-react';
-import BookInLogo from '../../components/common/BookInLogo';
+import YTeraLogo from '../../components/common/YTeraLogo';
 
 export default function Login() {
     const [isStudent, setIsStudent] = useState(true);
@@ -92,8 +92,8 @@ export default function Login() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <h1>Votre savoir a de la valeur.</h1>
-                        <p>Rejoignez la plus grande communauté d'échange de manuels au Maroc.</p>
+                        <h1>Libérez le potentiel de vos manuels.</h1>
+                        <p>Rejoignez yTera, la communauté d'échange de manuels au Maroc.</p>
                     </motion.div>
                 </div>
             </div>
@@ -107,7 +107,7 @@ export default function Login() {
                     transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 >
                     <div className={styles.cardHeader}>
-                        <BookInLogo size={32} />
+                        <YTeraLogo size={32} showSlogan={true} />
                         <div className={styles.cardTitle}>
                             <h2>Ravi de vous revoir !</h2>
                             <p>Accédez à votre espace sécurisé.</p>
@@ -139,7 +139,7 @@ export default function Login() {
                                 <Mail size={18} className={styles.fieldIcon} />
                                 <input 
                                     type="email" 
-                                    placeholder={isStudent ? "etudiant@book-in.ma" : "admin@book-in.ma"}
+                                    placeholder={isStudent ? "etudiant@ytera.ma" : "admin@ytera.ma"}
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required 
@@ -176,9 +176,7 @@ export default function Login() {
                         {isStudent && (
                             <p>Pas encore de compte ? <button onClick={() => navigate('/register')}>S'inscrire gratuitement</button></p>
                         )}
-                        {!isStudent && (
-                            <p>Réservé aux collaborateurs BOOK-IN.</p>
-                        )}
+                            <p>Réservé aux collaborateurs yTera.</p>
                     </div>
                 </motion.div>
             </div>
