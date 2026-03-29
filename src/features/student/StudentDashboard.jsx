@@ -88,7 +88,7 @@ export default function StudentDashboard() {
                     {/* ——— WELCOME BANNER (Span Full) ——— */}
                     <motion.div className={`${styles.bentoCard} ${styles.welcomeCard}`} variants={itemVariants}>
                         <div className={styles.welcomeText}>
-                            <h1>Salut {user?.name?.split(' ')[0] || 'Étudiant'} ! 👋</h1>
+                            <h1>Salut {user?.name?.split(' ')[0] || 'Étudiant'} !</h1>
                             <p>Prêt pour ton prochain échange ? Voici ton résumé d'activité.</p>
                         </div>
                         <button className={styles.btnPrimary} onClick={() => navigate('/student-dashboard/publish')}>

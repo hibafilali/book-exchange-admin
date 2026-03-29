@@ -93,7 +93,7 @@ export default function Login() {
                         transition={{ delay: 0.3 }}
                     >
                         <h1>Libérez le potentiel de vos manuels.</h1>
-                        <p>Rejoignez yTera, la communauté d'échange de manuels au Maroc.</p>
+                        <p>Rejoignez <span style={{ color: '#FF5722' }}>y</span>Tera, la communauté d'échange de manuels au Maroc.</p>
                     </motion.div>
                 </div>
             </div>
@@ -176,7 +176,7 @@ export default function Login() {
                         {isStudent && (
                             <p>Pas encore de compte ? <button onClick={() => navigate('/register')}>S'inscrire gratuitement</button></p>
                         )}
-                            <p>Réservé aux collaborateurs yTera.</p>
+                            <p>Réservé aux collaborateurs <span style={{ color: '#FF5722' }}>y</span>Tera.</p>
                     </div>
                 </motion.div>
             </div>

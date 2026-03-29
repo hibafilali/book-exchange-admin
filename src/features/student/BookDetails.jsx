@@ -24,15 +24,15 @@ const ALL_BOOKS = [
 
 const TYPE_CONFIG = {
     VENTE: { label: 'Vente', gradient: 'var(--gradient-vente)', color: '#F97316' },
-    PRET:  { label: 'Prêt',  gradient: 'var(--gradient-pret)',  color: '#06B6D4' },
-    DON:   { label: 'Don',   gradient: 'var(--gradient-don)',   color: '#10B981' },
+    PRET: { label: 'Prêt', gradient: 'var(--gradient-pret)', color: '#06B6D4' },
+    DON: { label: 'Don', gradient: 'var(--gradient-don)', color: '#10B981' },
 };
 
 const ETAT_CONFIG = {
     NEUF: { label: 'Neuf', color: '#10b981' },
-    BON:  { label: 'Bon état', color: '#3b82f6' },
+    BON: { label: 'Bon état', color: '#3b82f6' },
     ACCEPTABLE: { label: 'Acceptable', color: '#f59e0b' },
-    USE:  { label: 'Usé', color: '#64748b' },
+    USE: { label: 'Usé', color: '#64748b' },
 };
 
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };
@@ -129,7 +129,7 @@ export default function BookDetails() {
                                         const newFav = !isFav;
                                         setIsFav(newFav);
                                         if (newFav) {
-                                            toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white'} });
+                                            toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white' } });
                                         } else {
                                             toast.success("Retiré des favoris.");
                                         }
@@ -161,8 +161,8 @@ export default function BookDetails() {
                     {/* Owner card */}
                     <motion.div className={styles.ownerCard} variants={fadeUp}>
                         <h3 className={styles.cardLabel}>Propriétaire</h3>
-                        <div 
-                            className={styles.ownerInfo} 
+                        <div
+                            className={styles.ownerInfo}
                             onClick={() => navigate(`/student-dashboard/user/${slugify(book.proprietaire.nom)}`)}
                             style={{ cursor: 'pointer' }}
                             title="Voir le profil du vendeur"

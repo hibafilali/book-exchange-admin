@@ -8,10 +8,6 @@
     overflow: hidden;
     box-shadow: var(--shadow-md);
 }
-[data-theme='dark'] .chatContainer {
-    background: rgba(15, 23, 42, 0.4);
-    backdrop-filter: blur(20px);
-}
 
 /* ====== SIDEBAR (LEFT) ====== */
 .sidebar {
@@ -20,9 +16,6 @@
     display: flex;
     flex-direction: column;
     background: var(--bg-secondary);
-}
-[data-theme='dark'] .sidebar {
-    background: rgba(30, 41, 59, 0.3);
 }
 
 .sidebarHeader {
@@ -82,9 +75,6 @@
 .activeContact {
     background: var(--bg-primary);
     border-left-color: var(--accent-color);
-}
-[data-theme='dark'] .activeContact {
-    background: rgba(255, 255, 255, 0.03);
 }
 
 .avatarWrap { position: relative; flex-shrink: 0; }
@@ -172,9 +162,6 @@
     padding: 1.25rem 2rem;
     border-bottom: 1px solid var(--border-color);
     background: var(--bg-secondary);
-}
-[data-theme='dark'] .chatHeader {
-    background: rgba(30, 41, 59, 0.2);
 }
 
 .chatHeaderInfo {
@@ -271,9 +258,6 @@
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     border-radius: 18px 18px 18px 4px;
-}
-[data-theme='dark'] .bubbleThem {
-    background: rgba(30, 41, 59, 0.6);
 }
 
 .msgTime {

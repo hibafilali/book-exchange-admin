@@ -1,15 +1,16 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
     BookOpen, Search, ArrowRight, DollarSign, Leaf,
     Users, BookMarked, TrendingUp, Heart, MapPin, Eye,
-    ChevronLeft, ChevronRight, Mail, Sun, Moon, Star, Quote, ShieldCheck,
+    ChevronLeft, ChevronRight, Mail, Star, Quote, ShieldCheck,
     Stethoscope, GraduationCap, Gavel, Landmark, Languages
 } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
 import YTeraLogo from '../../components/common/YTeraLogo';
 import HowItWorksStepper from './HowItWorksStepper';
+import ImpactSection from './ImpactSection';
+import ProximityMap from './ProximityMap';
 import styles from './LandingPage.module.css';
 import livresIllustration from '../../assets/LIVRES.png';
 import megaphoneWoman from '../../assets/megaphone-woman.png';
@@ -53,11 +54,6 @@ const TEASER_BOOKS = [
 const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
 const TYPE_LABELS = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
 
-const TESTIMONIALS = [
-    { name: "Salma B.", filiere: "Droit · Casablanca", text: "5 min chrono pour trouver mon Code Civil. Je recommande à 100% !", avatar: "S", color: "#FF5722", rating: 5, verified: true },
-    { name: "Youssef K.", filiere: "Info · Fès", text: "J'ai filé 8 bouquins qui prenaient la poussière. Trop simple.", avatar: "Y", color: "#3B82F6", rating: 5, verified: true },
-    { name: "Amina R.", filiere: "Éco · Rabat", text: "Grâce au prêt, j'ai économisé 400 DH ce semestre. Merci !", avatar: "A", color: "#10B981", rating: 5, verified: true },
-];
 
 const SLIDES = [
     {
@@ -217,7 +213,7 @@ function AnimatedCounter({ target, suffix = '' }) {
 // ============================
 // REVEAL WRAPPER
 // ============================
-function Reveal({ children, delay = 0, direction = 'up' }) {
+function Reveal({ children, delay = 0, direction = 'up', animate = false }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -227,8 +223,13 @@ function Reveal({ children, delay = 0, direction = 'up' }) {
     };
 
     return (
-        <motion.div ref={ref} initial="hidden" animate={isInView ? "visible" : "hidden"} variants={variants}
-            transition={{ type: 'spring', stiffness: 120, damping: 20, delay }}>
+        <motion.div
+            ref={ref}
+            initial={animate ? "hidden" : "visible"}
+            animate={animate ? (isInView ? "visible" : "hidden") : "visible"}
+            variants={variants}
+            transition={{ type: 'spring', stiffness: 120, damping: 20, delay }}
+        >
             {children}
         </motion.div>
     );
@@ -239,7 +240,6 @@ function Reveal({ children, delay = 0, direction = 'up' }) {
 // ============================
 export default function LandingPage() {
     const navigate = useNavigate();
-    const { isDarkMode, toggleTheme } = useTheme();
     const [showModal, setShowModal] = useState(false);
     const [slide, setSlide] = useState(0);
     const handlePrev = () => {
@@ -274,7 +274,19 @@ export default function LandingPage() {
         return () => clearInterval(timer);
     }, []);
 
-    const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const scrollTo = (id) => {
+        const element = document.getElementById(id);
+        if (element) {
+            const headerOffset = 104; // height of promoBar (40px) + navbar (64px)
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        }
+    };
 
     // Custom cursor with lag
     useEffect(() => {
@@ -293,21 +305,21 @@ export default function LandingPage() {
     const cardRotations = useRef([0.8, -1.2, 0.6]).current;
 
     return (
-        <div className={`${styles.page} ${isDarkMode ? styles.dark : styles.light}`}>
+        <div className={`${styles.page} ${styles.light}`}>
             {/* Custom cursor */}
             <div ref={cursorRef} className={styles.customCursor} />
             {/* Noise texture overlay */}
             <div className={styles.noiseOverlay} />
-            
+
             {/* Background Atmosphere Blobs */}
             <div className={`${styles.blurBlob} ${styles.blobOrange}`} />
             <div className={`${styles.blurBlob} ${styles.blobTeal}`} />
             <div className={`${styles.blurBlob} ${styles.blobIndigo}`} />
 
-            {/* =============== PROMO BAR =============== */}
             <div className={styles.promoBar}>
-                <span>LIVRAISON OFFERTE DÈS 25€ DE LIVRES D'OCCASION —— <strong>TROUVEZ VOTRE MANUEL EN 2 MIN</strong></span>
+                <span>Échangez vos manuels entre étudiants • Rejoignez la communauté solidaire du <span style={{ color: '#EA580C', fontWeight: 800 }}>Maroc</span></span>
             </div>
+
 
             {/* =============== NAVBAR =============== */}
             <nav className={styles.navbar}>
@@ -316,18 +328,13 @@ export default function LandingPage() {
                         <YTeraLogo size={18} />
                     </div>
                     <div className={styles.navLinks}>
-                        <button onClick={() => scrollTo('process')}>Comment ça marche</button>
                         <button onClick={() => scrollTo('books')}>Catalogue</button>
-                        <button onClick={() => scrollTo('proof')}>Témoignages</button>
-                    </div>
-                    <div className={styles.navSearch}>
-                        <Search size={16} className={styles.navSearchIcon} />
-                        <input type="text" placeholder="Rechercher par titre, auteur ou ISBN..." className={styles.navSearchInput} />
+                        <button onClick={() => scrollTo('process')}>Comment ça marche</button>
+                        <button onClick={() => scrollTo('map')}>Campus</button>
+                        <button onClick={() => scrollTo('impact')}>Notre Impact</button>
+                        <button onClick={() => navigate('/register')}>Déposer</button>
                     </div>
                     <div className={styles.navActions}>
-                        <button id="theme-toggle" className={styles.themeToggle} onClick={toggleTheme} aria-label="Toggle theme">
-                            {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                        </button>
                         <button id="nav-login" className={styles.navLogin} onClick={() => navigate('/login')}>Connexion</button>
                         <button id="nav-signup" className={styles.navSignup} onClick={() => navigate('/register')}>CRÉER UN COMPTE</button>
                     </div>
@@ -476,7 +483,7 @@ export default function LandingPage() {
                                                         </svg>
                                                     </div>
 
-                                                    <div className={styles.floatingIconPen}>🖋️</div>
+                                                    <div className={styles.floatingIconPen}></div>
                                                     <img
                                                         src={livresIllustration}
                                                         alt="Main tenant une pile de manuels scolaires français d'occasion"
@@ -544,13 +551,15 @@ export default function LandingPage() {
                 </div>
             </section>
 
+
+
             {/* =============== SECTION: SUGGESTIONS POUR VOUS =============== */}
-            <section className={styles.bestSellers}>
+            <section id="books" className={styles.bestSellers}>
                 <Reveal>
                     <div className={styles.bestSellersHeader}>
                         <h2 className={styles.sectionTitleLeft}>Suggestions pour vous</h2>
                         <div className={styles.headerNavGroup}>
-                            <button className={styles.viewAllButton}>
+                            <button className={styles.viewAllButton} onClick={() => setShowModal(true)}>
                                 Voir tout <ChevronRight size={18} />
                             </button>
                             <div className={styles.sliderNavButtons}>
@@ -604,151 +613,71 @@ export default function LandingPage() {
 
 
             {/* =============== COMMENT ÇA MARCHE ? (PREMIUM STEPPER) =============== */}
-            <HowItWorksStepper />
+            <HowItWorksStepper id="process" />
 
-            {/* =============== SOCIAL PROOF (ORANGE REFINEMENT) =============== */}
-            <section id="proof" className={styles.proofSection}>
-                <div className={styles.statsBar}>
-                    {[
-                        { value: '450', suffix: '+', label: 'Manuels dispo', icon: BookMarked },
-                        { value: '120', suffix: '+', label: 'Échanges réussis', icon: TrendingUp },
-                        { value: '35000', suffix: ' DH', label: 'Économisés', icon: DollarSign },
-                        { value: '300', suffix: '+', label: 'Étudiants', icon: Users },
-                    ].map((s, i) => {
-                        const Icon = s.icon;
-                        return (
-                            <Reveal key={i} delay={i * 0.1}>
-                                <div className={styles.statItem}>
-                                    <Icon size={22} className={styles.statIcon} />
-                                    <span className={styles.statValue} style={{ color: '#FF5722' }}>
-                                        <AnimatedCounter target={s.value} suffix={s.suffix} />
-                                    </span>
-                                    <span className={styles.statLabel}>{s.label}</span>
-                                </div>
-                            </Reveal>
-                        );
-                    })}
-                </div>
+            {/* =============== PROXIMITY MAP (TRUST CLOSER) =============== */}
+            <ProximityMap id="map" />
 
-                <Reveal>
-                    <div className={styles.sectionHeaderCentered} style={{ marginTop: '3.5rem' }}>
-                        <h2 className={styles.sectionTitle}>La parole aux étudiants 💬</h2>
-                        <div className={styles.titleUnderline}></div>
-                    </div>
-                </Reveal>
-                <div className={styles.testimonials}>
-                    {TESTIMONIALS.map((t, i) => (
-                        <Reveal key={i} delay={0.1 + i * 0.12}>
-                            <motion.div 
-                                className={styles.testimonialCard}
-                                whileHover={{ 
-                                    y: -8,
-                                    scale: 1.02,
-                                    transition: { duration: 0.3 }
-                                }}
-                            >
-                                <div className={styles.testimonialHeader}>
-                                    <div className={styles.quoteCircle}>
-                                        <Quote size={20} className={styles.quoteIcon} />
-                                    </div>
-                                    <div className={styles.ratingStars}>
-                                        {[...Array(5)].map((_, idx) => (
-                                            <Star key={idx} size={14} fill="#FFB800" stroke="#FFB800" />
-                                        ))}
-                                    </div>
-                                </div>
-                                
-                                <p className={styles.testimonialText}>"{t.text}"</p>
-                                
-                                <div className={styles.testimonialAuthor}>
-                                    <div className={styles.testimonialAvatar} style={{ 
-                                        background: `linear-gradient(135deg, ${t.color}, #EA580C)` 
-                                    }}>
-                                        {t.avatar}
-                                    </div>
-                                    <div className={styles.authorMeta}>
-                                        <div className={styles.authorNameRow}>
-                                            <strong>{t.name}</strong>
-                                            {t.verified && (
-                                                <div className={styles.verifiedBadge} title="Étudiant vérifié">
-                                                    <ShieldCheck size={14} />
-                                                </div>
-                                            )}
-                                        </div>
-                                        <span>{t.filiere}</span>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </Reveal>
-                    ))}
-                </div>
-            </section>
+            {/* =============== L'IMPACT ÉTUDIANT (MINIMALIST REDESIGN) =============== */}
+            <ImpactSection id="impact" />
 
-            {/* =============== L'IMPACT ÉTUDIANT (PREMIUM ORANGE) =============== */}
-            <section className={styles.impactSection}>
-                <Reveal>
-                    <div className={styles.sectionHeaderCentered}>
-                        <h2 className={styles.sectionTitle}>L'impact Book-In 🌍</h2>
-                        <p className={styles.sectionSubtitle}>Plus qu'une plateforme, un mouvement étudiant.</p>
-                        <div className={styles.titleUnderline}></div>
-                    </div>
-                </Reveal>
-                <div className={styles.impactGrid}>
-                    <Reveal delay={0.1} direction="left">
-                        <div className={styles.impactCard}>
-                            <div className={styles.impactIcon} style={{ color: '#FF5722' }}><DollarSign size={36} /></div>
-                            <h3>Argent économisé</h3>
-                            <p>Les étudiants économisent en moyenne <strong>450 DH par semestre</strong> en privilégiant l'occasion et le prêt.</p>
-                            <div className={styles.impactStats} style={{ opacity: 0.1, color: '#FF5722' }}>450 DH</div>
-                        </div>
-                    </Reveal>
-                    <Reveal delay={0.2} direction="right">
-                        <div className={styles.impactCard}>
-                            <div className={styles.impactIcon} style={{ color: '#FF8A65' }}><Leaf size={36} /></div>
-                            <h3>Impact écologique</h3>
-                            <p>Chaque livre échangé évite la production d'un nouveau manuel. Donnez une <strong>seconde vie au papier</strong>.</p>
-                            <div className={styles.impactStats} style={{ opacity: 0.1, color: '#FF8A65' }}>-1.2kg CO2</div>
-                        </div>
-                    </Reveal>
-                </div>
-            </section>
-
-            {/* =============== LA GARANTIE ÉTUDIANTE =============== */}
-            <section className={styles.guaranteeSection}>
-                <Reveal>
-                    <div className={styles.guaranteeBox}>
-                        <div className={styles.guaranteeContent}>
-                            <div className={styles.guaranteeBadge}><ShieldCheck size={24} /> La Garantie Étudiante</div>
-                            <h2>Une plateforme faite par vous, pour vous.</h2>
-                            <p>Parce qu'on connaît la réalité du terrain, notre plateforme est conçue pour simplifier la vie des étudiants marocains :</p>
-                            <ul>
-                                <li><Star size={18} /> Profils étudiants vérifiés</li>
-                                <li><Star size={18} /> Communauté d'entraide active</li>
-                                <li><Star size={18} /> Aucun frais de mise en relation</li>
-                            </ul>
-                        </div>
-                        <div className={styles.guaranteeMascot}>
-                            <img src={thoughtBubble} alt="Garantie Book-In" />
-                        </div>
-                    </div>
-                </Reveal>
-            </section>
 
             {/* =============== CTA FINAL =============== */}
             <section className={styles.ctaFinal}>
-                <Reveal>
-                    <div className={styles.ctaFinalCard}>
-                        <div className={styles.ctaFinalContent}>
-                            <h2>Des manuels dorment sur tes étagères ?</h2>
-                            <p>Fais de la place et aide un autre étudiant en publiant tes livres en quelques clics.</p>
-                            <div className={styles.ctaButtons}>
-                                <button className={styles.ctaPrimary} onClick={() => navigate('/register')}>
-                                    Mettre en ligne un livre <ArrowRight size={18} />
-                                </button>
-                            </div>
+                <div className={styles.ctaCardsRow}>
+                    <Reveal delay={0.1}>
+                        <div className={styles.benefitCard}>
+                            <div className={styles.cardIcon}><DollarSign size={24} /></div>
+                            <h3>Vends tes livres</h3>
+                            <p>Gagne de l'argent et libère de l'espace sur tes étagères facilement.</p>
                         </div>
-                        <div className={styles.ctaFinalGraphic}>
-                            <BookOpen size={180} className={styles.ctaFinalIcon} />
+                    </Reveal>
+                    <Reveal delay={0.2}>
+                        <div className={styles.benefitCard}>
+                            <div className={styles.cardIcon}><Users size={24} /></div>
+                            <h3>Échange solidaire</h3>
+                            <p>Troc tes anciens manuels contre ceux dont tu as besoin, 100% gratuit.</p>
+                        </div>
+                    </Reveal>
+                    <Reveal delay={0.3}>
+                        <div className={styles.benefitCard}>
+                            <div className={styles.cardIcon}><TrendingUp size={24} /></div>
+                            <h3>Achete à prix mini</h3>
+                            <p>Accède aux meilleurs manuels d'occasion jusqu'à -70% du prix neuf.</p>
+                        </div>
+                    </Reveal>
+                </div>
+
+                <Reveal delay={0.5}>
+                    <div className={styles.finalCtaWrapper}>
+                        <button className={styles.ctaPrimary} onClick={() => navigate('/register')}>
+                            Rejoindre la communauté <ArrowRight size={20} />
+                        </button>
+                    </div>
+                </Reveal>
+            </section>
+
+            {/* =============== LA GARANTIE ÉTUDIANTE (MINIMALIST) =============== */}
+            <section className={styles.guaranteeSection}>
+                <Reveal>
+                    <div className={styles.guaranteeMinimal}>
+                        <div className={styles.guaranteeHeaderCompact}>
+                            <ShieldCheck size={20} className={styles.guaranteeIconMain} />
+                            <h3>La Garantie <span style={{ color: '#FF5722' }}>y</span>Tera</h3>
+                        </div>
+                        <div className={styles.guaranteeGrid}>
+                            <div className={styles.guaranteeItem}>
+                                <Star size={18} />
+                                <span>Profils étudiants vérifiés</span>
+                            </div>
+                            <div className={styles.guaranteeItem}>
+                                <Users size={18} />
+                                <span>Communauté d'entraide active</span>
+                            </div>
+                            <div className={`${styles.guaranteeItem} ${styles.textSuccess}`}>
+                                <ShieldCheck size={18} />
+                                <span>Zéro frais de commission</span>
+                            </div>
                         </div>
                     </div>
                 </Reveal>
@@ -761,7 +690,7 @@ export default function LandingPage() {
                         {/* Column 1: Brand */}
                         <div className={styles.footerColumn}>
                             <YTeraLogo size={22} />
-                            <p>La première plateforme solidaire d'échange de manuels scolaires au Maroc. Fait par des étudiants, pour des étudiants.</p>
+                            <p>La première plateforme solidaire d'échange de manuels scolaires au Maroc. <strong>Fait par des étudiants, pour des étudiants.</strong></p>
                         </div>
 
                         {/* Column 2: Catalogue */}
@@ -781,7 +710,6 @@ export default function LandingPage() {
                             <ul className={styles.footerList}>
                                 <li><a href="#process">Comment ça marche</a></li>
                                 <li><a href="#impact">Notre Impact</a></li>
-                                <li><a href="#proof">Témoignages</a></li>
                                 <li><a href="#hero">Vendre un livre</a></li>
                             </ul>
                         </div>
@@ -817,7 +745,7 @@ export default function LandingPage() {
                         transition={{ duration: 0.25 }}
                     >
                         <div className={styles.modalIcon}><Heart size={32} /></div>
-                        <h3>Hey, crée-toi un compte d'abord 😉</h3>
+                        <h3>Hey, crée-toi un compte d'abord</h3>
                         <p>C'est gratuit, ça prend 30 secondes, et tu pourras chercher, contacter et publier librement.</p>
                         <div className={styles.modalActions}>
                             <button className={styles.modalPrimary} onClick={() => navigate('/register')}>

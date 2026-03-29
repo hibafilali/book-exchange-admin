@@ -6,14 +6,8 @@
 /* ====== MESH GRADIENT BG ====== */
 .meshBg {
     position: fixed; inset: 0; z-index: -1; opacity: 0.4;
-    background: radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.2), transparent 50%);
     filter: blur(40px); pointer-events: none;
-}
-[data-theme='dark'] .meshBg {
-    opacity: 0.8;
-    background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15), transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(249, 115, 22, 0.1), transparent 30%);
 }
 
 .container { width: 100%; max-width: 1200px; margin: 0 auto; }
@@ -30,12 +24,7 @@
     display: flex; flex-direction: column; position: relative;
     transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
-[data-theme='dark'] .bentoCard {
-    background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(20px);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.05);
-}
 .bentoCard:hover { border-color: rgba(59, 130, 246, 0.3); box-shadow: var(--shadow-lg); }
-[data-theme='dark'] .bentoCard:hover { border-color: rgba(59, 130, 246, 0.4); box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1); }
 
 /* Spanning */
 .span2 { grid-column: span 2; }
@@ -46,9 +35,6 @@
     background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(16,185,129,0.05) 100%);
     border-color: rgba(59, 130, 246, 0.2);
 }
-[data-theme='dark'] .welcomeCard {
-    background: linear-gradient(135deg, rgba(59,130,246,0.15) 0%, rgba(2,6,23,0) 100%);
-}
 .welcomeText h1 { font-size: 1.75rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.25rem; }
 .welcomeText p { font-size: 1rem; color: var(--text-secondary); }
 
@@ -58,7 +44,6 @@
     border-radius: 28px; padding: 1.5rem; display: flex; align-items: center; gap: 1.25rem;
     box-shadow: var(--shadow-md); transition: transform 0.2s ease;
 }
-[data-theme='dark'] .statCard { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(12px); border-color: rgba(255,255,255,0.05); }
 .statCard:hover { transform: translateY(-3px); }
 .statIcon {
     width: 56px; height: 56px; border-radius: 20px;
@@ -93,7 +78,6 @@
     padding: 1rem; border-radius: 16px; background: var(--bg-primary);
     border: 1px solid var(--border-color); transition: border-color 0.2s ease;
 }
-[data-theme='dark'] .listingRow { background: rgba(15,23,42,0.4); }
 .listingRow:hover { border-color: var(--accent-color); }
 .listLeft { display: flex; flex-direction: column; gap: 0.2rem; }
 .listLeft strong { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); }
@@ -109,7 +93,6 @@
     color: var(--text-secondary); background: var(--bg-secondary); border: 1px solid var(--border-color);
     transition: all 0.2s ease;
 }
-[data-theme='dark'] .listActions button { background: rgba(30,41,59,0.6); }
 .listActions button:hover { background: var(--bg-primary); color: var(--text-primary); border-color: var(--text-primary); }
 .listActions .deleteBtn:hover { color: #ef4444; border-color: #ef4444; background: rgba(239,68,68,0.1); }
 
@@ -123,7 +106,6 @@
     display: flex; gap: 0.85rem; padding: 0.85rem; border-radius: 16px;
     background: var(--bg-primary); border: 1px solid var(--border-color);
 }
-[data-theme='dark'] .msgRow { background: rgba(15,23,42,0.4); }
 .msgNew { border-left: 3px solid var(--accent-color); background: rgba(59,130,246,0.05); }
 .msgAvatar {
     width: 40px; height: 40px; border-radius: 12px; background: var(--accent-glow);
@@ -171,7 +153,6 @@
     display: flex; justify-content: space-between; align-items: center;
     padding: 0.75rem; border-radius: 12px; background: var(--bg-primary); border: 1px solid var(--border-color);
 }
-[data-theme='dark'] .favRow { background: rgba(15,23,42,0.4); }
 .favInfo { display: flex; flex-direction: column; }
 .favInfo strong { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
 .favInfo span { font-size: 0.75rem; color: var(--text-secondary); }

@@ -23,14 +23,6 @@
 .heroTitle {
     font-size: 3.2rem; font-weight: 800; line-height: 1.15;
     letter-spacing: -0.04em; margin-bottom: 1.25rem;
-}
-
-[data-theme='dark'] .heroTitle {
-    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-[data-theme='light'] .heroTitle {
     background: linear-gradient(180deg, #0f172a 0%, #475569 100%);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -57,11 +49,6 @@
     box-shadow: 0 8px 32px rgba(0,0,0,0.05);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-}
-[data-theme='dark'] .heroSearch {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .heroSearch:focus-within { 
@@ -94,10 +81,6 @@
     border: 1px solid var(--border-color);
     backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
 }
-[data-theme='dark'] .statCard {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
 
 .statIconWrap {
     width: 60px; height: 60px; border-radius: 16px; display: flex; 
@@ -124,7 +107,6 @@
 
 /* Filters */
 .filters { display: flex; gap: 0.35rem; background: var(--bg-secondary); border-radius: 14px; padding: 0.3rem; border: 1px solid var(--border-color); }
-[data-theme='dark'] .filters { background: rgba(30, 41, 59, 0.5); }
 
 .filterTab {
     padding: 0.5rem 1.1rem; border-radius: 10px; font-weight: 700;
@@ -161,7 +143,6 @@
     display: flex; align-items: center; justify-content: center;
     transition: all 0.2s ease;
 }
-[data-theme='dark'] .sliderBtn { background: rgba(30, 41, 59, 0.5); }
 .sliderBtn:hover { color: var(--accent-color); border-color: var(--accent-color); }
 
 .slider {

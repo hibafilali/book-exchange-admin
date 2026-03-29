@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Bell, Plus, User, BookOpen, Sun, Moon, LogOut } from 'lucide-react';
+import { Bell, Plus, User, BookOpen, LogOut } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
-import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentHeader.module.css';
 
 export default function StudentHeader() {
     const { user, logout } = useAuth();
-    const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [unreadCount, setUnreadCount] = useState(3);
@@ -40,10 +38,6 @@ export default function StudentHeader() {
                     <button className={styles.publishBtn} onClick={() => {}}>
                         <Plus size={18} />
                         <span>Publier une annonce</span>
-                    </button>
-
-                    <button className={styles.themeToggle} onClick={toggleTheme} title={isDarkMode ? 'Mode clair' : 'Mode sombre'}>
-                        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
                     </button>
 
                     <button className={styles.notifBtn} onClick={() => setUnreadCount(0)}>

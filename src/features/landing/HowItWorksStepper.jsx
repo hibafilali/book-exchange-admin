@@ -24,45 +24,45 @@ const STEPS = [
     }
 ];
 
-export default function HowItWorksStepper() {
+export default function HowItWorksStepper({ id }) {
     // Animation Variants
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 1.2, /* More time for each step to be appreciated */
-                delayChildren: 0.2
+                delayChildren: 0.1
             }
         }
     };
 
     const stepVariants = {
-        hidden: { 
-            opacity: 0, 
+        hidden: {
+            opacity: 0,
             y: 40,
             scale: 0.9
         },
-        visible: { 
-            opacity: 1, 
-            y: 0, 
+        visible: (index) => ({
+            opacity: 1,
+            y: 0,
             scale: 1,
             transition: {
+                delay: index * 0.4 + 0.2, // Stagger effect: 0.2s, 0.6s, 1.0s
                 type: 'spring',
                 stiffness: 100,
                 damping: 20
             }
-        }
+        })
     };
 
     const lineVariants = {
         hidden: { scaleX: 0, scaleY: 0 },
-        visible: { 
-            scaleX: [0, 0.5, 0.5, 1, 1], /* Stops at mid-point then completes */
-            scaleY: [0, 0.5, 0.5, 1, 1],
+        visible: {
+            scaleX: [0, 0, 0.5, 0.5, 1, 1],
+            scaleY: [0, 0, 0.5, 0.5, 1, 1],
             transition: {
-                duration: 3,
-                times: [0, 0.3, 0.5, 0.8, 1], /* Precise timing for pauses */
+                duration: 4, /* Increased duration for precise coordination */
+                times: [0, 0.1, 0.35, 0.45, 0.75, 1],
                 ease: "easeInOut",
                 delay: 0.2
             }
@@ -70,8 +70,8 @@ export default function HowItWorksStepper() {
     };
 
     return (
-        <section id="process" className={styles.stepperSection}>
-            <motion.div 
+        <section id={id} className={styles.stepperSection}>
+            <motion.div
                 className={styles.sectionHeader}
                 initial={{ opacity: 0, y: -20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -82,7 +82,7 @@ export default function HowItWorksStepper() {
                 <div className={styles.titleUnderline} />
             </motion.div>
 
-            <motion.div 
+            <motion.div
                 className={styles.stepperContainer}
                 variants={containerVariants}
                 initial="hidden"
@@ -91,7 +91,7 @@ export default function HowItWorksStepper() {
             >
                 {/* Progress Line */}
                 <div className={styles.progressLineWrapper}>
-                    <motion.div 
+                    <motion.div
                         className={styles.progressLineActive}
                         variants={lineVariants}
                     />
@@ -100,16 +100,17 @@ export default function HowItWorksStepper() {
                 {STEPS.map((step, index) => {
                     const Icon = step.icon;
                     return (
-                        <motion.div 
-                            key={step.id} 
+                        <motion.div
+                            key={step.id}
                             className={styles.stepItem}
                             variants={stepVariants}
+                            custom={index}
                         >
                             <div className={styles.stepNumber}>0{index + 1}</div>
-                            
-                            <motion.div 
+
+                            <motion.div
                                 className={styles.iconCircle}
-                                whileHover={{ 
+                                whileHover={{
                                     scale: 1.15,
                                     rotate: [0, -10, 10, 0],
                                     transition: { duration: 0.4 }
@@ -117,7 +118,7 @@ export default function HowItWorksStepper() {
                             >
                                 <Icon size={24} strokeWidth={2.5} />
                             </motion.div>
-                            
+
                             <div className={styles.stepContent}>
                                 <h3>{step.title}</h3>
                                 <p>{step.desc}</p>

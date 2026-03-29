@@ -1,12 +1,9 @@
-import { useTheme } from '../../context/ThemeContext';
-
 /**
- * yTera Brand Logo — Pure SVG Component (Theme Aware)
+ * yTera Brand Logo — Pure SVG Component
  * Usage: <YTeraLogo size={28} showSlogan={true} />
  */
 export default function YTeraLogo({ size = 24, className = '', showSlogan = false }) {
     const scale = size / 24;
-    const { isDarkMode } = useTheme();
 
     return (
         <span className={className} style={{ 
@@ -33,7 +30,7 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                     </defs>
 
                     {/* Background glow or subtle shape */}
-                    <circle cx="20" cy="20" r="18" fill={isDarkMode ? 'rgba(255,167,38,0.05)' : 'rgba(255,87,34,0.03)'} />
+                    <circle cx="20" cy="20" r="18" fill='rgba(255,87,34,0.03)' />
                     
                     {/* Infinity / Book Loop */}
                     <path 
@@ -48,7 +45,7 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                         stroke="url(#logoGradient)" 
                         strokeWidth="3.5" 
                         strokeLinecap="round" 
-                        opacity={isDarkMode ? 1 : 0.9}
+                        opacity={0.9}
                     />
                     
                     {/* The "y" tail detail - Orange for Brand y */}
@@ -57,6 +54,14 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                         stroke="url(#logoGradient)" 
                         strokeWidth="3.5" 
                         strokeLinecap="round" 
+                        />
+
+                    {/* Tiny Green Flourish (Eco-Touch) */}
+                    <circle 
+                        cx="34" 
+                        cy="10" 
+                        r="3" 
+                        fill="#10B981" 
                     />
                 </svg>
 

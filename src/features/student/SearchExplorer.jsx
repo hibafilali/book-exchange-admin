@@ -121,10 +121,10 @@ function MapView({ results }) {
     };
 
     return (
-        <motion.div 
+        <motion.div
             className={styles.mapContainerWrapper}
-            initial={{ opacity: 0, scale: 0.98 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
         >
             <MapContainer center={[33.8, -6.5]} zoom={6} scrollWheelZoom={true} className={styles.leafletMap}>
@@ -138,7 +138,7 @@ function MapView({ results }) {
                     // Petits décalages pour éviter que les livres d'une même ville soient superposés précisément
                     const lat = basePoint[0] + (Math.random() * 0.04 - 0.02);
                     const lng = basePoint[1] + (Math.random() * 0.04 - 0.02);
-                    
+
                     return (
                         <Marker key={b.id} position={[lat, lng]}>
                             <Popup className={styles.customPopup}>

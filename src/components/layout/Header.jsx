@@ -1,13 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/useAuth';
-import { useTheme } from '../../context/ThemeContext';
-import { Bell, Search, User, Sun, Moon, LogOut, Settings, MessageSquare, BookOpen } from 'lucide-react';
+import { Bell, Search, User, LogOut, Settings, MessageSquare, BookOpen } from 'lucide-react';
 import styles from './Header.module.css';
 
 export default function Header() {
     const { user, logout } = useAuth();
-    const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
     const [showNotifs, setShowNotifs] = useState(false);
@@ -42,14 +40,6 @@ export default function Header() {
             </div>
 
             <div className={styles.rightSection}>
-                <button
-                    className={styles.iconBtn}
-                    onClick={toggleTheme}
-                    title={isDarkMode ? 'Passer au mode clair' : 'Passer au mode sombre'}
-                >
-                    {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-                </button>
-
                 <div className={styles.dropdownContainer} ref={notifRef}>
                     <button
                         className={styles.iconBtn}

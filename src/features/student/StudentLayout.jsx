@@ -1,16 +1,14 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Sun, Moon, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
+import { Search, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
-import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentLayout.module.css';
 
 export default function StudentLayout() {
     const { user, logout } = useAuth();
-    const { isDarkMode, toggleTheme } = useTheme();
     const navigate = useNavigate();
     const [showProfile, setShowProfile] = useState(false);
     const [unreadCount, setUnreadCount] = useState(3);
@@ -63,10 +61,6 @@ export default function StudentLayout() {
 
                         <button className={styles.publishBtn} onClick={() => navigate('/student-dashboard/publish')}>
                             <Plus size={16} /> <span className={styles.hideOnMobile}>Publier</span>
-                        </button>
-
-                        <button className={styles.iconBtn} onClick={toggleTheme} title={isDarkMode ? 'Mode clair' : 'Mode sombre'}>
-                            {isDarkMode ? <Sun size={19} /> : <Moon size={19} />}
                         </button>
 
                         <button className={styles.iconBtn} onClick={() => setUnreadCount(0)}>

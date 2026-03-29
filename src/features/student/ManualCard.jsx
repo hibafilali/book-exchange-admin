@@ -6,15 +6,15 @@ import styles from './ManualCard.module.css';
 
 const TYPE_CONFIG = {
     VENTE: { label: 'Vente', gradient: 'var(--gradient-vente)', shadow: 'var(--shadow-vente)', color: '#F97316' },
-    PRET:  { label: 'Prêt',  gradient: 'var(--gradient-pret)',  shadow: 'var(--shadow-pret)',  color: '#06B6D4' },
-    DON:   { label: 'Don',   gradient: 'var(--gradient-don)',   shadow: 'var(--shadow-don)',   color: '#10B981' },
+    PRET: { label: 'Prêt', gradient: 'var(--gradient-pret)', shadow: 'var(--shadow-pret)', color: '#06B6D4' },
+    DON: { label: 'Don', gradient: 'var(--gradient-don)', shadow: 'var(--shadow-don)', color: '#10B981' },
 };
 
 const ETAT_CONFIG = {
     NEUF: { label: 'Neuf', bg: '#10b981' },
-    BON:  { label: 'Bon', bg: '#3b82f6' },
+    BON: { label: 'Bon', bg: '#3b82f6' },
     ACCEPTABLE: { label: 'Acceptable', bg: '#f59e0b' },
-    USE:  { label: 'Usé', bg: '#64748b' },
+    USE: { label: 'Usé', bg: '#64748b' },
 };
 
 export default function ManualCard({ annonce, onCardClick, index = 0 }) {
@@ -63,11 +63,11 @@ export default function ManualCard({ annonce, onCardClick, index = 0 }) {
                 {/* Favori */}
                 <motion.button
                     className={`${styles.favBtn} ${isFav ? styles.favActive : ''}`}
-                    onClick={(e) => { 
-                        e.stopPropagation(); 
+                    onClick={(e) => {
+                        e.stopPropagation();
                         const newFav = !isFav;
-                        setIsFav(newFav); 
-                        if (newFav) toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white'} });
+                        setIsFav(newFav);
+                        if (newFav) toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white' } });
                         else toast.success("Retiré des favoris.");
                     }}
                     whileTap={{ scale: 0.8 }}

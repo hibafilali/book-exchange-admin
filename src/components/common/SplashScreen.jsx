@@ -30,7 +30,7 @@ export default function SplashScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
             >
-                yTera
+                <span style={{ color: '#FF5722' }}>y</span>Tera
             </motion.h2>
         </div>
     );
