@@ -5,7 +5,8 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    padding: 50px; /* High-end whitespace frame */
+    padding: 50px;
+    /* High-end whitespace frame */
     background: #F8FAFC;
     position: relative;
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -19,31 +20,49 @@
     justify-content: center;
     position: relative;
     height: 100%;
-    max-width: 600px;
+    max-width: 700px;
 }
 
 @media (max-width: 1024px) {
-    .visualSide { display: none; }
+    .visualSide {
+        display: none;
+    }
 }
 
 .visualContent {
-    max-width: 500px;
+    max-width: 600px;
+    width: 100%;
     text-align: center;
     position: relative;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.illustrationWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .illustration {
     width: 110%;
-    max-width: 550px;
-    max-height: 55vh;
+    max-width: 650px;
+    max-height: 60vh;
     height: auto;
-    margin-bottom: 2rem;
-    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.1));
+    margin-bottom: 1.5rem;
+}
+
+.visualText {
+    padding: 0 1rem;
 }
 
 .visualText h1 {
-    font-size: 1.75rem; /* Reduced 20% */
+    font-size: 1.75rem;
     font-weight: 900;
     color: #0F172A;
     line-height: 1.2;
@@ -52,7 +71,7 @@
 }
 
 .visualText p {
-    font-size: 0.85rem; /* Reduced 20% */
+    font-size: 0.85rem;
     color: #64748B;
     line-height: 1.6;
 }
@@ -103,8 +122,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    box-shadow: 
-        0 4px 6px -1px rgba(0, 0, 0, 0.03), 
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.03),
         0 15px 30px -15px rgba(0, 0, 0, 0.08);
     transform: scale(0.95);
     transform-origin: center;
@@ -242,8 +261,13 @@
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .cardFooter {
@@ -276,6 +300,16 @@
 }
 
 @media (max-width: 640px) {
-    .containerSide { padding: 1rem; }
-    .loginCard { padding: 24px; max-width: 90%; height: auto; max-height: 90vh; overflow-y: auto; justify-content: center; }
+    .containerSide {
+        padding: 1rem;
+    }
+
+    .loginCard {
+        padding: 24px;
+        max-width: 90%;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        justify-content: center;
+    }
 }
