@@ -215,6 +215,12 @@ export default function Login() {
                             </div>
                         </div>
 
+                        <div className={styles.forgotPassword}>
+                            <button type="button" onClick={() => navigate('/forgot-password')}>
+                                Mot de passe oublié ?
+                            </button>
+                        </div>
+
                         <button
                             type="submit"
                             className={styles.submitBtn}
@@ -227,10 +233,11 @@ export default function Login() {
                     </form>
 
                     <div className={styles.cardFooter}>
-                        {isStudent && (
+                        {isStudent ? (
                             <p>Pas encore de compte ? <button onClick={() => navigate('/register')}>S'inscrire gratuitement</button></p>
+                        ) : (
+                            <p>Réservé aux collaborateurs <span style={{ color: '#FF5722' }}>y</span>Tera.</p>
                         )}
-                        <p>Réservé aux collaborateurs <span style={{ color: '#FF5722' }}>y</span>Tera.</p>
                     </div>
                 </motion.div>
             </div>

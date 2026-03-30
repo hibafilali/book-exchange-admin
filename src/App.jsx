@@ -6,6 +6,7 @@ import Layout from './components/layout/Layout';
 import Dashboard from './features/dashboard/Dashboard';
 import Login from './features/auth/Login';
 import Register from './features/auth/Register';
+import ForgotPassword from './features/auth/ForgotPassword';
 import UsersList from './features/users/UsersList';
 import AnnoncesList from './features/annonces/AnnoncesList';
 import Moderation from './features/moderation/Moderation';
@@ -98,6 +99,7 @@ function App() {
       <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
       <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+      <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
 
       {/* Protected Student Routes */}
       <Route path="/student-dashboard" element={<PrivateRoute allowedRoles={['STUDENT']}><StudentLayout /></PrivateRoute>}>
