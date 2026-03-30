@@ -1,23 +1,41 @@
-import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
-import { useNavigate } from 'react-router-dom';
 import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentLayout.module.css';
 
 export default function StudentLayout() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
     const [showProfile, setShowProfile] = useState(false);
     const [unreadCount, setUnreadCount] = useState(3);
     const [navSearch, setNavSearch] = useState('');
+    const [searchFilter, setSearchFilter] = useState('all');
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const searchInputRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const handleKeyDown = (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInputRef.current?.focus();
+            }
+            if (e.key === 'Escape') {
+                searchInputRef.current?.blur();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
 
     const handleNavSearch = (e) => {
         if (e.key === 'Enter' && navSearch.trim()) {
-            navigate(`/student-dashboard/search?q=${encodeURIComponent(navSearch.trim())}`);
+            navigate(`/student-dashboard/search?q=${encodeURIComponent(navSearch.trim())}&filter=${searchFilter}`);
             setNavSearch('');
+            searchInputRef.current?.blur();
         }
     };
 
@@ -36,18 +54,38 @@ export default function StudentLayout() {
                         <YTeraLogo size={20} />
                     </div>
 
-                    {/* Global Search */}
-                    <div className={styles.searchBar}>
+                    {/* Global Search (Always Visible, with Focus Overlay & Filters) */}
+                    <div className={`${styles.searchBar} ${isSearchFocused ? styles.searchBarFocused : ''}`}>
+                        <select 
+                            className={styles.searchSelect} 
+                            value={searchFilter}
+                            onChange={(e) => setSearchFilter(e.target.value)}
+                        >
+                            <option value="all">Toute la plateforme</option>
+                            <option value="title">Titre</option>
+                            <option value="isbn">ISBN</option>
+                            <option value="filiere">Filière</option>
+                        </select>
+                        <div className={styles.searchDivider}></div>
                         <Search size={18} className={styles.searchIcon} />
                         <input 
+                            ref={searchInputRef}
                             className={styles.searchInput}
                             type="text" 
-                            placeholder="Rechercher (Titre, Auteur, ISBN...)" 
+                            placeholder="Rechercher des manuels..." 
                             value={navSearch} 
                             onChange={e => setNavSearch(e.target.value)} 
                             onKeyDown={handleNavSearch} 
+                            onFocus={() => setIsSearchFocused(true)}
+                            onBlur={() => setIsSearchFocused(false)}
                         />
+                        <kbd className={styles.searchShortcut}>
+                            ⌘ K
+                        </kbd>
                     </div>
+
+                    {/* Overlay d'assombrissement (Focus Effect) */}
+                    {isSearchFocused && <div className={styles.searchOverlay} onClick={() => searchInputRef.current?.blur()}></div>}
 
                     {/* Actions */}
                     <div className={styles.actions}>

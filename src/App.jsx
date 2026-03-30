@@ -24,7 +24,7 @@ import { useAuth } from './features/auth/useAuth';
 
 function RoleRedirect({ user }) {
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     toast.error('Accès refusé. Redirection en cours...', { id: 'role-redirect' });
     if (user.role === 'ADMIN') navigate('/admin');
@@ -36,34 +36,34 @@ function RoleRedirect({ user }) {
 
 function PublicRoute({ children }) {
   const { isAuthenticated, user, loading } = useAuth();
-  
+
   if (loading) return <SplashScreen />;
-  
+
   if (isAuthenticated) {
-     if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
-     return <Navigate to="/student-dashboard" replace />;
+    if (user.role === 'ADMIN') return <Navigate to="/admin" replace />;
+    return <Navigate to="/student-dashboard" replace />;
   }
-  
+
   return children;
 }
 
 function PrivateRoute({ children, allowedRoles = [] }) {
   const { isAuthenticated, user, loading } = useAuth();
-  
+
   if (loading) return <SplashScreen />;
-  
+
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   if (allowedRoles.length > 0 && user && !allowedRoles.includes(user.role)) {
-      return <RoleRedirect user={user} />;
+    return <RoleRedirect user={user} />;
   }
-  
+
   return children;
 }
 
 function App() {
   return (
     <>
-      <Toaster 
+      <Toaster
         position="bottom-center"
         toastOptions={{
           style: {
@@ -95,34 +95,34 @@ function App() {
         }}
       />
       <Routes>
-      {/* Public Routes with Auto-Redirect */}
-      <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
-      <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
-      <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
-      <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
+        {/* Public Routes with Auto-Redirect */}
+        <Route path="/" element={<PublicRoute><LandingPage /></PublicRoute>} />
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/forgot-password" element={<PublicRoute><ForgotPassword /></PublicRoute>} />
 
-      {/* Protected Student Routes */}
-      <Route path="/student-dashboard" element={<PrivateRoute allowedRoles={['STUDENT']}><StudentLayout /></PrivateRoute>}>
-        <Route index element={<StudentHome />} />
-        <Route path="book/:id" element={<BookDetails />} />
-        <Route path="search" element={<SearchExplorer />} />
-        <Route path="publish" element={<PublishAd />} />
-        <Route path="dashboard" element={<StudentDashboard />} />
-        <Route path="messages" element={<ChatWindow />} />
-        <Route path="user/:id" element={<SellerProfile />} />
-      </Route>
+        {/* Protected Student Routes */}
+        <Route path="/student-dashboard" element={<PrivateRoute allowedRoles={['STUDENT']}><StudentLayout /></PrivateRoute>}>
+          <Route index element={<StudentHome />} />
+          <Route path="book/:id" element={<BookDetails />} />
+          <Route path="search" element={<SearchExplorer />} />
+          <Route path="publish" element={<PublishAd />} />
+          <Route path="dashboard" element={<StudentDashboard />} />
+          <Route path="messages" element={<ChatWindow />} />
+          <Route path="user/:id" element={<SellerProfile />} />
+        </Route>
 
-      {/* Protected Admin Routes */}
-      <Route path="/admin" element={<PrivateRoute allowedRoles={['ADMIN']}><Layout /></PrivateRoute>}>
-        <Route index element={<Dashboard />} />
-        <Route path="users" element={<UsersList />} />
-        <Route path="annonces" element={<AnnoncesList />} />
-        <Route path="moderation" element={<Moderation />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="*" element={<Navigate to="/admin" replace />} />
-      </Route>
+        {/* Protected Admin Routes */}
+        <Route path="/admin" element={<PrivateRoute allowedRoles={['ADMIN']}><Layout /></PrivateRoute>}>
+          <Route index element={<Dashboard />} />
+          <Route path="users" element={<UsersList />} />
+          <Route path="annonces" element={<AnnoncesList />} />
+          <Route path="moderation" element={<Moderation />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

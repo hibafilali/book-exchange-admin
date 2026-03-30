@@ -10,7 +10,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
-        nom: '', prenom: '', email: '', 
+        nom: '', prenom: '', email: '',
         password: '', confirmPassword: '',
         filiere: '', etablissement: '', ville: ''
     });
@@ -20,7 +20,7 @@ export default function Register() {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        
+
         // Real-time validation for password match
         if (name === 'confirmPassword' || name === 'password') {
             const pwd = name === 'password' ? value : formData.password;
@@ -65,20 +65,20 @@ export default function Register() {
                 <div className={styles.visualContent}>
                     <motion.div className={styles.blobGreen} animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 10, repeat: Infinity }} />
                     <motion.div className={styles.blobBlue} animate={{ x: [-10, 10, -10] }} transition={{ duration: 8, repeat: Infinity }} />
-                    
+
                     <svg className={styles.illustration} viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         {/* Organic Shapes Background */}
                         <circle cx="250" cy="250" r="180" fill="#FABE24" fillOpacity="0.1" />
                         <path d="M50 300 C 50 200 150 150 250 200 C 350 250 450 200 450 300" stroke="#3B82F6" strokeWidth="40" strokeOpacity="0.05" strokeLinecap="round" />
                         <circle cx="400" cy="150" r="60" fill="#FF5722" fillOpacity="0.08" />
-                        
+
                         {/* Two Students Exchanging Books */}
                         {/* Student 1 (Left - Giving) */}
                         <circle cx="150" cy="180" r="35" fill="#1E293B" />
                         <circle cx="150" cy="190" r="30" fill="#FFC9A9" />
                         <path d="M100 380 L200 380 L180 240 C 180 240 150 220 120 240 Z" fill="#3B82F6" />
                         <path d="M150 320 Q 220 320 250 280" stroke="#FFC9A9" strokeWidth="12" strokeLinecap="round" />
-                        
+
                         {/* Student 2 (Right - Receiving) */}
                         <circle cx="350" cy="180" r="35" fill="#1E293B" />
                         <circle cx="350" cy="190" r="30" fill="#FDBA74" />
@@ -88,12 +88,12 @@ export default function Register() {
                         {/* The Exchanged Book */}
                         <rect x="220" y="250" width="60" height="40" rx="4" transform="rotate(-5 220 250)" fill="#FFFFFF" stroke="#E2E8F0" strokeWidth="2" />
                         <path d="M225 270 H 275" stroke="#E2E8F0" strokeWidth="1" />
-                        
+
                         {/* Happy Faces */}
                         <circle cx="140" cy="185" r="2" fill="#1E293B" />
                         <circle cx="160" cy="185" r="2" fill="#1E293B" />
                         <path d="M142 200 Q 150 208 158 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
-                        
+
                         <circle cx="340" cy="185" r="2" fill="#1E293B" />
                         <circle cx="360" cy="185" r="2" fill="#1E293B" />
                         <path d="M342 200 Q 350 208 358 200" stroke="#1E293B" strokeWidth="2" strokeLinecap="round" />
@@ -108,7 +108,7 @@ export default function Register() {
 
             {/* RIGHT SIDE: Register Form */}
             <div className={styles.formSide}>
-                <motion.div 
+                <motion.div
                     className={styles.registerCard}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}

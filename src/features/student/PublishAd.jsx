@@ -178,7 +178,13 @@ export default function PublishAd() {
                     <p className={styles.subtitle}>Processus optimisé en 3 étapes (Manuel → Exemplaire → Offre)</p>
                 </div>
 
-                {/* ====== STEPPER ====== */}
+                {/* ====== STRUCTURE GRILLE 70/30 ====== */}
+                <div className={styles.publishGrid}>
+                    
+                    {/* -- COLONNE GAUCHE (70%) : FORMULAIRE -- */}
+                    <div className={styles.leftColumn}>
+                        
+                        {/* ====== STEPPER ====== */}
                 <div className={styles.stepperWrap}>
                     <div className={styles.stepper}>
                         {STEPS.map((s, i) => {
@@ -417,6 +423,20 @@ export default function PublishAd() {
                         )}
                     </div>
                 </div>
+            </div>
+            {/* -- FIN COLONNE GAUCHE -- */}
+
+            {/* -- COLONNE DROITE (30%) : STICKY PREVIEW -- */}
+            <aside className={styles.rightColumn}>
+                        <div className={styles.previewStickyWrapper}>
+                            <h3 className={styles.previewTitle}>Aperçu de l'Annonce</h3>
+                            <div className={styles.previewPlaceholder}>
+                                <p>La carte se construira ici en temps réel pendant que vous remplissez le formulaire.</p>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                {/* ====== FIN STRUCTURE GRILLE ====== */}
 
             </div>
         </div>

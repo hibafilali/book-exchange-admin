@@ -57,86 +57,86 @@ export default function Login() {
                         key={isStudent ? 'student' : 'admin'}
                     >
                         {isStudent ? (
-                        <svg className={styles.illustration} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
-                            {/* Warm Light Orange Background */}
-                            <circle cx="300" cy="200" r="150" fill="#FFF7ED" />
-                            <path d="M180,250 C120,150 250,100 350,120 C480,140 500,280 400,380 C300,450 150,450 180,250 Z" fill="#FFF1E8" />
-                            
-                            {/* Main Character Shapes - Navy & Slate (Stays) */}
-                            <path d="M180,250 C150,180 200,120 280,150 C320,165 300,220 280,250 Z" fill="#4F46E5" />
-                            <polygon points="120,150 160,150 140,110" fill="#FED7AA" />
-                            <g transform="translate(250, 70) rotate(45)">
-                                <rect width="40" height="40" fill="#FFEDD5" />
-                            </g>
-                            <circle cx="160" cy="190" r="15" fill="none" stroke="#FF5722" strokeWidth="3" opacity="0.3" />
-                            <polygon points="450,250 550,320 450,390" fill="none" stroke="#FB923C" strokeWidth="6" opacity="0.1" />
-                            <polygon points="455,260 540,320 455,380" fill="#FFFFFF" />
+                            <svg className={styles.illustration} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+                                {/* Warm Light Orange Background */}
+                                <circle cx="300" cy="200" r="150" fill="#FFF7ED" />
+                                <path d="M180,250 C120,150 250,100 350,120 C480,140 500,280 400,380 C300,450 150,450 180,250 Z" fill="#FFF1E8" />
 
-                            {/* Accents - yTera Orange & Warm tones */}
-                            <rect x="330" y="320" width="100" height="20" fill="#FF5722" rx="4" />
-                            <rect x="330" y="345" width="100" height="20" fill="#FFFFFF" stroke="#4F46E5" strokeWidth="1.5" rx="4" />
-                            <rect x="330" y="370" width="100" height="20" fill="#FDBA74" rx="4" />
+                                {/* Main Character Shapes - Navy & Slate (Stays) */}
+                                <path d="M180,250 C150,180 200,120 280,150 C320,165 300,220 280,250 Z" fill="#4F46E5" />
+                                <polygon points="120,150 160,150 140,110" fill="#FED7AA" />
+                                <g transform="translate(250, 70) rotate(45)">
+                                    <rect width="40" height="40" fill="#FFEDD5" />
+                                </g>
+                                <circle cx="160" cy="190" r="15" fill="none" stroke="#FF5722" strokeWidth="3" opacity="0.3" />
+                                <polygon points="450,250 550,320 450,390" fill="none" stroke="#FB923C" strokeWidth="6" opacity="0.1" />
+                                <polygon points="455,260 540,320 455,380" fill="#FFFFFF" />
 
-                            <path d="M280,300 L200,390 L230,410 L300,320 Z" fill="#FDFCFE" />
-                            <path d="M300,320 L240,410 L270,420 L330,320 Z" fill="#FFF7ED" />
-                            
-                            {/* Base elements */}
-                            <path d="M190,385 L140,370 L150,400 L210,410 Z" fill="#1E1B4B" />
-                            <path d="M230,410 L190,430 L200,440 L260,425 Z" fill="#1E1B4B" />
+                                {/* Accents - yTera Orange & Warm tones */}
+                                <rect x="330" y="320" width="100" height="20" fill="#FF5722" rx="4" />
+                                <rect x="330" y="345" width="100" height="20" fill="#FFFFFF" stroke="#4F46E5" strokeWidth="1.5" rx="4" />
+                                <rect x="330" y="370" width="100" height="20" fill="#FDBA74" rx="4" />
 
-                            {/* Head & Features */}
-                            <path d="M340,180 C360,180 390,220 380,280 C350,280 300,280 270,250 C270,200 300,180 340,180 Z" fill="#312E81" />
-                            <polygon points="250,170 290,160 300,240 260,250" fill="#FF5722" />
+                                <path d="M280,300 L200,390 L230,410 L300,320 Z" fill="#FDFCFE" />
+                                <path d="M300,320 L240,410 L270,420 L330,320 Z" fill="#FFF7ED" />
 
-                            <circle cx="340" cy="150" r="20" fill="#FFD8D8" />
-                            <path d="M320,150 C320,120 370,120 370,150 C370,160 360,170 340,160 C330,160 320,160 320,150 Z" fill="#4F46E5" />
-                        </svg>
+                                {/* Base elements */}
+                                <path d="M190,385 L140,370 L150,400 L210,410 Z" fill="#1E1B4B" />
+                                <path d="M230,410 L190,430 L200,440 L260,425 Z" fill="#1E1B4B" />
+
+                                {/* Head & Features */}
+                                <path d="M340,180 C360,180 390,220 380,280 C350,280 300,280 270,250 C270,200 300,180 340,180 Z" fill="#312E81" />
+                                <polygon points="250,170 290,160 300,240 260,250" fill="#FF5722" />
+
+                                <circle cx="340" cy="150" r="20" fill="#FFD8D8" />
+                                <path d="M320,150 C320,120 370,120 370,150 C370,160 360,170 340,160 C330,160 320,160 320,150 Z" fill="#4F46E5" />
+                            </svg>
                         ) : (
-                        <svg className={styles.illustration} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
-                             {/* Warm Light Orange Background */}
-                            <circle cx="300" cy="200" r="150" fill="#FFF7ED" />
-                            <path d="M180,250 C120,150 250,100 350,120 C480,140 500,280 400,380 C300,450 150,450 180,250 Z" fill="#FFF1E8" />
+                            <svg className={styles.illustration} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500">
+                                {/* Warm Light Orange Background */}
+                                <circle cx="300" cy="200" r="150" fill="#FFF7ED" />
+                                <path d="M180,250 C120,150 250,100 350,120 C480,140 500,280 400,380 C300,450 150,450 180,250 Z" fill="#FFF1E8" />
 
-                            <path d="M180,250 C150,180 200,120 280,150 C320,165 300,220 280,250 Z" fill="#312E81" />
-                            <polygon points="120,150 160,150 140,110" fill="#FED7AA" />
-                            <g transform="translate(250, 70) rotate(45)">
-                                <rect width="40" height="40" fill="#FFEDD5" />
-                            </g>
-                            <circle cx="160" cy="190" r="15" fill="none" stroke="#FF5722" strokeWidth="3" opacity="0.3" />
-                            <polygon points="450,250 550,320 450,390" fill="none" stroke="#FB923C" strokeWidth="6" opacity="0.2" />
-                            <polygon points="455,260 540,320 455,380" fill="#FFFFFF" />
+                                <path d="M180,250 C150,180 200,120 280,150 C320,165 300,220 280,250 Z" fill="#312E81" />
+                                <polygon points="120,150 160,150 140,110" fill="#FED7AA" />
+                                <g transform="translate(250, 70) rotate(45)">
+                                    <rect width="40" height="40" fill="#FFEDD5" />
+                                </g>
+                                <circle cx="160" cy="190" r="15" fill="none" stroke="#FF5722" strokeWidth="3" opacity="0.3" />
+                                <polygon points="450,250 550,320 450,390" fill="none" stroke="#FB923C" strokeWidth="6" opacity="0.2" />
+                                <polygon points="455,260 540,320 455,380" fill="#FFFFFF" />
 
-                            {/* Server/Database */}
-                            <path d="M330,350 L330,380 C330,388 352,395 380,395 C408,395 430,388 430,380 L430,350 Z" fill="#3730A3" />
-                            <ellipse cx="380" cy="350" rx="50" ry="15" fill="#4338CA" />
-                            <path d="M330,320 L330,350 C330,358 352,365 380,365 C408,365 430,358 430,350 L430,320 Z" fill="#4338CA" />
-                            <ellipse cx="380" cy="320" rx="50" ry="15" fill="#4F46E5" />
-                            <circle cx="350" cy="370" r="2.5" fill="#2DD4BF" />
-                            <circle cx="360" cy="370" r="2.5" fill="#2DD4BF" />
-                            <circle cx="350" cy="340" r="2.5" fill="#2DD4BF" />
-                            <circle cx="360" cy="340" r="2.5" fill="#FF5722" />
+                                {/* Server/Database */}
+                                <path d="M330,350 L330,380 C330,388 352,395 380,395 C408,395 430,388 430,380 L430,350 Z" fill="#3730A3" />
+                                <ellipse cx="380" cy="350" rx="50" ry="15" fill="#4338CA" />
+                                <path d="M330,320 L330,350 C330,358 352,365 380,365 C408,365 430,358 430,350 L430,320 Z" fill="#4338CA" />
+                                <ellipse cx="380" cy="320" rx="50" ry="15" fill="#4F46E5" />
+                                <circle cx="350" cy="370" r="2.5" fill="#2DD4BF" />
+                                <circle cx="360" cy="370" r="2.5" fill="#2DD4BF" />
+                                <circle cx="350" cy="340" r="2.5" fill="#2DD4BF" />
+                                <circle cx="360" cy="340" r="2.5" fill="#FF5722" />
 
-                            {/* Body elements */}
-                            <path d="M280,300 L200,390 L230,410 L300,320 Z" fill="#312E81" />
-                            <path d="M300,320 L240,410 L270,420 L330,320 Z" fill="#1E1B4B" />
-                            <path d="M190,385 L140,370 L150,400 L210,410 Z" fill="#0F172A" />
-                            <path d="M230,410 L190,430 L200,440 L260,425 Z" fill="#0F172A" />
+                                {/* Body elements */}
+                                <path d="M280,300 L200,390 L230,410 L300,320 Z" fill="#312E81" />
+                                <path d="M300,320 L240,410 L270,420 L330,320 Z" fill="#1E1B4B" />
+                                <path d="M190,385 L140,370 L150,400 L210,410 Z" fill="#0F172A" />
+                                <path d="M230,410 L190,430 L200,440 L260,425 Z" fill="#0F172A" />
 
-                            {/* Torso & arm */}
-                            <path d="M340,180 C360,180 390,220 380,280 C350,280 300,280 270,250 C270,200 300,180 340,180 Z" fill="#312E81" />
-                            <polygon points="320,180 345,195 355,180" fill="#FFFFFF" />
-                            <polygon points="335,185 340,215 345,185" fill="#FF5722" />
+                                {/* Torso & arm */}
+                                <path d="M340,180 C360,180 390,220 380,280 C350,280 300,280 270,250 C270,200 300,180 340,180 Z" fill="#312E81" />
+                                <polygon points="320,180 345,195 355,180" fill="#FFFFFF" />
+                                <polygon points="335,185 340,215 345,185" fill="#FF5722" />
 
-                            {/* Laptop */}
-                            <polygon points="210,180 270,170 280,230 220,240" fill="#4338CA" />
-                            <polygon points="215,185 265,176 273,225 225,234" fill="#6B7280" opacity="0.6" />
-                            <polygon points="220,240 280,230 310,250 250,260" fill="#FDBA74" />
-                            <path d="M340,200 C320,220 290,230 260,240" stroke="#1E1B4B" strokeWidth="20" strokeLinecap="round" fill="none" />
+                                {/* Laptop */}
+                                <polygon points="210,180 270,170 280,230 220,240" fill="#4338CA" />
+                                <polygon points="215,185 265,176 273,225 225,234" fill="#6B7280" opacity="0.6" />
+                                <polygon points="220,240 280,230 310,250 250,260" fill="#FDBA74" />
+                                <path d="M340,200 C320,220 290,230 260,240" stroke="#1E1B4B" strokeWidth="20" strokeLinecap="round" fill="none" />
 
-                            {/* Head */}
-                            <circle cx="340" cy="150" r="20" fill="#FFD8D8" />
-                            <path d="M320,150 C320,120 365,120 360,150 C360,155 355,150 340,150 C330,150 320,155 320,150 Z" fill="#312E81" />
-                        </svg>
+                                {/* Head */}
+                                <circle cx="340" cy="150" r="20" fill="#FFD8D8" />
+                                <path d="M320,150 C320,120 365,120 360,150 C360,155 355,150 340,150 C330,150 320,155 320,150 Z" fill="#312E81" />
+                            </svg>
                         )}
                     </motion.div>
 

@@ -10,13 +10,14 @@ export function AuthProvider({ children }) {
         const verifyToken = async () => {
             const token = localStorage.getItem('token');
             const role = localStorage.getItem('user_role');
-            
+
             await new Promise(r => setTimeout(r, 1000)); // Simuler la latence réseau
-            
+
             if (token && role) {
                 // Hydrate the user
-                setUser({ 
-                    name: role === 'ADMIN' ? 'Admin yTera' : 'Étudiant yTera' 
+                setUser({
+                    role: role,
+                    name: role === 'ADMIN' ? 'Admin yTera' : 'Thomas Durand' // Mocking realistic name for V2
                 });
             }
             setLoading(false);
@@ -34,15 +35,15 @@ export function AuthProvider({ children }) {
             setUser({ role: 'ADMIN', name: 'Admin yTera' });
             return true;
         }
-        
+
         // Mock pour authentifier un étudiant
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
             localStorage.setItem('user_role', 'STUDENT');
-            setUser({ role: 'STUDENT', name: 'Étudiant yTera' });
+            setUser({ role: 'STUDENT', name: 'Thomas Durand' });
             return true;
         }
-        
+
         return false;
     };
 
