@@ -94,7 +94,7 @@
 .sidebar {
     flex-shrink: 0; overflow: hidden;
     background: var(--bg-secondary); border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-xl); padding: 1.25rem;
+    border-radius: 20px; padding: 1.25rem;
     position: sticky; top: 88px;
 }
 
@@ -180,18 +180,16 @@
 
 /* ====== RESULTS ====== */
 .results { flex: 1; min-width: 0; }
-.gridView { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
-
-/* Neon border in dark mode on hover */
+.gridView { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 
 /* ====== LIST VIEW ====== */
 .listView { display: flex; flex-direction: column; gap: 0.6rem; }
 .listItem {
     display: flex; align-items: center; gap: 1rem; padding: 0.85rem; cursor: pointer;
     background: var(--bg-secondary); border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-md); transition: all 0.25s ease;
+    border-radius: 12px; transition: all 0.25s ease;
 }
-.listItem:hover { border-color: var(--border-highlight); box-shadow: var(--shadow-md); }
+.listItem:hover { border-color: var(--accent-color); box-shadow: var(--shadow-md); }
 .listImg { width: 60px; height: 80px; border-radius: 10px; object-fit: cover; flex-shrink: 0; }
 .listInfo { flex: 1; min-width: 0; }
 .listInfo h3 {
@@ -209,32 +207,14 @@
 
 /* ====== MAP VIEW ====== */
 .mapView {
-    border-radius: var(--border-radius-xl);
-    overflow: hidden;
-    height: 600px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-md);
+    border-radius: 20px; overflow: hidden; height: 600px;
+    border: 1px solid var(--border-color); box-shadow: var(--shadow-md);
     background: var(--bg-secondary);
 }
+.mapContainerWrapper { height: 100%; width: 100%; }
+.leafletMap { height: 100%; width: 100%; background: var(--bg-primary) !important; }
 
-.mapContainerWrapper {
-    height: 100%;
-    width: 100%;
-}
-
-.leafletMap {
-    height: 100%;
-    width: 100%;
-    background: var(--bg-primary) !important;
-}
-
-.customPopup :global(.leaflet-popup-content-wrapper) {
-    border-radius: 12px;
-    padding: 0;
-    overflow: hidden;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important;
-}
-
+.customPopup :global(.leaflet-popup-content-wrapper) { border-radius: 12px; padding: 0; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.2) !important; }
 .customPopup :global(.leaflet-popup-content) { margin: 0; width: 200px !important; }
 
 .popupInner { display: flex; flex-direction: column; }
@@ -247,33 +227,28 @@
 /* ====== SKELETON ====== */
 .skeleton {
     background: var(--bg-secondary); border: 1px solid var(--border-color);
-    border-radius: var(--border-radius-xl); overflow: hidden;
+    border-radius: 20px; overflow: hidden;
 }
 .skelImg { aspect-ratio: 3/4; background: var(--border-color); animation: pulse 1.5s infinite ease-in-out; }
 .skelBody { padding: 0.85rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.55rem; }
 .skelLine { height: 12px; border-radius: 6px; background: var(--border-color); animation: pulse 1.5s infinite ease-in-out; }
 .skelRow { display: flex; gap: 0.5rem; }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.35; }
-    50% { opacity: 0.7; }
-}
+@keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.7; } }
 
 /* ====== EMPTY STATE ====== */
 .emptyState { text-align: center; padding: 5rem 2rem; }
 .emptyIcon {
     width: 88px; height: 88px; border-radius: 28px;
     background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.15);
-    display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;
-    color: #F97316;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; color: #F97316;
 }
 .emptyState h3 { font-size: 1.35rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.5rem; }
 .emptyState p { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 420px; margin-left: auto; margin-right: auto; line-height: 1.6; }
 .emptyActions { display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
 .emptyPrimary {
     display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.7rem 1.3rem;
-    background: var(--accent-color); color: white; border-radius: 14px;
-    font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease;
+    background: var(--accent-color); color: white; border-radius: 14px; font-weight: 700; font-size: 0.9rem; transition: all 0.2s ease;
 }
 .emptyPrimary:hover { background: var(--accent-hover); transform: translateY(-2px); }
 .emptySecondary {
@@ -286,10 +261,8 @@
 /* ====== MOBILE FLOATING FILTER BUTTON ====== */
 .mobileFilterBtn {
     display: none; position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 90;
-    width: 56px; height: 56px; border-radius: 18px;
-    background: var(--accent-color); color: white;
-    box-shadow: 0 8px 24px var(--accent-glow);
-    align-items: center; justify-content: center; transition: all 0.2s ease;
+    width: 56px; height: 56px; border-radius: 18px; background: var(--accent-color); color: white;
+    box-shadow: 0 8px 24px var(--accent-glow); align-items: center; justify-content: center; transition: all 0.2s ease;
 }
 .mobileFilterBtn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px var(--accent-glow); }
 .mobileFilterBadge {
@@ -303,45 +276,23 @@
 .mobileSidebar { display: none; }
 
 /* ====== RESPONSIVE ====== */
-@media (max-width: 1024px) {
-    .gridView { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-}
+@media (max-width: 1200px) { .gridView { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 1024px) { .gridView { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 @media (max-width: 768px) {
-    /* Hide desktop sidebar */
-    .sidebar { display: none !important; }
-    .filterToggle { display: none; }
-    .bodyFull .results { width: 100%; }
-
-    /* Show mobile FAB */
+    .sidebar { display: none !important; } .filterToggle { display: none; } .bodyFull .results { width: 100%; }
     .mobileFilterBtn { display: flex; }
-    .mobileOverlay {
-        display: block; position: fixed; inset: 0; z-index: 150;
-        background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-    }
+    .mobileOverlay { display: block; position: fixed; inset: 0; z-index: 150; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
     .mobileSidebar {
         display: block; position: fixed; top: 0; left: 0; bottom: 0; z-index: 160;
-        width: 300px; background: var(--bg-secondary); padding: 1.25rem; overflow-y: auto;
-        box-shadow: var(--shadow-xl);
+        width: 300px; background: var(--bg-secondary); padding: 1.25rem; overflow-y: auto; box-shadow: var(--shadow-xl);
     }
-    .mobileClose {
-        display: flex; justify-content: flex-end; margin-bottom: 1rem;
-    }
-    .mobileClose button {
-        display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary);
-        font-weight: 700; font-size: 0.88rem;
-    }
-    .mobileApply {
-        margin-top: 1rem; width: 100%; padding: 0.85rem; background: var(--accent-color); color: white;
-        border-radius: 14px; font-weight: 800; font-size: 0.95rem;
-    }
+    .mobileClose { display: flex; justify-content: flex-end; margin-bottom: 1rem; }
+    .mobileClose button { display: flex; align-items: center; gap: 0.3rem; color: var(--text-secondary); font-weight: 700; font-size: 0.88rem; }
+    .mobileApply { margin-top: 1rem; width: 100%; padding: 0.85rem; background: var(--accent-color); color: white; border-radius: 14px; font-weight: 800; font-size: 0.95rem; }
 
-    .toolbar { flex-direction: column; align-items: flex-start; }
-    .isbnTag { display: none; }
-    .gridView { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+    .toolbar { flex-direction: column; align-items: flex-start; } .isbnTag { display: none; }
+    .gridView { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 480px) {
-    .gridView { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .segmentGroup { flex-direction: column; }
-}
+@media (max-width: 480px) { .gridView { grid-template-columns: 1fr 1fr; gap: 0.75rem; } .segmentGroup { flex-direction: column; } }

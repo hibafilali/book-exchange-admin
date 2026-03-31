@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Leaf, BookHeart, Plus, Edit2, Trash2, CheckCircle,
-    Clock, XCircle, Bell, MessageSquare, ExternalLink, ShieldCheck, Send, Sparkles
+    Clock, XCircle, Bell, MessageSquare, ExternalLink, ShieldCheck, Send, Sparkles,
+    Calendar, MapPin
 } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
+import { ALL_BOOKS } from '../../data/mockBooks';
 import styles from './StudentDashboard.module.css';
 
 // ============================
@@ -18,15 +20,11 @@ const MOCK_STATS = {
     arbresSauves: 2.5 
 };
 
-// --- IMAGES POUR LE RENDU VISUEL (STRICTEMENT ISOLÉES) ---
-const IMG_REFACTORING = "/admin/books/refactoring.png";
-const IMG_CAPITAL = "/admin/books/capital-piketty.png";
-const IMG_TDD = "/admin/books/tdd.png";
-
+// --- MAP LISTINGS FROM CENTRAL DATA (IDs 11, 10, 12 for Hiba) ---
 const MOCK_LISTINGS = [
-    { id: 1, titre: 'Refactoring: Improving Code...', type: 'VENTE', prix: '120 DH', status: 'VALIDEE', vues: 89, image: IMG_REFACTORING },
-    { id: 2, titre: 'Le Capital au XXIe siècle', type: 'DON', prix: 'Gratuit', status: 'ATTENTE', vues: 0, image: IMG_CAPITAL },
-    { id: 3, titre: 'Test-Driven Development', type: 'PRET', prix: '1 sem', status: 'EXPIREE', vues: 24, image: IMG_TDD },
+    { ...ALL_BOOKS.find(b => b.id === 11), status: 'VALIDEE' },
+    { ...ALL_BOOKS.find(b => b.id === 10), status: 'ATTENTE' },
+    { ...ALL_BOOKS.find(b => b.id === 12), status: 'EXPIREE' },
 ];
 
 const MOCK_ACTIONS_REQUISES = [
@@ -37,6 +35,11 @@ const MOCK_ACTIONS_REQUISES = [
 const MOCK_WISHES_RADAR = [
     { id: 1, titre: 'Marketing Digital', auteur: 'D. Chaffey', match: true, edition: '2023' },
     { id: 2, titre: 'Bases de Données', auteur: 'G. Gardarin', match: false, edition: 'Peu importe' },
+];
+
+const MOCK_APPOINTMENTS = [
+    { id: 1, livre: 'Designing Data-Intensive...', avec: 'Sophie M.', temps: 'Demain, 10:30', lieu: 'Bibliothèque (BU)', type: 'REMISE' },
+    { id: 2, livre: 'Clean Code', avec: 'Anas L.', temps: 'Samedi, 14:00', lieu: 'Cafétéria Centrale', type: 'RECEPTION' },
 ];
 
 // Status badge mapping
@@ -116,33 +119,39 @@ export default function StudentDashboard() {
                                     </div>
                                 </div>
                                 <div className={styles.inventoryList}>
-                                    {MOCK_LISTINGS.map(l => {
-                                        const StatusIcon = STATUS_STYLES[l.status].icon;
+                                    {MOCK_LISTINGS.map(listing => {
+                                        const StatusIcon = STATUS_STYLES[listing.status].icon;
                                         return (
-                                            <div key={l.id} className={styles.inventoryCard}>
+                                            <div key={listing.id} className={styles.inventoryCard}>
                                                 <div className={styles.invImageWrap}>
-                                                    <img src={l.image} alt={l.titre} />
-                                                    <span className={styles.invBadgeType}>{l.type}</span>
+                                                    <img src={listing.photoUrl} alt={listing.titreAnnonce} />
                                                 </div>
                                                 <div className={styles.invContent}>
-                                                    <div className={styles.invTitleRow}>
-                                                        <h4>{l.titre}</h4>
-                                                        <span className={styles.invPrice}>{l.prix}</span>
-                                                    </div>
-                                                    <div className={styles.invMeta}>
-                                                        <span className={styles.invStatus} style={{ background: STATUS_STYLES[l.status].bg, color: STATUS_STYLES[l.status].color }}>
-                                                            <StatusIcon size={12} /> {STATUS_STYLES[l.status].label}
-                                                        </span>
-                                                        <span className={styles.invViews}>• {l.vues} vues</span>
+                                                    <div className={styles.invMain}>
+                                                        <div className={styles.listingInfo}>
+                                                            <h3>{listing.titreAnnonce}</h3>
+                                                            <div className={styles.listingMeta}>
+                                                                <span className={styles.typeBadge} style={{ backgroundColor: listing.typeEchange === 'VENTE' ? '#F97316' : listing.typeEchange === 'PRET' ? '#06B6D4' : '#10B981' }}>{listing.typeEchange}</span>
+                                                                <span className={styles.priceText}>{listing.typeEchange === 'VENTE' ? `${listing.prixVente} DH` : listing.typeEchange === 'DON' ? 'Gratuit' : 'Prêt'}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.invMeta}>
+                                                            <span className={styles.invStatus} style={{ background: STATUS_STYLES[listing.status].bg, color: STATUS_STYLES[listing.status].color }}>
+                                                                <StatusIcon size={12} /> {STATUS_STYLES[listing.status].label}
+                                                            </span>
+                                                            <span className={styles.invViews}>• {listing.vues} vues</span>
+                                                        </div>
                                                     </div>
                                                     <div className={styles.invActions}>
-                                                        {l.status === 'EXPIREE' ? (
+                                                        {listing.status === 'EXPIREE' ? (
                                                             <button className={styles.btnActionPro}>Prolonger (+30j)</button>
                                                         ) : (
                                                             <button className={styles.btnActionSub}>Promouvoir (Boost)</button>
                                                         )}
-                                                        <button className={styles.btnActionIcon} title="Modifier"><Edit2 size={16} /></button>
-                                                        <button className={styles.btnActionIconDanger} title="Archiver"><Trash2 size={16} /></button>
+                                                        <div className={styles.actionIcons}>
+                                                            <button className={styles.btnActionIcon} title="Modifier"><Edit2 size={16} /></button>
+                                                            <button className={styles.btnActionIconDanger} title="Archiver"><Trash2 size={16} /></button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -231,27 +240,30 @@ export default function StudentDashboard() {
                             </motion.div>
 
 
-                            {/* LIVE DU CAMPUS (Remplaçant le Radar Wishlist) */}
-                            <motion.div className={styles.panelLive} variants={itemVariants}>
-                                <div className={styles.panelLiveHeader}>
-                                    <h2>Le Live du Campus</h2>
-                                    <Sparkles size={16} color="#eab308" />
+                            {/* MES RENDEZ-VOUS (La section la plus utile) */}
+                            <motion.div className={styles.panelAppointments} variants={itemVariants}>
+                                <div className={styles.panelAppointmentsHeader}>
+                                    <h2>Prochaines Remises</h2>
+                                    <Calendar size={16} color="var(--accent-color)" />
                                 </div>
-                                <div className={styles.liveFeed}>
-                                    <div className={styles.liveItem}>
-                                        <div className={styles.liveDot} style={{ background: '#10b981' }} />
-                                        <p><strong>Amine</strong> vient de donner 2 livres en <em>Informatique</em></p>
-                                    </div>
-                                    <div className={styles.liveItem}>
-                                        <div className={styles.liveDot} style={{ background: '#3b82f6' }} />
-                                        <p>Nouveau match pour votre recherche <strong>'Macroéconomie'</strong> !</p>
-                                    </div>
-                                    <div className={styles.liveItem}>
-                                        <div className={styles.liveDot} style={{ background: '#ec4899' }} />
-                                        <p><strong>Sofia</strong> a noté son dernier échange 5/5 ⭐</p>
-                                    </div>
+                                <div className={styles.appointmentList}>
+                                    {MOCK_APPOINTMENTS.map(ap => (
+                                        <div key={ap.id} className={styles.appointmentCard}>
+                                            <div className={styles.apTop}>
+                                                <span className={styles.apTime}>{ap.temps}</span>
+                                                <span className={ap.type === 'REMISE' ? styles.badgeRemise : styles.badgeRecep}>
+                                                    {ap.type === 'REMISE' ? 'Donner' : 'Recevoir'}
+                                                </span>
+                                            </div>
+                                            <h4 className={styles.apLivre}>{ap.livre}</h4>
+                                            <div className={styles.apMeta}>
+                                                <p>👤 Avec <strong>{ap.avec}</strong></p>
+                                                <p className={styles.apLieu}><MapPin size={12} /> {ap.lieu}</p>
+                                            </div>
+                                            <button className={styles.btnApAction}>Contacter</button>
+                                        </div>
+                                    ))}
                                 </div>
-                                <button className={styles.btnExploreLive}>Voir tout le flux</button>
                             </motion.div>
 
                         </div>

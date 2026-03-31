@@ -7,32 +7,21 @@ import {
     ChevronLeft, ChevronRight, MessageCircle
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { ALL_BOOKS, TYPE_COLORS, ETAT_LABELS, ETAT_COLORS } from '../../data/mockBooks';
 import ManualCard from './ManualCard';
 import styles from './BookDetails.module.css';
 
-// ============================
-// MOCK DATA (aligné sur SQL)
-// ============================
-const ALL_BOOKS = [
-    { id: 1, titreAnnonce: "Algorithmes et Structures de Données", auteur: "Thomas H. Cormen", typeEchange: "VENTE", prixVente: 150, etat: "NEUF", nbVues: 230, description: "Manuel de référence pour les cours d'algorithmique. Couverture rigide, aucune annotation. Édition 2024 en parfait état. Idéal pour les étudiants en informatique et mathématiques appliquées.", photoUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=800&h=1000&fit=crop"], ville: "Fès", filiere: "Informatique", isbn: "978-0262033848", nbOperations: 10, proprietaire: { nom: "Ahmed Benali", filiere: "Génie Informatique", etablissement: "ENSAS Fès", ville: "Fès", nbEchanges: 10 } },
-    { id: 2, titreAnnonce: "Introduction au Droit Civil", auteur: "Jean Carbonnier", typeEchange: "DON", prixVente: null, etat: "BON", nbVues: 45, description: "Livre en bon état avec quelques annotations au crayon. Parfait pour les étudiants en première année de Droit. Couvre tous les chapitres du programme.", photoUrl: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1589998059171-988d887df646?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=800&h=1000&fit=crop"], ville: "Casablanca", filiere: "Droit", isbn: "978-2130789123", nbOperations: 1, proprietaire: { nom: "Fatima Zahra", filiere: "Sciences Juridiques", etablissement: "FSJES Casablanca", ville: "Casablanca", nbEchanges: 1 } },
-    { id: 3, titreAnnonce: "Macroéconomie Approfondie", auteur: "Gregory Mankiw", typeEchange: "PRET", prixVente: null, etat: "ACCEPTABLE", nbVues: 180, description: "Manuel utilisé pendant 2 semestres. Quelques surlignages mais toutes les pages sont intactes. Disponible en prêt pour 1 mois maximum.", photoUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=800&h=1000&fit=crop"], ville: "Rabat", filiere: "Économie", isbn: "978-2807315624", nbOperations: 5, proprietaire: { nom: "Karim Alami", filiere: "Sciences Économiques", etablissement: "FSJES Rabat", ville: "Rabat", nbEchanges: 5 } },
-    { id: 4, titreAnnonce: "Architecture des Ordinateurs", auteur: "Andrew Tanenbaum", typeEchange: "VENTE", prixVente: 200, etat: "NEUF", nbVues: 310, description: "Édition récente, couverture souple, jamais utilisé. Contient les dernières avancées en architecture matérielle. Emballage d'origine.", photoUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=800&h=1000&fit=crop"], ville: "Fès", filiere: "Informatique", isbn: "978-2744076480", nbOperations: 8, proprietaire: { nom: "Sara Mouline", filiere: "Génie Logiciel", etablissement: "ENSA Fès", ville: "Fès", nbEchanges: 8 } },
-    { id: 5, titreAnnonce: "Comptabilité Générale", auteur: "Brahim Aaouid", typeEchange: "VENTE", prixVente: 75, etat: "BON", nbVues: 90, description: "Très bon état, quelques pages cornées mais contenu parfaitement lisible. Idéal pour les révisions.", photoUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=800&h=1000&fit=crop"], ville: "Marrakech", filiere: "Gestion", isbn: "978-9954304567", nbOperations: 0, proprietaire: { nom: "Omar Fassi", filiere: "Comptabilité", etablissement: "ENCG Marrakech", ville: "Marrakech", nbEchanges: 0 } },
-    { id: 6, titreAnnonce: "Programmation en Java", auteur: "Claude Delannoy", typeEchange: "PRET", prixVente: null, etat: "BON", nbVues: 95, description: "Couvre les fondamentaux de Java ainsi que la POO avancée. Parfait état, pas d'annotations.", photoUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=800&h=1000&fit=crop", photos: ["https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=800&h=1000&fit=crop", "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=800&h=1000&fit=crop"], ville: "Fès", filiere: "Informatique", isbn: "978-2212678901", nbOperations: 4, proprietaire: { nom: "Youssef Kettani", filiere: "Génie Informatique", etablissement: "FST Fès", ville: "Fès", nbEchanges: 4 } },
-];
-
 const TYPE_CONFIG = {
-    VENTE: { label: 'Vente', gradient: 'var(--gradient-vente)', color: '#F97316' },
-    PRET: { label: 'Prêt', gradient: 'var(--gradient-pret)', color: '#06B6D4' },
-    DON: { label: 'Don', gradient: 'var(--gradient-don)', color: '#10B981' },
+    VENTE: { label: 'Vente', gradient: 'var(--gradient-vente)', color: TYPE_COLORS.VENTE },
+    PRET: { label: 'Prêt', gradient: 'var(--gradient-pret)', color: TYPE_COLORS.PRET },
+    DON: { label: 'Don', gradient: 'var(--gradient-don)', color: TYPE_COLORS.DON },
 };
 
 const ETAT_CONFIG = {
-    NEUF: { label: 'Neuf', color: '#10b981' },
-    BON: { label: 'Bon état', color: '#3b82f6' },
-    ACCEPTABLE: { label: 'Acceptable', color: '#f59e0b' },
-    USE: { label: 'Usé', color: '#64748b' },
+    NEUF: { label: ETAT_LABELS.NEUF, color: ETAT_COLORS.NEUF },
+    BON: { label: ETAT_LABELS.BON, color: ETAT_COLORS.BON },
+    ACCEPTABLE: { label: ETAT_LABELS.ACCEPTABLE, color: ETAT_COLORS.ACCEPTABLE },
+    USE: { label: ETAT_LABELS.USE, color: ETAT_COLORS.USE },
 };
 
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } };

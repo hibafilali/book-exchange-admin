@@ -3,13 +3,14 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Search, SlidersHorizontal, X, LayoutGrid, List, ChevronDown, Map,
-    BookOpen, MapPin, Eye, Heart, ShieldCheck, Hash, Filter, Barcode,
+    BookOpen, MapPin, Eye, Heart, ShieldCheck, Hash, Filter,
     ChevronUp, RotateCcw, AlertCircle, Sparkles
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import ManualCard from './ManualCard';
+import { ALL_BOOKS, ETAT_LABELS, ETAT_COLORS, TYPE_LABELS, TYPE_COLORS } from '../../data/mockBooks';
 import styles from './SearchExplorer.module.css';
 
 // Fix Leaflet icons issues with Webpack/Vite
@@ -20,35 +21,13 @@ L.Icon.Default.mergeOptions({
     shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
 });
 
-// ============================
-// 12 MANUELS VARIÉS (Médecine, Droit, Ingénierie, Économie, etc.)
-// ============================
-const ALL_BOOKS = [
-    { id: 1, titreAnnonce: "Algorithmes et Structures de Données", auteur: "Thomas H. Cormen", typeEchange: "VENTE", prixVente: 150, etat: "NEUF", nbVues: 230, photoUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=500&fit=crop", ville: "Fès", filiere: "Informatique", isbn: "978-0262033848", nbOperations: 10, datePublication: "2026-03-20" },
-    { id: 2, titreAnnonce: "Introduction au Droit Civil", auteur: "Jean Carbonnier", typeEchange: "DON", prixVente: null, etat: "BON", nbVues: 45, photoUrl: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Droit", isbn: "978-2130789123", nbOperations: 1, datePublication: "2026-03-18" },
-    { id: 3, titreAnnonce: "Macroéconomie Approfondie", auteur: "Gregory Mankiw", typeEchange: "PRET", prixVente: null, etat: "ACCEPTABLE", nbVues: 180, photoUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=500&fit=crop", ville: "Rabat", filiere: "Économie", isbn: "978-2807315624", nbOperations: 5, datePublication: "2026-03-15" },
-    { id: 4, titreAnnonce: "Architecture des Ordinateurs", auteur: "Andrew Tanenbaum", typeEchange: "VENTE", prixVente: 200, etat: "NEUF", nbVues: 310, photoUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=500&fit=crop", ville: "Fès", filiere: "Informatique", isbn: "978-2744076480", nbOperations: 8, datePublication: "2026-03-22" },
-    { id: 5, titreAnnonce: "Anatomie Humaine", auteur: "Frank H. Netter", typeEchange: "VENTE", prixVente: 350, etat: "NEUF", nbVues: 420, photoUrl: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Médecine", isbn: "978-2294756283", nbOperations: 15, datePublication: "2026-03-21" },
-    { id: 6, titreAnnonce: "Programmation en Java", auteur: "Claude Delannoy", typeEchange: "PRET", prixVente: null, etat: "BON", nbVues: 95, photoUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=400&h=500&fit=crop", ville: "Fès", filiere: "Informatique", isbn: "978-2212678901", nbOperations: 4, datePublication: "2026-03-12" },
-    { id: 7, titreAnnonce: "Résistance des Matériaux", auteur: "Jean-Claude Doubrère", typeEchange: "VENTE", prixVente: 120, etat: "BON", nbVues: 67, photoUrl: "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?w=400&h=500&fit=crop", ville: "Tanger", filiere: "Génie Civil", isbn: "978-2100825561", nbOperations: 2, datePublication: "2026-03-08" },
-    { id: 8, titreAnnonce: "Base de Données Relationnelles", auteur: "Georges Gardarin", typeEchange: "VENTE", prixVente: 130, etat: "NEUF", nbVues: 205, photoUrl: "https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=400&h=500&fit=crop", ville: "Fès", filiere: "Informatique", isbn: "978-2212091234", nbOperations: 12, datePublication: "2026-03-19" },
-    { id: 9, titreAnnonce: "Physiologie Médicale", auteur: "W.F. Ganong", typeEchange: "DON", prixVente: null, etat: "ACCEPTABLE", nbVues: 160, photoUrl: "https://images.unsplash.com/photo-1553729459-afe8f2e2ed65?w=400&h=500&fit=crop", ville: "Rabat", filiere: "Médecine", isbn: "978-2100494684", nbOperations: 6, datePublication: "2026-03-14" },
-    { id: 10, titreAnnonce: "Marketing Digital", auteur: "Dave Chaffey", typeEchange: "VENTE", prixVente: 180, etat: "NEUF", nbVues: 140, photoUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Gestion", isbn: "978-2098765432", nbOperations: 3, datePublication: "2026-03-17" },
-    { id: 11, titreAnnonce: "Thermodynamique Industrielle", auteur: "Maurice Bailly", typeEchange: "PRET", prixVente: null, etat: "BON", nbVues: 78, photoUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=500&fit=crop", ville: "Meknès", filiere: "Génie Mécanique", isbn: "978-2100566327", nbOperations: 3, datePublication: "2026-03-10" },
-    { id: 12, titreAnnonce: "Comptabilité Générale", auteur: "Brahim Aaouid", typeEchange: "VENTE", prixVente: 75, etat: "BON", nbVues: 90, photoUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=400&h=500&fit=crop", ville: "Marrakech", filiere: "Gestion", isbn: "978-9954304567", nbOperations: 0, datePublication: "2026-03-09" },
-];
-
 // ISBN lookup map for "magic" auto-detection
 const ISBN_MAP = {};
 ALL_BOOKS.forEach(b => { ISBN_MAP[b.isbn] = b.titreAnnonce; });
 
 const FILIERES = [...new Set(ALL_BOOKS.map(b => b.filiere))].sort();
 const ETATS = ['NEUF', 'BON', 'ACCEPTABLE', 'USE'];
-const ETAT_LABELS = { NEUF: 'Neuf', BON: 'Bon état', ACCEPTABLE: 'Acceptable', USE: 'Usé' };
-const ETAT_COLORS = { NEUF: '#10b981', BON: '#3b82f6', ACCEPTABLE: '#f59e0b', USE: '#64748b' };
 const TYPES = ['VENTE', 'PRET', 'DON'];
-const TYPE_LABELS = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
-const TYPE_COLORS = { VENTE: '#F97316', PRET: '#06B6D4', DON: '#10B981' };
 const SORT_OPTIONS = [
     { value: 'recent', label: 'Plus récents' },
     { value: 'price_asc', label: 'Prix croissant' },
@@ -325,7 +304,7 @@ export default function SearchExplorer() {
                         onChange={e => setQuery(e.target.value)}
                         placeholder="Rechercher par titre, auteur, ISBN ou filière..." />
                     {query && <button className={styles.clearBtn} onClick={() => setQuery('')}><X size={16} /></button>}
-                    <div className={styles.isbnTag}><Barcode size={14} /> ISBN</div>
+                    <div className={styles.isbnTag}><Hash size={14} /> ISBN</div>
                 </div>
 
                 {/* ISBN Auto-detect */}

@@ -63,7 +63,6 @@ export default function StudentLayout() {
                         >
                             <option value="all">Toute la plateforme</option>
                             <option value="title">Titre</option>
-                            <option value="isbn">ISBN</option>
                             <option value="filiere">Filière</option>
                         </select>
                         <div className={styles.searchDivider}></div>

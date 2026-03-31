@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { BookOpen, Heart, TrendingUp, Wallet, Trophy, ArrowRight, Eye, PlusCircle, MessageCircle, Clock, Send, Target, ScanBarcode, Star, Award, Sparkles } from 'lucide-react';
+import { BookOpen, Heart, TrendingUp, Wallet, Trophy, ArrowRight, Eye, PlusCircle, MessageCircle, Clock, Send, Target, Star, Award, Sparkles } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
 import styles from './StudentHome.module.css';
 
@@ -122,9 +122,6 @@ export default function StudentHome() {
                             <div className={styles.heroActions}>
                                 <button className={styles.btnPrimary} onClick={() => navigate('/student-dashboard/publish')}>
                                     <PlusCircle size={15} /> Publier un manuel
-                                </button>
-                                <button className={styles.btnGhost} onClick={() => alert('Scanner...')}>
-                                    <ScanBarcode size={15} /> Scanner ISBN
                                 </button>
                             </div>
                         </div>

@@ -1,12 +1,9 @@
 .chatContainer {
     display: flex;
     height: calc(100vh - 80px);
-    background: #fff;
-    border: none;
-    border-top: 1px solid var(--border-color);
-    border-bottom: 1px solid var(--border-color);
-    border-radius: 0;
+    background: var(--bg-primary);
     overflow: hidden;
+    position: relative;
 }
 
 /* ====== SIDEBAR (LEFT) ====== */
@@ -308,23 +305,21 @@
     padding: 0.4rem;
     transition: color 0.2s ease;
 }
-.attachBtn:hover {
-    color: var(--text-primary);
-}
+.attachBtn:hover { background: var(--bg-secondary); color: var(--text-primary); transform: translateY(-2px); }
 
-.sendBtn {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    background: var(--success);
-    color: white;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+/* RDV BUTTON IN INPUT */
+.btnRdv {
+    display: flex; align-items: center; gap: 0.5rem; background: #f0f9ff !important;
+    border: 1px solid #bae6fd !important; color: #0369a1 !important;
+    padding: 0 1rem !important; border-radius: 10px !important;
+}
+.btnRdv:hover { background: #e0f2fe !important; border-color: #7dd3fc !important; }
+.btnRdv span { font-size: 0.75rem; font-weight: 700; white-space: nowrap; }
+
+.sendBtn { 
+    width: 44px; height: 44px; border-radius: 12px; background: var(--accent-color); 
+    color: white; border: none; cursor: pointer; display: flex; align-items: center; 
+    justify-content: center; transition: all 0.2s; 
 }
 .sendBtn:hover:not(:disabled) {
     background: var(--success-hover);
@@ -338,15 +333,77 @@
     box-shadow: none;
 }
 
-.emptyChat {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+/* ============================
+   APPOINTMENT CARDS IN CHAT
+   ============================ */
+.appointmentCardMsg {
+    width: 280px; background: white; border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid var(--border-color);
+}
+.apHeader {
+    background: #f8fafc; padding: 0.75rem 1rem; border-bottom: 1px solid var(--border-color);
+    display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; font-weight: 700; color: #64748b;
+}
+.apHeader svg { color: var(--accent-color); }
+
+.apBody { padding: 1rem; }
+.apTargetBook { font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 0.6rem; }
+.apDetails { display: flex; flex-direction: column; gap: 0.4rem; }
+.apDetails span { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; }
+.apDetails svg { color: #94a3b8; }
+
+.apFooter { padding: 0.75rem; background: #fdfdfd; border-top: 1px dashed var(--border-color); }
+.apStatusWaiting { font-size: 0.7rem; font-weight: 600; color: #94a3b8; font-style: italic; display: block; text-align: center; }
+
+.apActions { display: flex; gap: 0.5rem; }
+.btnConfirmAp { 
+    flex: 2; padding: 0.5rem; background: var(--accent-color); color: white; 
+    border: none; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; 
+}
+.btnRefuseAp { 
+    flex: 1; padding: 0.5rem; background: #fee2e2; color: #991b1b; 
+    border: none; border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; 
+}
+
+/* Position adjustment for bubbles */
+.apMe { border-color: rgba(30, 64, 175, 0.1); }
+.apThem { border-color: var(--border-color); }
+
+/* ============================
+   MODAL OVERLAY
+   ============================ */
+.modalOverlay {
+    position: absolute; inset: 0; background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center;
     padding: 2rem;
-    text-align: center;
-    background: #f8fafc;
+}
+.meetingModal {
+    width: 100%; max-width: 400px; background: white; border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2); overflow: hidden;
+}
+.modalHeader {
+    padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-color);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.modalHeader h3 { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
+.modalHeader button { background: none; border: none; color: var(--text-muted); cursor: pointer; }
+
+.modalBody { padding: 1.5rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.formGroup { display: flex; flex-direction: column; gap: 0.5rem; }
+.formGroup label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.formGroup select, .formGroup input {
+    padding: 0.75rem; border-radius: 12px; border: 1px solid var(--border-color);
+    font-size: 0.9rem; color: var(--text-primary); outline: none; transition: border-color 0.2s;
+}
+.formGroup select:focus, .formGroup input:focus { border-color: var(--accent-color); }
+
+.modalFooter { padding: 1.25rem 1.5rem; background: #f8fafc; display: flex; gap: 1rem; }
+.btnCancel { flex: 1; padding: 0.75rem; border-radius: 12px; border: 1px solid var(--border-color); background: white; font-weight: 700; cursor: pointer; }
+.btnSubmit { flex: 2; padding: 0.75rem; border-radius: 12px; border: none; background: var(--accent-color); color: white; font-weight: 700; cursor: pointer; }
+
+.emptyChat { 
+    flex: 1; display: flex; flex-direction: column; align-items: center; 
+    justify-content: center; padding: 3rem; text-align: center; color: var(--text-muted); 
 }
 .emptyIcon {
     width: 80px;

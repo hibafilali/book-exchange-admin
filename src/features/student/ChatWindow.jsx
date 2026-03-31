@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Search, MoreVertical, Phone, Video, Info, Image as ImageIcon, Smile, Paperclip, MessageSquare } from 'lucide-react';
+import { Send, Search, MoreVertical, Phone, Video, Info, Image as ImageIcon, Smile, Paperclip, MessageSquare, Calendar, MapPin, Clock, X } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import styles from './ChatWindow.module.css';
 
@@ -17,11 +17,23 @@ const MOCK_CONTACTS = [
 
 const MOCK_MESSAGES = {
     1: [
-        { id: 101, sender: 'them', text: 'Salut ! J\'ai vu ton annonce pour "Algorithmes Orientés Objet"', time: '10:30' },
+        { id: 101, sender: 'them', text: 'Salut ! J\'ai vu ton annonce pour "Introduction to Algorithms"', time: '10:30' },
         { id: 102, sender: 'me', text: 'Salut Karim ! Oui il est toujours disponible.', time: '10:35' },
         { id: 103, sender: 'them', text: 'Super. On peut se croiser à la fac demain ?', time: '10:38' },
         { id: 104, sender: 'me', text: 'Bien sûr, vers 14h à la cafétéria ?', time: '10:40' },
         { id: 105, sender: 'them', text: 'Merci, à demain pour le livre !', time: '10:42' },
+        { 
+            id: 106, 
+            sender: 'them', 
+            type: 'appointment',
+            appointment: {
+                book: 'Designing Data-Intensive...',
+                time: 'Demain, 10:30',
+                place: 'Bibliothèque (BU)',
+                status: 'waiting'
+            },
+            time: '10:45'
+        }
     ],
     2: [
         { id: 201, sender: 'them', text: 'Est-ce que le livre est toujours dispo ?', time: 'Hier' }
@@ -37,12 +49,22 @@ const MOCK_MESSAGES = {
     ]
 };
 
+const MOCK_STUDENT_BOOKS = [
+    { id: 1, title: 'Refactoring' },
+    { id: 2, title: 'Test-Driven Development' },
+    { id: 3, title: 'Clean Code' }
+];
+
+const CAMPUS_LOCATIONS = ['Bibliothèque (BU)', 'Cafétéria Centrale', 'Entrée Fac', 'Jardin des Sciences', 'Parking Étudiants'];
+
 export default function ChatWindow() {
     const [contacts, setContacts] = useState(MOCK_CONTACTS);
     const [selectedContact, setSelectedContact] = useState(MOCK_CONTACTS[0]);
     const [messages, setMessages] = useState(MOCK_MESSAGES);
     const [inputText, setInputText] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+    const [showMeetingModal, setShowMeetingModal] = useState(false);
+    const [meetingData, setMeetingData] = useState({ book: MOCK_STUDENT_BOOKS[0].title, location: CAMPUS_LOCATIONS[0], time: 'Demain, 10:00' });
     const messagesEndRef = useRef(null);
     const fileInputRef = useRef(null);
 
@@ -97,6 +119,27 @@ export default function ChatWindow() {
         ));
 
         setInputText('');
+    };
+
+    const handleProposeMeeting = () => {
+        const newMsg = {
+            id: Date.now(),
+            sender: 'me',
+            type: 'appointment',
+            appointment: {
+                ...meetingData,
+                status: 'waiting'
+            },
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+
+        setMessages(prev => ({
+            ...prev,
+            [selectedContact.id]: [...(prev[selectedContact.id] || []), newMsg]
+        }));
+        
+        setShowMeetingModal(false);
+        toast.success('Rendez-vous proposé !');
     };
 
     return (
@@ -161,6 +204,8 @@ export default function ChatWindow() {
                             <AnimatePresence mode="popLayout" key={`conversation-${selectedContact.id}`}>
                                 {activeMessages.map((msg, index) => {
                                     const isMe = msg.sender === 'me';
+                                    const isAppointment = msg.type === 'appointment';
+
                                     return (
                                         <motion.div 
                                             key={msg.id}
@@ -172,10 +217,37 @@ export default function ChatWindow() {
                                             {!isMe && (
                                                 <div className={styles.msgAvatar} style={{ background: getAvatarBg(selectedContact.id) }}>{selectedContact.avatar}</div>
                                             )}
-                                            <div className={`${styles.bubble} ${isMe ? styles.bubbleMe : styles.bubbleThem}`}>
-                                                {msg.text}
-                                                <span className={styles.msgTime}>{msg.time}</span>
-                                            </div>
+                                            
+                                            {isAppointment ? (
+                                                <div className={`${styles.appointmentCardMsg} ${isMe ? styles.apMe : styles.apThem}`}>
+                                                    <div className={styles.apHeader}>
+                                                        <Calendar size={18} />
+                                                        <span>Proposition de RDV</span>
+                                                    </div>
+                                                    <div className={styles.apBody}>
+                                                        <p className={styles.apTargetBook}><strong>{msg.appointment.book}</strong></p>
+                                                        <div className={styles.apDetails}>
+                                                            <span><Clock size={14} /> {msg.appointment.time}</span>
+                                                            <span><MapPin size={14} /> {msg.appointment.location || msg.appointment.place}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className={styles.apFooter}>
+                                                        {isMe ? (
+                                                            <span className={styles.apStatusWaiting}>En attente de confirmation...</span>
+                                                        ) : (
+                                                            <div className={styles.apActions}>
+                                                                <button className={styles.btnConfirmAp} onClick={() => toast.success('RDV Confirmé !')}>Confirmer</button>
+                                                                <button className={styles.btnRefuseAp}>Refuser</button>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className={`${styles.bubble} ${isMe ? styles.bubbleMe : styles.bubbleThem}`}>
+                                                    {msg.text}
+                                                    <span className={styles.msgTime}>{msg.time}</span>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     )
                                 })}
@@ -191,13 +263,15 @@ export default function ChatWindow() {
                                 onChange={handleFileChange}
                             />
                             
-                            <button type="button" className={styles.attachBtn} onClick={() => fileInputRef.current?.click()} title="Joindre un fichier">
+                             <button type="button" className={styles.attachBtn} onClick={() => fileInputRef.current?.click()} title="Joindre un fichier">
                                 <Paperclip size={20} />
                             </button>
-                            <button type="button" className={styles.attachBtn} onClick={() => fileInputRef.current?.click()} title="Envoyer une image">
-                                <ImageIcon size={20} />
-                            </button>
                             
+                            <button type="button" className={`${styles.attachBtn} ${styles.btnRdv}`} onClick={() => setShowMeetingModal(true)} title="Fixer un Rendez-vous">
+                                <Calendar size={20} />
+                                <span>Fixer RDV</span>
+                            </button>
+
                             <input 
                                 type="text" 
                                 placeholder="Écrivez votre message..." 
@@ -212,6 +286,66 @@ export default function ChatWindow() {
                                 <Send size={18} />
                             </button>
                         </form>
+
+                        {/* ====== MEETING PROPOSAL MODAL ====== */}
+                        <AnimatePresence>
+                            {showMeetingModal && (
+                                <div className={styles.modalOverlay}>
+                                    <motion.div 
+                                        className={styles.meetingModal}
+                                        initial={{ opacity: 0, scale: 0.9 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        exit={{ opacity: 0, scale: 0.9 }}
+                                    >
+                                        <div className={styles.modalHeader}>
+                                            <h3>🤝 Planifier une remise</h3>
+                                            <button onClick={() => setShowMeetingModal(false)}><X size={20} /></button>
+                                        </div>
+                                        
+                                        <div className={styles.modalBody}>
+                                            <div className={styles.formGroup}>
+                                                <label>Quel livre ?</label>
+                                                <select 
+                                                    value={meetingData.book} 
+                                                    onChange={(e) => setMeetingData({...meetingData, book: e.target.value})}
+                                                >
+                                                    {MOCK_STUDENT_BOOKS.map(b => (
+                                                        <option key={b.id} value={b.title}>{b.title}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+                                            <div className={styles.formGroup}>
+                                                <label>Quand ?</label>
+                                                <input 
+                                                    type="text" 
+                                                    placeholder="ex: Demain, 14:00"
+                                                    value={meetingData.time}
+                                                    onChange={(e) => setMeetingData({...meetingData, time: e.target.value})}
+                                                />
+                                            </div>
+
+                                            <div className={styles.formGroup}>
+                                                <label>Où sur le campus ?</label>
+                                                <select 
+                                                    value={meetingData.location}
+                                                    onChange={(e) => setMeetingData({...meetingData, location: e.target.value})}
+                                                >
+                                                    {CAMPUS_LOCATIONS.map(loc => (
+                                                        <option key={loc} value={loc}>{loc}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div className={styles.modalFooter}>
+                                            <button className={styles.btnCancel} onClick={() => setShowMeetingModal(false)}>Annuler</button>
+                                            <button className={styles.btnSubmit} onClick={handleProposeMeeting}>Proposer le RDV</button>
+                                        </div>
+                                    </motion.div>
+                                </div>
+                            )}
+                        </AnimatePresence>
                     </>
                 ) : (
                     <div className={styles.emptyChat}>

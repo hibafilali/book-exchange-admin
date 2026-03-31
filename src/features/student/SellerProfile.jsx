@@ -4,22 +4,11 @@ import {
     MapPin, Calendar, Star, MessageSquare, ShieldCheck, 
     Share2, Flag, Award, CheckCircle2, Package
 } from 'lucide-react';
+import { ALL_BOOKS } from '../../data/mockBooks';
 import ManualCard from './ManualCard';
 import styles from './SellerProfile.module.css';
 
-// ============================
-// MOCK DATA GENERATION
-// ============================
-const unslugify = (slug) => {
-    if (!slug) return 'Utilisateur';
-    return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-};
-
-const SELLER_ADS = [
-    { id: 4, titreAnnonce: "Architecture des Ordinateurs", auteur: "Andrew Tanenbaum", typeEchange: "VENTE", prixVente: 200, etat: "NEUF", nbVues: 310, photoUrl: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Informatique", isbn: "978-2744076480", nbOperations: 8, datePublication: "2026-03-22" },
-    { id: 8, titreAnnonce: "Base de Données Relationnelles", auteur: "Georges Gardarin", typeEchange: "VENTE", prixVente: 130, etat: "NEUF", nbVues: 205, photoUrl: "https://images.unsplash.com/photo-1491841573634-28140fc7ced7?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Informatique", isbn: "978-2212091234", nbOperations: 12, datePublication: "2026-03-19" },
-    { id: 10, titreAnnonce: "Marketing Digital", auteur: "Dave Chaffey", typeEchange: "DON", prixVente: null, etat: "BON", nbVues: 140, photoUrl: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=400&h=500&fit=crop", ville: "Casablanca", filiere: "Gestion", isbn: "978-2098765432", nbOperations: 3, datePublication: "2026-03-17" },
-];
+// SELLER_ADS will be filtered below based on name
 
 const REVIEWS = [
     { id: 1, author: 'Sara L.', rating: 5, date: 'Il y a 2 jours', text: 'Super échange. Livre conforme à la description, état neuf. Amine est très réactif !' },
@@ -28,11 +17,19 @@ const REVIEWS = [
 ];
 
 export default function SellerProfile() {
-    const { id } = useParams(); // URL slug like "ahmed-benali"
-    const navigate = useNavigate();
+    const unslugify = (slug) => {
+        if (!slug) return 'Utilisateur';
+        return slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    };
 
     // Dynamically generate user info based on id
     const name = id ? unslugify(id) : 'Utilisateur';
+
+    // Get ads for this seller from central data (filter by owner name)
+    const sellerAds = ALL_BOOKS.filter(b => b.proprietaire.nom.toLowerCase().includes(name.split(' ')[0].toLowerCase()));
+    
+    // Fallback if no ads found for this name: show a few recent ones
+    const finalAds = sellerAds.length > 0 ? sellerAds : ALL_BOOKS.slice(0, 3);
     
     // Deterministic pseudo-randomness based on name length or chars
     const nameHash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -159,11 +156,11 @@ export default function SellerProfile() {
                 {/* ====== RIGHT COLUMN : ANNONCES ACTIVES ====== */}
                 <div className={styles.mainFeed}>
                     <div className={styles.sectionHeader}>
-                        <h2>Annonces de {SELLER_DATA.name.split(' ')[0]} ({SELLER_ADS.length})</h2>
+                        <h2>Annonces de {SELLER_DATA.name.split(' ')[0]} ({finalAds.length})</h2>
                     </div>
 
                     <div className={styles.listingsGrid}>
-                        {SELLER_ADS.map((b, i) => (
+                        {finalAds.map((b, i) => (
                             <ManualCard key={b.id} annonce={b} index={i}
                                 onCardClick={(ann) => navigate(`/student-dashboard/book/${ann.id}`)} />
                         ))}

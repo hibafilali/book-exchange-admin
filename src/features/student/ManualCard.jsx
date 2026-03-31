@@ -2,19 +2,20 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MapPin, Eye, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { TYPE_LABELS, TYPE_COLORS, ETAT_LABELS, ETAT_COLORS } from '../../data/mockBooks';
 import styles from './ManualCard.module.css';
 
 const TYPE_CONFIG = {
-    VENTE: { label: 'Vente', gradient: 'var(--gradient-vente)', shadow: 'var(--shadow-vente)', color: '#F97316' },
-    PRET: { label: 'Prêt', gradient: 'var(--gradient-pret)', shadow: 'var(--shadow-pret)', color: '#06B6D4' },
-    DON: { label: 'Don', gradient: 'var(--gradient-don)', shadow: 'var(--shadow-don)', color: '#10B981' },
+    VENTE: { label: TYPE_LABELS.VENTE, gradient: 'var(--gradient-vente)', shadow: 'var(--shadow-vente)', color: TYPE_COLORS.VENTE },
+    PRET: { label: TYPE_LABELS.PRET, gradient: 'var(--gradient-pret)', shadow: 'var(--shadow-pret)', color: TYPE_COLORS.PRET },
+    DON: { label: TYPE_LABELS.DON, gradient: 'var(--gradient-don)', shadow: 'var(--shadow-don)', color: TYPE_COLORS.DON },
 };
 
 const ETAT_CONFIG = {
-    NEUF: { label: 'Neuf', bg: '#10b981' },
-    BON: { label: 'Bon', bg: '#3b82f6' },
-    ACCEPTABLE: { label: 'Acceptable', bg: '#f59e0b' },
-    USE: { label: 'Usé', bg: '#64748b' },
+    NEUF: { label: ETAT_LABELS.NEUF, bg: ETAT_COLORS.NEUF },
+    BON: { label: ETAT_LABELS.BON, bg: ETAT_COLORS.BON },
+    ACCEPTABLE: { label: ETAT_LABELS.ACCEPTABLE, bg: ETAT_COLORS.ACCEPTABLE },
+    USE: { label: ETAT_LABELS.USE, bg: ETAT_COLORS.USE },
 };
 
 export default function ManualCard({ annonce, onCardClick, index = 0 }) {

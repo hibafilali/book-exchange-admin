@@ -1,13 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { BookUp, ArrowRightLeft, Gift, Zap, MapPin } from 'lucide-react';
+import { ALL_BOOKS } from '../../data/mockBooks';
 import styles from './LiveFeed.module.css';
 
 const ACTIVITIES = [
     {
         id: 1,
         type: 'échange',
-        title: 'Échange réussi : Mathématiques L1',
+        title: `Échange réussi : ${ALL_BOOKS[0].titreAnnonce}`,
         location: 'ENSIAS, Rabat',
         time: '5 min',
         icon: ArrowRightLeft,
@@ -17,7 +18,7 @@ const ACTIVITIES = [
     {
         id: 2,
         type: 'don',
-        title: 'Don de manuel : Anatomie Humaine',
+        title: `Don de manuel : ${ALL_BOOKS[1].titreAnnonce}`,
         location: 'FMP, Fès',
         time: '12 min',
         icon: Gift,
@@ -27,7 +28,7 @@ const ACTIVITIES = [
     {
         id: 3,
         type: 'vente',
-        title: 'Vente : Code Civil Marocain',
+        title: `Vente : ${ALL_BOOKS[9].titreAnnonce}`,
         location: 'Hassan II, Casablanca',
         time: '25 min',
         icon: BookUp,
@@ -37,7 +38,7 @@ const ACTIVITIES = [
     {
         id: 4,
         type: 'échange',
-        title: 'Échange : Économie Monétaire',
+        title: `Échange : ${ALL_BOOKS[3].titreAnnonce}`,
         location: 'FSJES, Settat',
         time: '45 min',
         icon: ArrowRightLeft,
@@ -47,7 +48,7 @@ const ACTIVITIES = [
     {
         id: 5,
         type: 'don',
-        title: 'Don : Thermodynamique L2',
+        title: `Don : ${ALL_BOOKS[8].titreAnnonce}`,
         location: 'FST, Marrakech',
         time: '1h',
         icon: Gift,
@@ -57,7 +58,7 @@ const ACTIVITIES = [
     {
         id: 6,
         type: 'vente',
-        title: 'Vente : Marketing Digital',
+        title: `Vente : ${ALL_BOOKS[7].titreAnnonce}`,
         location: 'ENCG, Agadir',
         time: '2h',
         icon: BookUp,
