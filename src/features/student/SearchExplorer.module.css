@@ -94,13 +94,13 @@
 .sidebar {
     flex-shrink: 0; overflow: hidden;
     background: var(--bg-secondary); border: 1px solid var(--border-color);
-    border-radius: 20px; padding: 1.25rem;
+    border-radius: 20px; padding: 1rem;
     position: sticky; top: 88px;
 }
 
 .sidebarHeader {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-color);
 }
 .sidebarHeader h3 {
     display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; font-weight: 800; color: var(--text-primary);
@@ -112,16 +112,16 @@
 .resetBtn:hover { opacity: 0.7; }
 
 /* Filter blocks */
-.filterBlock { margin-bottom: 1.5rem; }
+.filterBlock { margin-bottom: 1rem; }
 .filterBlock h4 {
-    font-size: 0.78rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;
-    letter-spacing: 0.05em; margin-bottom: 0.75rem;
+    font-size: 0.72rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
 }
 
 /* Segment buttons (Type) */
 .segmentGroup { display: flex; gap: 0.35rem; }
 .segmentBtn {
-    flex: 1; padding: 0.5rem 0.5rem; border-radius: 10px; font-weight: 700; font-size: 0.8rem;
+    flex: 1; padding: 0.4rem 0.5rem; border-radius: 10px; font-weight: 700; font-size: 0.8rem;
     color: var(--text-secondary); background: var(--bg-primary); border: 1.5px solid var(--border-color);
     transition: all 0.2s ease; text-align: center;
 }
@@ -131,7 +131,7 @@
 /* Price slider */
 .priceDisplay {
     display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 600;
-    color: var(--text-secondary); margin-bottom: 0.5rem;
+    color: var(--text-secondary); margin-bottom: 0.25rem;
 }
 .priceValue { font-weight: 800; color: var(--text-primary); }
 .rangeSlider {
@@ -150,7 +150,7 @@
 
 /* Checkboxes */
 .checkbox {
-    display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0; cursor: pointer; user-select: none;
 }
 .checkbox input { display: none; }
 .checkmark {
@@ -161,7 +161,7 @@
 .checkbox input:checked + .checkmark { background: var(--accent-color); border-color: var(--accent-color); }
 .checkbox input:checked + .checkmark::after { content: '✓'; color: white; font-size: 0.6rem; font-weight: 800; }
 .checkDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.checkLabel { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); flex: 1; }
+.checkLabel { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); flex: 1; }
 .checkCount {
     font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
     background: var(--bg-primary); padding: 0.1rem 0.4rem; border-radius: 6px;
@@ -169,14 +169,14 @@
 
 /* Filière search */
 .filiereInput {
-    width: 100%; padding: 0.5rem 0.75rem; border-radius: 10px;
+    width: 100%; padding: 0.4rem 0.75rem; border-radius: 10px;
     border: 1px solid var(--border-color); background: var(--bg-primary);
     font-family: inherit; font-size: 0.82rem; font-weight: 500; color: var(--text-primary);
-    outline: none; margin-bottom: 0.5rem; transition: border-color 0.2s ease;
+    outline: none; margin-bottom: 0.35rem; transition: border-color 0.2s ease;
 }
 .filiereInput:focus { border-color: var(--accent-color); }
 .filiereInput::placeholder { color: var(--text-muted); }
-.filiereList { max-height: 180px; overflow-y: auto; }
+.filiereList { max-height: 140px; overflow-y: auto; }
 
 /* ====== RESULTS ====== */
 .results { flex: 1; min-width: 0; }

@@ -10,6 +10,8 @@ export function AuthProvider({ children }) {
         const verifyToken = async () => {
             const token = localStorage.getItem('token');
             const role = localStorage.getItem('user_role');
+            const storedAvatar = localStorage.getItem('user_avatar');
+            const storedName = localStorage.getItem('user_name');
 
             await new Promise(r => setTimeout(r, 1000)); // Simuler la latence réseau
 
@@ -17,13 +19,24 @@ export function AuthProvider({ children }) {
                 // Hydrate the user
                 setUser({
                     role: role,
-                    name: role === 'ADMIN' ? 'Admin yTera' : 'Hiba Filali' // Mocking realistic name for PFE
+                    name: storedName || (role === 'ADMIN' ? 'Admin yTera' : 'Hiba Filali'),
+                    avatar: storedAvatar || 'https://i.pravatar.cc/150?u=admin'
                 });
             }
             setLoading(false);
         };
         verifyToken();
     }, []);
+
+    const updateAvatar = (newAvatarUrl) => {
+        localStorage.setItem('user_avatar', newAvatarUrl);
+        setUser(prev => prev ? { ...prev, avatar: newAvatarUrl } : null);
+    };
+
+    const updateName = (newName) => {
+        localStorage.setItem('user_name', newName);
+        setUser(prev => prev ? { ...prev, name: newName } : null);
+    };
 
     const login = async (email, password, role) => {
         // Simuler latence de login
@@ -32,7 +45,9 @@ export function AuthProvider({ children }) {
         if (role === 'ADMIN' && email === 'admin@ytera.ma' && password === 'admin') {
             localStorage.setItem('token', 'fake-admin-jwt-token');
             localStorage.setItem('user_role', 'ADMIN');
-            setUser({ role: 'ADMIN', name: 'Admin yTera' });
+            const avatar = localStorage.getItem('user_avatar') || 'https://i.pravatar.cc/150?u=admin';
+            const name = localStorage.getItem('user_name') || 'Admin yTera';
+            setUser({ role: 'ADMIN', name, avatar });
             return true;
         }
 
@@ -40,7 +55,9 @@ export function AuthProvider({ children }) {
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
             localStorage.setItem('user_role', 'STUDENT');
-            setUser({ role: 'STUDENT', name: 'Hiba Filali' });
+            const avatar = localStorage.getItem('user_avatar') || 'https://i.pravatar.cc/120?u=hiba';
+            const name = localStorage.getItem('user_name') || 'Hiba Filali';
+            setUser({ role: 'STUDENT', name, avatar });
             return true;
         }
 
@@ -54,7 +71,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, loading }}>
+        <AuthContext.Provider value={{ user, login, logout, updateAvatar, updateName, isAuthenticated: !!user, loading }}>
             {children}
         </AuthContext.Provider>
     );

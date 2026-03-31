@@ -1,21 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     TrendingUp, Leaf, BookHeart, Plus, Edit2, Trash2, CheckCircle,
     Clock, XCircle, Bell, MessageSquare, ExternalLink, ShieldCheck, Send, Sparkles,
-    Calendar, MapPin
+    Calendar, MapPin, Camera, Save, X
 } from 'lucide-react';
 import { useAuth } from '../auth/useAuth';
+import { useFavorites } from '../../context/FavoritesContext';
 import { ALL_BOOKS } from '../../data/mockBooks';
+import ManualCard from './ManualCard';
 import styles from './StudentDashboard.module.css';
 
 // ============================
 // MOCK DATA (5 Tables)
 // ============================
 const MOCK_STATS = {
-    economies: 450, // DH sauvés 
-    gains: 120, // DH gagnés 
+    economies: 180, // DH sauvés 
+    gains: 85, // DH gagnés 
     livresPartages: 4, 
     arbresSauves: 2.5 
 };
@@ -49,30 +51,44 @@ const STATUS_STYLES = {
     EXPIREE: { bg: 'rgba(239,68,68,0.15)', color: '#ef4444', icon: XCircle, label: 'Expirée' },
 };
 
-const CATEGORIES = [
-    { id: 1, label: 'Info', icon: '💻' },
-    { id: 2, label: 'Médecine', icon: '⚕️' },
-    { id: 3, label: 'Droit', icon: '⚖️' },
-    { id: 4, label: 'Éco', icon: '📉' },
-];
-
 // ============================
 // MAIN COMPONENT
 // ============================
 export default function StudentDashboard() {
-    const { user } = useAuth();
+    const { user, updateAvatar, updateName } = useAuth();
+    const { favoritedIds } = useFavorites();
     const navigate = useNavigate();
+    
+    // Profile Logic
+    const [isEditing, setIsEditing] = useState(false);
+    const [tempName, setTempName] = useState(user?.name || '');
+    const fileInputRef = useRef(null);
 
-    // Framer Motion staggered variants
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1 }
+    const favoritedBooks = ALL_BOOKS.filter(b => favoritedIds.includes(b.id));
+
+    const handleAvatarClick = () => fileInputRef.current?.click();
+    
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const url = URL.createObjectURL(file);
+            updateAvatar(url);
         }
     };
+
+    const handleSaveName = () => {
+        if (tempName.trim()) {
+            updateName(tempName.trim());
+            setIsEditing(false);
+        }
+    };
+
+    // Framer Motion variants
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        show: { opacity: 1, transition: { staggerChildren: 0.1 } }
+    };
     
-    // The 'Pop' effect requested for the Bento items
     const itemVariants = {
         hidden: { opacity: 0, scale: 0.95, y: 20 },
         show: { opacity: 1, scale: 1, y: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } }
@@ -80,20 +96,58 @@ export default function StudentDashboard() {
 
     return (
         <div className={styles.page}>
-            <div className={styles.meshBg}></div> {/* Dynamic Mesh Gradient Background */}
+            <div className={styles.meshBg}></div>
 
             <div className={styles.container}>
                 <motion.div variants={containerVariants} initial="hidden" animate="show">
                     
-                    {/* ——— HEADER HEADER & ACTIONS PRIMAIRES ——— */}
+                    {/* ——— INTERACTIVE PROFILE HEADER ——— */}
                     <motion.div className={styles.dashboardHeader} variants={itemVariants}>
-                        <div className={styles.welcomeText}>
-                            <h1>Bienvenue, {user?.name?.split(' ')[0] || 'Hiba'} !</h1>
-                            <p>Voici votre centre de contrôle personnel. Gérez vos annonces et suivez vos échanges.</p>
+                        <div className={styles.profileSection}>
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                style={{ display: 'none' }} 
+                                onChange={handleFileChange}
+                                accept="image/*"
+                            />
+                            <div className={styles.avatarContainer} onClick={handleAvatarClick} title="Changer ma photo">
+                                <img 
+                                    src={user?.avatar || 'https://i.pravatar.cc/120?u=hiba'} 
+                                    className={styles.profileImg} 
+                                    alt="Profil" 
+                                />
+                                <div className={styles.cameraOverlay}>
+                                    <Camera size={14} />
+                                </div>
+                            </div>
+                            <div className={styles.welcomeText}>
+                                <div className={styles.nameHeader}>
+                                    {isEditing ? (
+                                        <div className={styles.editNameGroup}>
+                                            <input 
+                                                type="text" 
+                                                value={tempName} 
+                                                onChange={(e) => setTempName(e.target.value)}
+                                                className={styles.nameInput}
+                                                autoFocus
+                                            />
+                                            <button onClick={handleSaveName} className={styles.saveBtn}><Save size={16} /></button>
+                                            <button onClick={() => { setIsEditing(false); setTempName(user?.name); }} className={styles.cancelBtn}><X size={16} /></button>
+                                        </div>
+                                    ) : (
+                                        <div className={styles.displayNameGroup}>
+                                            <h1>Bienvenue, {user?.name?.split(' ')[0] || 'Étudiant'} !</h1>
+                                            <button onClick={() => setIsEditing(true)} className={styles.editBtn}><Edit2 size={16} /></button>
+                                        </div>
+                                    )}
+                                </div>
+                                <p>Gérez votre bibliothèque et suivez vos échanges avec la communauté yTera.</p>
+                            </div>
                         </div>
                         <div className={styles.headerActions}>
                             <button className={styles.btnSecondary} onClick={() => navigate('/student-dashboard/search')}>
-                                <BookHeart size={18} /> Renouveler Bibliothèque
+                                <BookHeart size={18} /> Explorer le catalogue
                             </button>
                             <button className={styles.btnPrimary} onClick={() => navigate('/student-dashboard/publish')}>
                                 <Plus size={18} /> Créer une annonce
@@ -105,10 +159,8 @@ export default function StudentDashboard() {
                     {/* ——— SPLIT CONTROL CENTER (65/35) ——— */}
                     <div className={styles.splitGrid}>
                         
-                        {/* === COLONNE GAUCHE (65%) : INVENTAIRE === */}
+                        {/* === COLONNE GAUCHE (65%) === */}
                         <div className={styles.leftCol}>
-                            
-
                             <motion.div className={styles.panel} variants={itemVariants}>
                                 <div className={styles.panelHeader}>
                                     <h2>Mon Inventaire Actif</h2>
@@ -160,30 +212,33 @@ export default function StudentDashboard() {
                                 </div>
                             </motion.div>
 
+                            {/* Mes Favoris */}
                             <motion.div className={styles.panel} variants={itemVariants}>
                                 <div className={styles.panelHeader}>
-                                    <h2>Brouillons & Archives (0)</h2>
-                                    <p className={styles.mutedText}>Aucun manuel inactif pour le moment.</p>
+                                    <h2>Ma Liste d'Envies ({favoritedBooks.length})</h2>
                                 </div>
+                                {favoritedBooks.length > 0 ? (
+                                    <div className={styles.favoritesGrid}>
+                                        {favoritedBooks.map((b, i) => (
+                                            <ManualCard 
+                                                key={b.id} 
+                                                annonce={b} 
+                                                index={i}
+                                                onCardClick={(ann) => navigate(`/student-dashboard/book/${ann.id}`)} 
+                                            />
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <div className={styles.emptyFavorites}>
+                                        <BookHeart size={40} className={styles.emptyFavIcon} />
+                                        <p>Vous n'avez pas encore de favoris. Parcourez le catalogue pour en ajouter !</p>
+                                    </div>
+                                )}
                             </motion.div>
-
-                            {/* CTA Banner */}
-                            <motion.div className={styles.cta} variants={itemVariants}>
-                                <div>
-                                    <h2>Faites de la place sur vos étagères !</h2>
-                                    <p>Partagez vos anciens manuels. Un petit geste pour la planète, de grosses économies pour vos camarades.</p>
-                                </div>
-                                <button className={styles.ctaBtn} onClick={() => navigate('/student-dashboard/publish')}>
-                                    <Send size={15}/> Publier un manuel
-                                </button>
-                            </motion.div>
-
                         </div>
 
-                        {/* === COLONNE DROITE (35%) : ACTIONS & IMPACT === */}
+                        {/* === COLONNE DROITE (35%) === */}
                         <div className={styles.rightCol}>
-                            
-                            {/* BOITE D'ACTION (L'urgence en premier) */}
                             <motion.div className={styles.panelAction} variants={itemVariants}>
                                 <div className={styles.panelActionHeader}>
                                     <h2>Actions Requises</h2>
@@ -208,7 +263,7 @@ export default function StudentDashboard() {
                                 </div>
                             </motion.div>
 
-                            {/* MINI PANEL IMPACT */}
+                            {/* Impact Stats */}
                             <motion.div className={styles.panelImpact} variants={itemVariants}>
                                 <div className={styles.panelImpactHeader}>
                                     <h2>Résumé d'Impact</h2>
@@ -238,34 +293,6 @@ export default function StudentDashboard() {
                                     </div>
                                 </div>
                             </motion.div>
-
-
-                            {/* MES RENDEZ-VOUS (La section la plus utile) */}
-                            <motion.div className={styles.panelAppointments} variants={itemVariants}>
-                                <div className={styles.panelAppointmentsHeader}>
-                                    <h2>Prochaines Remises</h2>
-                                    <Calendar size={16} color="var(--accent-color)" />
-                                </div>
-                                <div className={styles.appointmentList}>
-                                    {MOCK_APPOINTMENTS.map(ap => (
-                                        <div key={ap.id} className={styles.appointmentCard}>
-                                            <div className={styles.apTop}>
-                                                <span className={styles.apTime}>{ap.temps}</span>
-                                                <span className={ap.type === 'REMISE' ? styles.badgeRemise : styles.badgeRecep}>
-                                                    {ap.type === 'REMISE' ? 'Donner' : 'Recevoir'}
-                                                </span>
-                                            </div>
-                                            <h4 className={styles.apLivre}>{ap.livre}</h4>
-                                            <div className={styles.apMeta}>
-                                                <p>👤 Avec <strong>{ap.avec}</strong></p>
-                                                <p className={styles.apLieu}><MapPin size={12} /> {ap.lieu}</p>
-                                            </div>
-                                            <button className={styles.btnApAction}>Contacter</button>
-                                        </div>
-                                    ))}
-                                </div>
-                            </motion.div>
-
                         </div>
 
                     </div>

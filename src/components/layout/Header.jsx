@@ -1,25 +1,30 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/useAuth';
-import { Bell, Search, User, LogOut, Settings, MessageSquare, BookOpen } from 'lucide-react';
+import { 
+    Search, User, LogOut, Settings, 
+    ChevronDown, Shield, Lock, Eye, EyeOff, X, Save
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
 import styles from './Header.module.css';
 
 export default function Header() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    const [showNotifs, setShowNotifs] = useState(false);
     const [showProfile, setShowProfile] = useState(false);
+    const [searchFilter, setSearchFilter] = useState('all');
+    
+    // Password Modal State
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showPass, setShowPass] = useState(false);
+    const [passData, setPassData] = useState({ old: '', new: '', confirm: '' });
 
-    // Close dropdowns when clicking outside
-    const notifRef = useRef();
     const profileRef = useRef();
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if (notifRef.current && !notifRef.current.contains(event.target)) {
-                setShowNotifs(false);
-            }
             if (profileRef.current && !profileRef.current.contains(event.target)) {
                 setShowProfile(false);
             }
@@ -28,118 +33,217 @@ export default function Header() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
+    const handlePasswordUpdate = (e) => {
+        e.preventDefault();
+        if (passData.new !== passData.confirm) {
+            toast.error("Les nouveaux mots de passe ne correspondent pas.");
+            return;
+        }
+        if (passData.new.length < 6) {
+            toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+            return;
+        }
+        
+        // Simuler mise à jour
+        toast.promise(
+            new Promise(resolve => setTimeout(resolve, 1500)),
+            {
+                loading: 'Mise à jour du mot de passe...',
+                success: 'Mot de passe mis à jour avec succès !',
+                error: 'Erreur lors de la mise à jour.',
+            }
+        ).then(() => {
+            setShowPasswordModal(false);
+            setPassData({ old: '', new: '', confirm: '' });
+        });
+    };
+
+    const dropdownVariants = {
+        hidden: { opacity: 0, y: 10, scale: 0.95 },
+        visible: { 
+            opacity: 1, 
+            y: 0, 
+            scale: 1,
+            transition: { type: "spring", stiffness: 300, damping: 24 }
+        },
+        exit: { opacity: 0, y: 8, scale: 0.98, transition: { duration: 0.15 } }
+    };
+
+    const modalVariants = {
+        hidden: { opacity: 0, scale: 0.9, y: 20 },
+        visible: { 
+            opacity: 1, 
+            scale: 1, 
+            y: 0,
+            transition: { type: "spring", stiffness: 300, damping: 25 }
+        },
+        exit: { opacity: 0, scale: 0.95, y: 10, transition: { duration: 0.2 } }
+    };
+
     return (
-        <header className={`glass-panel ${styles.header}`}>
+        <header className={styles.header}>
             <div className={styles.searchContainer}>
-                <Search size={18} className={styles.searchIcon} />
-                <input
-                    type="text"
-                    placeholder="Rechercher utilisateurs, annonces..."
-                    className={styles.searchInput}
-                />
+                <div className={styles.searchBar}>
+                    <div className={styles.filterWrapper}>
+                        <select 
+                            className={styles.searchSelect}
+                            value={searchFilter}
+                            onChange={(e) => setSearchFilter(e.target.value)}
+                        >
+                            <option value="all">Tout</option>
+                            <option value="users">Utilisateurs</option>
+                            <option value="ads">Annonces</option>
+                        </select>
+                        <ChevronDown size={14} className={styles.selectChevron} />
+                    </div>
+                    <div className={styles.searchDivider}></div>
+                    <Search size={16} className={styles.searchIcon} />
+                    <input
+                        type="text"
+                        placeholder="Rechercher sur yTera..."
+                        className={styles.searchInput}
+                    />
+                    <div className={styles.searchKbd}>⌘K</div>
+                </div>
             </div>
 
             <div className={styles.rightSection}>
-                <div className={styles.dropdownContainer} ref={notifRef}>
-                    <button
-                        className={styles.iconBtn}
-                        onClick={() => setShowNotifs(!showNotifs)}
-                    >
-                        <Bell size={20} />
-                        <span className={styles.badge}>3</span>
-                    </button>
-
-                    {showNotifs && (
-                        <div className={styles.dropdownMenu}>
-                            <div className={styles.dropdownHeader}>
-                                <h4>Notifications</h4>
-                                <span>3 nouvelles</span>
-                            </div>
-                            <div className={styles.dropdownList}>
-                                <div
-                                    className={styles.dropdownItem}
-                                    onClick={() => { navigate('/moderation'); setShowNotifs(false); }}
-                                >
-                                    <div className={`${styles.notifIcon} ${styles.notifAlert}`}><MessageSquare size={16} /></div>
-                                    <div className={styles.notifContent}>
-                                        <p>Nouveau signalement: "Arnaque"</p>
-                                        <span>Il y a 5 min</span>
-                                    </div>
-                                </div>
-                                <div
-                                    className={styles.dropdownItem}
-                                    onClick={() => { navigate('/annonces'); setShowNotifs(false); }}
-                                >
-                                    <div className={`${styles.notifIcon} ${styles.notifBook}`}><BookOpen size={16} /></div>
-                                    <div className={styles.notifContent}>
-                                        <p>12 annonces en attente</p>
-                                        <span>Il y a 1 heure</span>
-                                    </div>
-                                </div>
-                                <div
-                                    className={styles.dropdownItem}
-                                    onClick={() => { navigate('/users'); setShowNotifs(false); }}
-                                >
-                                    <div className={`${styles.notifIcon} ${styles.notifUser}`}><User size={16} /></div>
-                                    <div className={styles.notifContent}>
-                                        <p>Nouvel utilisateur inscrit</p>
-                                        <span>Il y a 2 heures</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                className={styles.dropdownFooterBtn}
-                                onClick={() => { navigate('/annonces'); setShowNotifs(false); }}
-                            >
-                                Voir toutes les alertes
-                            </button>
-                        </div>
-                    )}
-                </div>
-
+                {/* Profile Section */}
                 <div className={styles.dropdownContainer} ref={profileRef}>
-                    <div
-                        className={styles.userProfile}
+                    <button 
+                        className={`${styles.avatarBtn} ${showProfile ? styles.activeAvatar : ''}`} 
                         onClick={() => setShowProfile(!showProfile)}
                     >
-                        <div className={styles.avatar}>
-                            <User size={20} />
+                        <div className={styles.avatarWrapper}>
+                            <img 
+                                src={user?.avatar || 'https://i.pravatar.cc/150?u=admin'} 
+                                alt="Admin" 
+                                className={styles.avatarImg} 
+                            />
+                            <div className={styles.onlineDot}></div>
                         </div>
                         <div className={styles.userInfo}>
-                            <p className={styles.userName}>{user?.name || 'Admin'}</p>
-                            <p className={styles.userRole}>{user?.role || 'Superadmin'}</p>
+                            <p className={styles.userName}>{user?.name?.split(' ')[0] || 'Utilisateur'}</p>
+                            <ChevronDown size={14} className={`${styles.chevron} ${showProfile ? styles.rotate : ''}`} />
                         </div>
-                    </div>
+                    </button>
 
-                    {showProfile && (
-                        <div className={styles.dropdownMenu}>
-                            <div className={styles.profileHeader}>
-                                <div className={styles.avatar}>
-                                    <User size={20} />
+                    <AnimatePresence>
+                        {showProfile && (
+                            <motion.div 
+                                className={styles.dropdownMenu}
+                                variants={dropdownVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                            >
+                                <div className={styles.profileSummary}>
+                                    <div className={styles.profileAvatarBig}>
+                                        <img src={user?.avatar || 'https://i.pravatar.cc/150?u=admin'} alt="Profil" />
+                                    </div>
+                                    <div className={styles.profileText}>
+                                        <p className={styles.pName}>{user?.name || 'Administrateur'}</p>
+                                        <p className={styles.pRole}>{user?.role === 'ADMIN' ? 'Super-Admin yTera' : 'Étudiant yTera'}</p>
+                                    </div>
                                 </div>
-                                <div className={styles.userInfo}>
-                                    <p className={styles.userName}>{user?.name || 'Admin'}</p>
-                                    <p className={styles.userEmail}>{user?.email || 'admin@ytera.ma'}</p>
+                                <div className={styles.dropdownList}>
+                            <button 
+                                className={styles.menuActionBtn} 
+                                onClick={() => { 
+                                    if(user?.role === 'ADMIN') navigate('/admin');
+                                    else navigate('/student-dashboard'); 
+                                    setShowProfile(false); 
+                                }}
+                            >
+                                        <User size={15} /> Mon Profil
+                                    </button>
+                                    <button 
+                                        className={styles.menuActionBtn} 
+                                        onClick={() => { setShowPasswordModal(true); setShowProfile(false); }}
+                                    >
+                                        <Shield size={15} /> Sécurité
+                                    </button>
+                                    <div className={styles.menuDivider}></div>
+                                    <button className={`${styles.menuActionBtn} ${styles.logoutBtn}`} onClick={() => { logout(); setShowProfile(false); }}>
+                                        <LogOut size={15} /> Déconnexion
+                                    </button>
                                 </div>
-                            </div>
-                            <div className={styles.dropdownList}>
-                                <button
-                                    className={styles.dropdownActionBtn}
-                                    onClick={() => { navigate('/settings'); setShowProfile(false); }}
-                                >
-                                    <Settings size={16} /> Paramètres du compte
-                                </button>
-                                <button
-                                    className={`${styles.dropdownActionBtn} ${styles.logoutText}`}
-                                    onClick={() => { logout(); setShowProfile(false); }}
-                                >
-                                    <LogOut size={16} /> Déconnexion
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
+
+            {/* GLOBAL PASSWORD MODAL */}
+            <AnimatePresence>
+                {showPasswordModal && (
+                    <div className={styles.modalOverlay} key="password-modal-overlay">
+                        <motion.div 
+                            className={styles.passwordModal}
+                            variants={modalVariants}
+                            initial="hidden"
+                            animate="visible"
+                            exit="exit"
+                        >
+                            <div className={styles.modalHeader}>
+                                <div className={styles.modalTitleIcon}><Lock size={20} /></div>
+                                <div>
+                                    <h3>Changer de mot de passe</h3>
+                                    <p>Protégez l'accès à votre compte yTera.</p>
+                                </div>
+                                <button className={styles.closeBtn} onClick={() => setShowPasswordModal(false)}><X size={20} /></button>
+                            </div>
+
+                            <form onSubmit={handlePasswordUpdate} className={styles.passwordForm}>
+                                <div className={styles.inputField}>
+                                    <label>Ancien mot de passe</label>
+                                    <div className={styles.passInputWrapper}>
+                                        <input 
+                                            type={showPass ? "text" : "password"} 
+                                            placeholder="Mot de passe actuel"
+                                            required
+                                            value={passData.old}
+                                            onChange={(e) => setPassData({...passData, old: e.target.value})}
+                                        />
+                                        <button type="button" onClick={() => setShowPass(!showPass)}>
+                                            {showPass ? <EyeOff size={16}/> : <Eye size={16}/>}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className={styles.formDivider}></div>
+
+                                <div className={styles.inputField}>
+                                    <label>Nouveau mot de passe</label>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Min. 6 caractères"
+                                        required
+                                        value={passData.new}
+                                        onChange={(e) => setPassData({...passData, new: e.target.value})}
+                                    />
+                                </div>
+
+                                <div className={styles.inputField}>
+                                    <label>Confirmer le nouveau mot de passe</label>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Confirmer"
+                                        required
+                                        value={passData.confirm}
+                                        onChange={(e) => setPassData({...passData, confirm: e.target.value})}
+                                    />
+                                </div>
+
+                                <div className={styles.modalFooter}>
+                                    <button type="button" className={styles.secondaryBtn} onClick={() => setShowPasswordModal(false)}>Annuler</button>
+                                    <button type="submit" className={styles.primaryBtn}><Save size={16}/> Mettre à jour</button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </header>
     );
 }

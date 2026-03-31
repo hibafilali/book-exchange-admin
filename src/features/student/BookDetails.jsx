@@ -44,10 +44,10 @@ export default function BookDetails() {
     const etatConf = ETAT_CONFIG[book.etat];
     const isTrusted = book.proprietaire.nbEchanges >= 3;
 
-    const similarBooks = ALL_BOOKS.filter(b => b.id !== book.id && b.filiere === book.filiere).slice(0, 3);
-    if (similarBooks.length < 3) {
+    const similarBooks = ALL_BOOKS.filter(b => b.id !== book.id && b.filiere === book.filiere).slice(0, 6);
+    if (similarBooks.length < 6) {
         ALL_BOOKS.filter(b => b.id !== book.id && !similarBooks.find(s => s.id === b.id))
-            .slice(0, 3 - similarBooks.length)
+            .slice(0, 6 - similarBooks.length)
             .forEach(b => similarBooks.push(b));
     }
 
@@ -78,8 +78,8 @@ export default function BookDetails() {
 
                 {/* ——— LEFT: Gallery ——— */}
                 <motion.div className={styles.gallery} variants={fadeUp}>
-                    <div className={styles.mainImage}>
-                        <img src={book.photos[selectedPhoto]} alt={book.titreAnnonce} className={styles.mainImg} />
+                    <div className={styles.manualWrapper}>
+                        <img src={book.photos[selectedPhoto]} alt={book.titreAnnonce} className={styles.manualCover} />
                         {book.photos.length > 1 && (
                             <>
                                 <button className={`${styles.navBtn} ${styles.navLeft}`} onClick={prevPhoto}><ChevronLeft size={20} /></button>

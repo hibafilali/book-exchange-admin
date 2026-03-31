@@ -14,25 +14,25 @@ const TYPE_LABEL = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
 // MOCK DATA — Couvertures Réalistes
 // ============================
 const MOCK_RECOMMENDATIONS = [
-    { id: 101, titre: "Clean Code", auteur: "Robert C. Martin", prix: 90, photo: "/admin/books/clean-code.png" },
-    { id: 102, titre: "Design Patterns", auteur: "Gang of Four", prix: 130, photo: "/admin/books/design-patterns.png" },
-    { id: 103, titre: "Introduction to Algorithms", auteur: "Cormen et al.", prix: 300, photo: "/admin/books/intro-algorithms.png" },
-    { id: 104, titre: "Refactoring", auteur: "Martin Fowler", prix: 55, photo: "/admin/books/refactoring.png" },
+    { id: 101, titre: "Clean Code", auteur: "Robert C. Martin", prix: 75, photo: "/admin/books/clean-code.png" },
+    { id: 102, titre: "Design Patterns", auteur: "Gang of Four", prix: 95, photo: "/admin/books/design-patterns.png" },
+    { id: 103, titre: "Introduction to Algorithms", auteur: "Cormen et al.", prix: 108, photo: "/admin/books/intro-algorithms.png" },
+    { id: 104, titre: "Refactoring", auteur: "Martin Fowler", prix: 45, photo: "/admin/books/refactoring.png" },
     { id: 105, titre: "Test-Driven Development", auteur: "Kent Beck", prix: null, photo: "/admin/books/tdd.png" },
-    { id: 106, titre: "System Design Interview", auteur: "Alex Xu", prix: 110, photo: "/admin/books/system-design.png" },
+    { id: 106, titre: "System Design Interview", auteur: "Alex Xu", prix: 85, photo: "/admin/books/system-design.png" },
 ];
 
 const MOCK_ANNONCES = [
-    { id: 1, titre: "Introduction to Algorithms", auteur: "Cormen et al.", type: "VENTE", prix: 150, photo: "/admin/books/intro-algorithms.png", filiere: "Informatique" },
+    { id: 1, titre: "Introduction to Algorithms", auteur: "Cormen et al.", type: "VENTE", prix: 98, photo: "/admin/books/intro-algorithms.png", filiere: "Informatique" },
     { id: 2, titre: "Code Civil 2024", auteur: "Dalloz", type: "DON", prix: null, photo: "/admin/books/code-civil.png", filiere: "Droit" },
     { id: 3, titre: "Principles of Economics", auteur: "N. Gregory Mankiw", type: "PRET", prix: null, photo: "/admin/books/economics.png", filiere: "Économie" },
-    { id: 4, titre: "Clean Code", auteur: "Robert C. Martin", type: "VENTE", prix: 90, photo: "/admin/books/clean-code.png", filiere: "Informatique" },
-    { id: 5, titre: "Gray's Anatomy", auteur: "Susan Standring", type: "VENTE", prix: 200, photo: "/admin/books/grays-anatomy.png", filiere: "Médecine" },
+    { id: 4, titre: "Clean Code", auteur: "Robert C. Martin", type: "VENTE", prix: 75, photo: "/admin/books/clean-code.png", filiere: "Informatique" },
+    { id: 5, titre: "Gray's Anatomy", auteur: "Susan Standring", type: "VENTE", prix: 105, photo: "/admin/books/grays-anatomy.png", filiere: "Médecine" },
     { id: 6, titre: "Refactoring", auteur: "Martin Fowler", type: "PRET", prix: null, photo: "/admin/books/refactoring.png", filiere: "Informatique" },
-    { id: 7, titre: "Droit Constitutionnel", auteur: "Michel Verpeaux", type: "VENTE", prix: 85, photo: "/admin/books/droit-constitutionnel.png", filiere: "Droit" },
-    { id: 8, titre: "Harrison's Medicine", auteur: "Kasper et al.", type: "VENTE", prix: 350, photo: "/admin/books/harrisons-medicine.png", filiere: "Médecine" },
+    { id: 7, titre: "Droit Constitutionnel", auteur: "Michel Verpeaux", type: "VENTE", prix: 65, photo: "/admin/books/droit-constitutionnel.png", filiere: "Droit" },
+    { id: 8, titre: "Harrison's Medicine", auteur: "Kasper et al.", type: "VENTE", prix: 109, photo: "/admin/books/harrisons-medicine.png", filiere: "Médecine" },
     { id: 9, titre: "Capital au XXIe siècle", auteur: "Thomas Piketty", type: "DON", prix: null, photo: "/admin/books/capital-piketty.png", filiere: "Économie" },
-    { id: 10, titre: "Design Patterns", auteur: "Gang of Four", type: "VENTE", prix: 120, photo: "/admin/books/design-patterns.png", filiere: "Informatique" },
+    { id: 10, titre: "Design Patterns", auteur: "Gang of Four", type: "VENTE", prix: 85, photo: "/admin/books/design-patterns.png", filiere: "Informatique" },
 ];
 
 const MOCK_EMPRUNTS = [
@@ -53,12 +53,7 @@ const MOCK_LEADERBOARD = [
     { id: 3, pseudo: 'Omar', points: 125, rang: 3, color: '#b45309' },
 ];
 
-const CATEGORIES = [
-    { id: 1, label: 'Info', icon: '💻' },
-    { id: 2, label: 'Médecine', icon: '⚕️' },
-    { id: 3, label: 'Droit', icon: '⚖️' },
-    { id: 4, label: 'Éco', icon: '📉' },
-];
+
 
 // ============================
 // COMPONENT
@@ -129,7 +124,7 @@ export default function StudentHome() {
                         <div className={styles.statsRow}>
                             <motion.div className={`${styles.stat} ${styles.statGreen}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .1 }}>
                                 <div className={styles.statIcon}><Wallet size={15} /></div>
-                                <strong>1 250 DH</strong><span>Économies</span>
+                                <strong>480 DH</strong><span>Économies</span>
                                 <svg className={styles.spark} viewBox="0 0 70 20" preserveAspectRatio="none"><path d="M0,20 Q12,14 25,17 T50,6 T70,3" fill="none" stroke="rgba(16,185,129,.35)" strokeWidth="2" strokeLinecap="round" /></svg>
                             </motion.div>
                             <motion.div className={`${styles.stat} ${styles.statBlue}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .2 }}>
@@ -153,12 +148,7 @@ export default function StudentHome() {
                         </div>
                     </section>
 
-                    {/* Bento Categories */}
-                    <div className={styles.cats}>
-                        {CATEGORIES.map(c => (
-                            <button key={c.id} className={styles.catPill}><span>{c.icon}</span> {c.label}</button>
-                        ))}
-                    </div>
+
 
                     {/* Slider : Dernières Annonces */}
                     <section className={styles.sec}>

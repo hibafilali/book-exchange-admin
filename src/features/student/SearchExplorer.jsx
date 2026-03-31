@@ -157,7 +157,7 @@ export default function SearchExplorer() {
     const [mobileSidebar, setMobileSidebar] = useState(false);
 
     // Filters
-    const [maxPrice, setMaxPrice] = useState(500);
+    const [maxPrice, setMaxPrice] = useState(110);
     const [selectedEtats, setSelectedEtats] = useState([]);
     const [selectedType, setSelectedType] = useState(null); // segment button: single selection
     const [selectedFilieres, setSelectedFilieres] = useState([]);
@@ -214,10 +214,10 @@ export default function SearchExplorer() {
 
     const resetFilters = () => {
         setSelectedEtats([]); setSelectedType(null); setSelectedFilieres([]);
-        setMaxPrice(500); setQuery(''); setFiliereSearch('');
+        setMaxPrice(110); setQuery(''); setFiliereSearch('');
     };
 
-    const activeFilterCount = selectedEtats.length + (selectedType ? 1 : 0) + selectedFilieres.length + (maxPrice < 500 ? 1 : 0);
+    const activeFilterCount = selectedEtats.length + (selectedType ? 1 : 0) + selectedFilieres.length + (maxPrice < 110 ? 1 : 0);
     const filteredFilieres = FILIERES.filter(f => f.toLowerCase().includes(filiereSearch.toLowerCase()));
 
     // Shared sidebar content (reused for desktop + mobile)
@@ -250,9 +250,9 @@ export default function SearchExplorer() {
                 <h4>Prix maximum</h4>
                 <div className={styles.priceDisplay}>
                     <span>0 DH</span>
-                    <span className={styles.priceValue}>{maxPrice >= 500 ? '500+ DH' : `${maxPrice} DH`}</span>
+                    <span className={styles.priceValue}>{maxPrice >= 110 ? '110 DH' : `${maxPrice} DH`}</span>
                 </div>
-                <input type="range" min="0" max="500" step="10" value={maxPrice}
+                <input type="range" min="0" max="110" step="5" value={maxPrice}
                     onChange={e => setMaxPrice(parseInt(e.target.value))}
                     className={styles.rangeSlider} />
             </div>

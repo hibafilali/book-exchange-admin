@@ -106,7 +106,7 @@
 
 /* ═══════ BOOK CARD ═══════ */
 .bookCard {
-    min-width: 150px; max-width: 150px; flex-shrink: 0;
+    min-width: 130px; max-width: 130px; flex-shrink: 0;
     scroll-snap-align: start; cursor: pointer;
     transition: transform .3s ease;
 }
@@ -162,20 +162,12 @@
     font-size: .76rem; font-weight: 700; color: var(--text-primary); line-height: 1.3;
     display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
 }
-.bookPrice { font-size: .78rem; font-weight: 800; color: #1E293B; }
-.free { color: #10B981; font-weight: 800; font-style: normal; }
-.bookAuthor { font-size: .65rem; color: var(--text-muted); font-weight: 500; }
+.bookPrice { font-size: .72rem; font-weight: 700; color: #1E293B; }
+.free { color: #10B981; font-weight: 700; font-style: normal; }
+.bookAuthor { font-size: .62rem; color: var(--text-muted); font-weight: 500; }
 
 /* ═══════ CATEGORIES ═══════ */
-.cats { display: flex; gap: .5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
-.catPill {
-    display: inline-flex; align-items: center; gap: .35rem;
-    padding: .4rem .8rem; border-radius: 9px;
-    background: #fff; border: 1px solid var(--border-color);
-    font-size: .78rem; font-weight: 700; color: var(--text-primary);
-    cursor: pointer; transition: all .25s;
-}
-.catPill:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,.04); border-color: rgba(0,0,0,.08); }
+
 
 /* ═══════ ALERT ═══════ */
 .alert {
@@ -306,7 +298,6 @@
 
 @media (max-width: 480px) {
     .heroText h1 { font-size: 1.2rem; }
-    .cats { gap: .35rem; }
-    .catPill { font-size: .7rem; padding: .3rem .6rem; }
+
     .bookCard { min-width: 125px; max-width: 125px; }
 }

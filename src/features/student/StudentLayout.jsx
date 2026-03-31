@@ -1,7 +1,8 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Search, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Search, User, Bell, LogOut, Plus, LayoutDashboard, MessageSquare, Shield, Lock, Eye, EyeOff, Save, X } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import { useAuth } from '../auth/useAuth';
 import YTeraLogo from '../../components/common/YTeraLogo';
 import styles from './StudentLayout.module.css';
@@ -15,6 +16,11 @@ export default function StudentLayout() {
     const [navSearch, setNavSearch] = useState('');
     const [searchFilter, setSearchFilter] = useState('all');
     const [isSearchFocused, setIsSearchFocused] = useState(false);
+    
+    // Password Modal State
+    const [showPasswordModal, setShowPasswordModal] = useState(false);
+    const [showPass, setShowPass] = useState(false);
+    const [passData, setPassData] = useState({ old: '', new: '', confirm: '' });
     const searchInputRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -37,6 +43,30 @@ export default function StudentLayout() {
             setNavSearch('');
             searchInputRef.current?.blur();
         }
+    };
+
+    const handlePasswordUpdate = (e) => {
+        e.preventDefault();
+        if (passData.new !== passData.confirm) {
+            toast.error("Les nouveaux mots de passe ne correspondent pas.");
+            return;
+        }
+        if (passData.new.length < 6) {
+            toast.error("Le mot de passe doit contenir au moins 6 caractères.");
+            return;
+        }
+        
+        toast.promise(
+            new Promise(resolve => setTimeout(resolve, 1500)),
+            {
+                loading: 'Mise à jour du mot de passe...',
+                success: 'Mot de passe mis à jour avec succès !',
+                error: 'Erreur lors de la mise à jour.',
+            }
+        ).then(() => {
+            setShowPasswordModal(false);
+            setPassData({ old: '', new: '', confirm: '' });
+        });
     };
 
     return (
@@ -107,12 +137,20 @@ export default function StudentLayout() {
 
                         <div className={styles.profileWrap}>
                             <button className={styles.avatarBtn} onClick={() => setShowProfile(!showProfile)}>
-                                <div className={styles.avatar}><User size={16} /></div>
+                                <div className={styles.avatar}>
+                                    <img 
+                                        src={user?.avatar || 'https://i.pravatar.cc/120?u=hiba'} 
+                                        alt="Profil" 
+                                        className={styles.avatarImg}
+                                    />
+                                </div>
                             </button>
                             {showProfile && (
                                 <motion.div className={styles.profileMenu}
+                                    key="profile-menu"
                                     initial={{ opacity: 0, y: 6, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: 6, scale: 0.95 }}
                                     transition={{ duration: 0.15 }}
                                 >
                                     <div className={styles.profileHeader}>
@@ -120,6 +158,8 @@ export default function StudentLayout() {
                                         <span>{user?.email || 'etudiant@ytera.ma'}</span>
                                     </div>
                                     <button onClick={() => { setShowProfile(false); navigate('/student-dashboard/dashboard'); }}><User size={15} /> Mon Profil</button>
+                                    <button onClick={() => { setShowPasswordModal(true); setShowProfile(false); }}><Shield size={15} /> Sécurité</button>
+                                    <div className={styles.menuDivider}></div>
                                     <button onClick={() => { logout(); navigate('/login'); }}><LogOut size={15} /> Déconnexion</button>
                                 </motion.div>
                             )}
@@ -127,6 +167,77 @@ export default function StudentLayout() {
                     </div>
                 </div>
             </motion.nav>
+
+            {/* GLOBAL PASSWORD MODAL */}
+            <AnimatePresence>
+                {showPasswordModal && (
+                    <div className={styles.modalOverlay} key="password-modal-overlay">
+                        <motion.div 
+                            className={styles.passwordModal}
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        >
+                            <div className={styles.modalHeader}>
+                                <div className={styles.modalTitleIcon}><Lock size={20} /></div>
+                                <div>
+                                    <h3>Changer de mot de passe</h3>
+                                    <p>Protégez l'accès à votre compte yTera.</p>
+                                </div>
+                                <button className={styles.closeBtn} onClick={() => setShowPasswordModal(false)}><X size={20} /></button>
+                            </div>
+
+                            <form onSubmit={handlePasswordUpdate} className={styles.passwordForm}>
+                                <div className={styles.inputField}>
+                                    <label>Ancien mot de passe</label>
+                                    <div className={styles.passInputWrapper}>
+                                        <input 
+                                            type={showPass ? "text" : "password"} 
+                                            placeholder="Mot de passe actuel"
+                                            required
+                                            value={passData.old}
+                                            onChange={(e) => setPassData({...passData, old: e.target.value})}
+                                        />
+                                        <button type="button" onClick={() => setShowPass(!showPass)}>
+                                            {showPass ? <EyeOff size={16}/> : <Eye size={16}/>}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className={styles.formDivider}></div>
+
+                                <div className={styles.inputField}>
+                                    <label>Nouveau mot de passe</label>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Min. 6 caractères"
+                                        required
+                                        value={passData.new}
+                                        onChange={(e) => setPassData({...passData, new: e.target.value})}
+                                    />
+                                </div>
+
+                                <div className={styles.inputField}>
+                                    <label>Confirmer le nouveau mot de passe</label>
+                                    <input 
+                                        type="password" 
+                                        placeholder="Confirmer"
+                                        required
+                                        value={passData.confirm}
+                                        onChange={(e) => setPassData({...passData, confirm: e.target.value})}
+                                    />
+                                </div>
+
+                                <div className={styles.modalFooter}>
+                                    <button type="button" className={styles.secondaryBtn} onClick={() => setShowPasswordModal(false)}>Annuler</button>
+                                    <button type="submit" className={styles.primaryBtn}><Save size={16}/> Mettre à jour</button>
+                                </div>
+                            </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
 
             {/* ——— Content ——— */}
             <main className={styles.content}>

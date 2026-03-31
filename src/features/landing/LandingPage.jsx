@@ -31,29 +31,24 @@ import book8 from '../../assets/book8.png';
 import book9 from '../../assets/book9.png';
 import book10 from '../../assets/book10.png';
 
-
-
-
-
 // ============================
 // MOCK DATA
 // ============================
 const TEASER_BOOKS = [
-    { id: 1, titre: "Anatomie Humaine", auteur: "Dr. Salim Alaoui", type: "VENTE", prix: 180, etat: "Très bon", nbVues: 230, ville: "Fès", photo: "/admin/src/assets/book1.png" },
-    { id: 2, titre: "Mathématiques pour Ingénieurs", auteur: "Prof. Kamal Ziani", type: "VENTE", prix: 250, etat: "Comme neuf", nbVues: 145, ville: "Casablanca", photo: "/admin/src/assets/book2.png" },
-    { id: 3, titre: "Droit Civil : Les Obligations", auteur: "Prof. Yassir Benani", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: "/admin/src/assets/book3.png" },
-    { id: 4, titre: "Principes de Macroéconomie", auteur: "Dr. Amina El Fassi", type: "VENTE", prix: 150, etat: "Très bon", nbVues: 120, ville: "Marrakech", photo: "/admin/src/assets/book4.png" },
-    { id: 5, titre: "Analyse Mathématique", auteur: "Prof. Jean-Pierre Girard", type: "PRET", prix: null, etat: "Bon", nbVues: 95, ville: "Tanger", photo: "/admin/src/assets/book5.png" },
-    { id: 6, titre: "Chimie Organique", auteur: "Dr. Sophie Meyer", type: "VENTE", prix: 190, etat: "Très bon", nbVues: 210, ville: "Fès", photo: "/admin/src/assets/book6.png" },
-    { id: 7, titre: "Physique pour Scientifiques", auteur: "Prof. David Halliday", type: "VENTE", prix: 210, etat: "Comme neuf", nbVues: 115, ville: "Casablanca", photo: "/admin/src/assets/book7.png" },
-    { id: 8, titre: "Introduction au Marketing", auteur: "Prof. Philip Kotler", type: "DON", prix: null, etat: "Bon", nbVues: 160, ville: "Rabat", photo: "/admin/src/assets/book8.png" },
-    { id: 9, titre: "Psychologie Contemporaine", auteur: "Dr. Jane Smith", type: "VENTE", prix: 170, etat: "Très bon", nbVues: 130, ville: "Marrakech", photo: "/admin/src/assets/book9.png" },
-    { id: 10, titre: "Réseaux Informatiques", auteur: "Prof. Alex Turner", type: "PRET", prix: null, etat: "Bon", nbVues: 85, ville: "Tanger", photo: "/admin/src/assets/book10.png" },
+    { id: 1, titre: "Anatomie Humaine", auteur: "Dr. Salim Alaoui", type: "VENTE", prix: 85, etat: "Très bon", nbVues: 230, ville: "Fès", photo: book1 },
+    { id: 2, titre: "Mathématiques pour Ingénieurs", auteur: "Prof. Kamal Ziani", type: "VENTE", prix: 95, etat: "Comme neuf", nbVues: 145, ville: "Casablanca", photo: book2 },
+    { id: 3, titre: "Droit Civil : Les Obligations", auteur: "Prof. Yassir Benani", type: "DON", prix: null, etat: "Bon", nbVues: 180, ville: "Rabat", photo: book3 },
+    { id: 4, titre: "Principes de Macroéconomie", auteur: "Dr. Amina El Fassi", type: "VENTE", prix: 75, etat: "Très bon", nbVues: 120, ville: "Marrakech", photo: book4 },
+    { id: 5, titre: "Analyse Mathématique", auteur: "Prof. Jean-Pierre Girard", type: "PRET", prix: null, etat: "Bon", nbVues: 95, ville: "Tanger", photo: book5 },
+    { id: 6, titre: "Chimie Organique", auteur: "Dr. Sophie Meyer", type: "VENTE", prix: 90, etat: "Très bon", nbVues: 210, ville: "Fès", photo: book6 },
+    { id: 7, titre: "Physique pour Scientifiques", auteur: "Prof. David Halliday", type: "VENTE", prix: 98, etat: "Comme neuf", nbVues: 115, ville: "Casablanca", photo: book7 },
+    { id: 8, titre: "Introduction au Marketing", auteur: "Prof. Philip Kotler", type: "DON", prix: null, etat: "Bon", nbVues: 160, ville: "Rabat", photo: book8 },
+    { id: 9, titre: "Psychologie Contemporaine", auteur: "Dr. Jane Smith", type: "VENTE", prix: 80, etat: "Très bon", nbVues: 130, ville: "Marrakech", photo: book9 },
+    { id: 10, titre: "Réseaux Informatiques", auteur: "Prof. Alex Turner", type: "PRET", prix: null, etat: "Bon", nbVues: 85, ville: "Tanger", photo: book10 },
 ];
 
 const TYPE_COLORS = { VENTE: '#FF5722', PRET: '#3B82F6', DON: '#10B981' };
 const TYPE_LABELS = { VENTE: 'Vente', PRET: 'Prêt', DON: 'Don' };
-
 
 const SLIDES = [
     {
@@ -90,11 +85,11 @@ const SLIDES = [
     {
         bg: "#3A7C88",
         textColor: "#FFFFFF",
-        titleColor: "#FFFFFF", /* Switched to White for much better readability */
-        subtitleColor: "#f8fafc", /* Slate 50 */
+        titleColor: "#FFFFFF",
+        subtitleColor: "#f8fafc",
         titleParts: ["EXAMENS PROCHES ?", "RÉVISEZ SANS VOUS RUINER !", ""],
         highlightBg: "transparent",
-        highlightColor: "#FACC15", /* Bright yellow highlight */
+        highlightColor: "#FACC15",
         highlightRotate: "0deg",
         highlightFont: "'Inter', sans-serif",
         subtitle: "Solidarité étudiante : accédez à prix solidaire aux manuels de révision dont vous avez besoin.",
@@ -126,16 +121,13 @@ const SLIDES = [
     }
 ];
 
-/* Decorative SVG accents rendered per-slide */
 const SlideDecoration = ({ slideIndex }) => {
     const decos = [
-        // Slide 0: purple — stars + swoosh
         <>
             <span style={{ position: 'absolute', top: '12%', left: '48%', fontSize: '32px', opacity: 0.25, color: '#1A0F2E' }}>✦</span>
             <span style={{ position: 'absolute', bottom: '18%', left: '42%', fontSize: '22px', opacity: 0.2, color: '#1A0F2E', transform: 'rotate(-30deg)' }}>⤻</span>
             <span style={{ position: 'absolute', top: '70%', left: '52%', fontSize: '18px', opacity: 0.15, color: '#1A0F2E' }}>✧</span>
         </>,
-        // Slide 1: deep purple — PARTAGE watermark + arrows
         <>
             <div className={styles.watermarkTroc}>PARTAGE</div>
             <div className={styles.watermarkArrows}>
@@ -147,15 +139,10 @@ const SlideDecoration = ({ slideIndex }) => {
                 </svg>
             </div>
         </>,
-        // Slide 2: Teal — no deco needed, assets will be in visual
         null,
-        // Slide 3: Red - Hand-Drawn Design Details
         <div className={styles.redSlideDecoration}>
-            {/* Background Texture */}
             <div className={`${styles.dotGrid} ${styles.dotGridTopLeft}`} style={{ opacity: 0.12 }} />
             <div className={`${styles.dotGrid} ${styles.dotGridBottomRight}`} style={{ bottom: '10%', right: '5%', opacity: 0.12 }} />
-
-            {/* Hand-Drawn Badge Circle - Now to the right of the Button */}
             <div className={styles.circularBadge} style={{ right: '5%', bottom: '8%', top: 'auto', left: 'auto' }}>
                 <svg className={styles.sketchCircleDrawn} viewBox="0 0 100 100" style={{ transform: 'rotate(10deg)' }}>
                     <path d="M50,10 C30,12 10,30 12,55 C15,80 40,92 65,88 C90,82 95,55 88,30 C82,10 60,8 45,15" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" fill="none" />
@@ -164,20 +151,13 @@ const SlideDecoration = ({ slideIndex }) => {
                     ÉCONOMIE<br />SOLIDAIRE
                 </div>
             </div>
-
-            {/* Handwritten Keywords - Positioned AROUND the girl */}
             <span className={styles.handwrittenKeyword} style={{ top: '10%', left: '38%', fontSize: '1.8rem', transform: 'rotate(-8deg)', color: '#FCD34D' }}>ÉCHANGE</span>
             <span className={styles.handwrittenKeyword} style={{ top: '75%', left: '8%', fontSize: '1.5rem', transform: 'rotate(12deg)' }}>VENTE</span>
             <span className={styles.handwrittenKeyword} style={{ top: '20%', left: '8%', fontSize: '1.6rem', transform: 'rotate(-10deg)', color: '#FCD34D' }}>ACHAT</span>
             <span className={styles.handwrittenKeyword} style={{ bottom: '15%', left: '42%', fontSize: '1.4rem', transform: 'rotate(-5deg)' }}>PRÊT</span>
-
-            {/* Sketch Arrows */}
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-                {/* Arrow towards center */}
                 <path d="M15,65 Q25,55 35,62" className={styles.sketchLine} strokeDasharray="5,3" />
                 <path d="M32,58 L37,63 L30,66" className={styles.sketchLine} />
-
-                {/* Scribble near top */}
                 <path d="M25,12 Q30,8 35,15" className={styles.sketchLine} opacity="0.5" />
             </svg>
         </div>
@@ -185,9 +165,6 @@ const SlideDecoration = ({ slideIndex }) => {
     return decos[slideIndex] || null;
 };
 
-// ============================
-// ANIMATED COUNTER
-// ============================
 function AnimatedCounter({ target, suffix = '' }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-50px' });
@@ -210,9 +187,6 @@ function AnimatedCounter({ target, suffix = '' }) {
     return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
 }
 
-// ============================
-// REVEAL WRAPPER
-// ============================
 function Reveal({ children, delay = 0, direction = 'up', animate = false }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-80px' });
@@ -235,13 +209,11 @@ function Reveal({ children, delay = 0, direction = 'up', animate = false }) {
     );
 }
 
-// ============================
-// LANDING PAGE
-// ============================
 export default function LandingPage() {
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [slide, setSlide] = useState(0);
+
     const handlePrev = () => {
         setSlide(s => (s === 0 ? SLIDES.length - 1 : s - 1));
     };
@@ -262,11 +234,9 @@ export default function LandingPage() {
         }
     };
 
-
     const currentSlideData = SLIDES[slide];
     const cursorRef = useRef(null);
 
-    // Auto-play Carousel
     useEffect(() => {
         const timer = setInterval(() => {
             setSlide((prev) => (prev + 1) % SLIDES.length);
@@ -277,18 +247,13 @@ export default function LandingPage() {
     const scrollTo = (id) => {
         const element = document.getElementById(id);
         if (element) {
-            const headerOffset = 104; // height of promoBar (40px) + navbar (64px)
+            const headerOffset = 104;
             const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
         }
     };
 
-    // Custom cursor with lag
     useEffect(() => {
         const move = (e) => {
             if (cursorRef.current) {
@@ -301,17 +266,10 @@ export default function LandingPage() {
         return () => window.removeEventListener('mousemove', move);
     }, []);
 
-    // Slight random rotations for book cards
-    const cardRotations = useRef([0.8, -1.2, 0.6]).current;
-
     return (
         <div className={`${styles.page} ${styles.light}`}>
-            {/* Custom cursor */}
             <div ref={cursorRef} className={styles.customCursor} />
-            {/* Noise texture overlay */}
             <div className={styles.noiseOverlay} />
-
-            {/* Background Atmosphere Blobs */}
             <div className={`${styles.blurBlob} ${styles.blobOrange}`} />
             <div className={`${styles.blurBlob} ${styles.blobTeal}`} />
             <div className={`${styles.blurBlob} ${styles.blobIndigo}`} />
@@ -320,8 +278,6 @@ export default function LandingPage() {
                 <span>Échangez vos manuels entre étudiants • Rejoignez la communauté solidaire du <span style={{ color: '#EA580C', fontWeight: 800 }}>Maroc</span></span>
             </div>
 
-
-            {/* =============== NAVBAR =============== */}
             <nav className={styles.navbar}>
                 <div className={styles.navInner}>
                     <div className={styles.navLogo} onClick={() => scrollTo('hero')}>
@@ -341,56 +297,29 @@ export default function LandingPage() {
                 </div>
             </nav>
 
-            {/* =============== NEW CAROUSEEL HERO (MARKETPLACE STYLE) =============== */}
             <section id="hero" className={styles.heroCarousel}>
                 <div className={styles.carouselWrapper}>
                     <button className={styles.navArrowPrev} onClick={handlePrev} aria-label="Slide Précédente">
                         <ChevronLeft size={24} />
                     </button>
 
-                    <div
-                        className={styles.heroBanner}
-                        style={{ background: currentSlideData.bg }}
-                    >
+                    <div className={styles.heroBanner} style={{ background: currentSlideData.bg }}>
                         <SlideDecoration slideIndex={slide} />
 
-                        {/* ZONE DROITE & FLOTTANTE : Les 5 Assets (Turnkey Structure) */}
                         {slide === 2 && (
                             <div className={styles.tealStaticAssets}>
-                                {/* Artisanal Texture Accents */}
                                 <div className={styles.heroTealTexture} />
                                 <div className={`${styles.dotGrid} ${styles.dotGridTopLeft}`} />
                                 <div className={`${styles.dotGrid} ${styles.dotGridBottomRight}`} />
                                 <div className={`${styles.floatingPlus} ${styles.floatingPlus1}`}>+</div>
                                 <div className={`${styles.floatingPlus} ${styles.floatingPlus2}`}>x</div>
-
-                                <img
-                                    src={phoneIllustration}
-                                    alt="Téléphone app Book-In"
-                                    className={styles.phoneIllustration}
-                                />
+                                <img src={phoneIllustration} alt="Téléphone app yTera" className={styles.phoneIllustration} />
                                 <div className={styles.calendarWrapper}>
-                                    <img
-                                        src={examCalendar}
-                                        alt="Calendrier Examens"
-                                        className={styles.examCalendar}
-                                    />
+                                    <img src={examCalendar} alt="Calendrier Examens" className={styles.examCalendar} />
                                 </div>
-                                <img
-                                    src={thinkingWoman}
-                                    alt="Étudiante qui réfléchit"
-                                    className={styles.womanImage}
-                                />
-                                <img
-                                    src={thoughtBubble}
-                                    alt="Bulle de pensée livres"
-                                    className={styles.thoughtBubble}
-                                />
-                                <img
-                                    src={solidaireLabel}
-                                    alt="Label Emprunt Solidaire"
-                                    className={styles.empruntBadge}
-                                />
+                                <img src={thinkingWoman} alt="Étudiante qui réfléchit" className={styles.womanImage} />
+                                <img src={thoughtBubble} alt="Bulle de pensée livres" className={styles.thoughtBubble} />
+                                <img src={solidaireLabel} alt="Label Emprunt Solidaire" className={styles.empruntBadge} />
                             </div>
                         )}
 
@@ -403,7 +332,6 @@ export default function LandingPage() {
                                 transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                                 className={`${styles.bannerContent} ${currentSlideData.isFlipped ? styles.bannerContentFlipped : ''}`}
                             >
-
                                 <div className={`${styles.bannerText} ${currentSlideData.textClass || ''}`}>
                                     <h1 className={`${styles.bannerTitle} ${currentSlideData.titleClass || ''}`} style={{ color: currentSlideData.titleColor || currentSlideData.textColor }}>
                                         {slide === 2 ? (
@@ -445,9 +373,7 @@ export default function LandingPage() {
                                         <ArrowRight size={18} />
                                     </button>
                                 </div>
-                                {/* Photographic Visual for the first slide */}
                                 <div className={styles.bannerHeroVisual}>
-                                    {/* Traditional flex-right visual for other slides */}
                                     {slide !== 2 && (
                                         <>
                                             {slide === 0 && (
@@ -459,7 +385,6 @@ export default function LandingPage() {
                                                             <path d="M85,75 L95,85 L80,90" stroke="#1A0F2E" strokeWidth="3" fill="none" pathLength="1" className={styles.sketchPathArrowhead} />
                                                         </svg>
                                                     </div>
-
                                                     <div className={styles.discountBadge}>
                                                         <svg className={styles.sketchCircle} viewBox="0 0 100 100">
                                                             <path d="M50,10 C20,10 10,40 10,60 C10,85 40,95 70,85 C95,75 95,30 70,15 C60,10 40,10 30,15" stroke="#FF5722" strokeWidth="3" fill="none" />
@@ -467,14 +392,12 @@ export default function LandingPage() {
                                                         <span className={styles.discountValue}>-70%</span>
                                                         <span className={styles.discountLabel}>du prix initial</span>
                                                     </div>
-
                                                     <div className={styles.moinscherLabel}>
                                                         <span>moins cher</span>
                                                         <svg className={styles.squigglyLine} viewBox="0 0 100 20">
                                                             <path d="M5,15 Q25,5 50,15 T95,15" stroke="#3B82F6" strokeWidth="2" fill="none" />
                                                         </svg>
                                                     </div>
-
                                                     <div className={styles.premiumStamp}>
                                                         <svg viewBox="0 0 100 100">
                                                             <circle cx="50" cy="50" r="45" fill="none" stroke="#EA580C" strokeWidth="2" strokeDasharray="5,3" />
@@ -482,23 +405,13 @@ export default function LandingPage() {
                                                             <text x="50" y="60" textAnchor="middle" fontSize="10" fill="#EA580C" fontWeight="bold">OU ÉCHANGÉ</text>
                                                         </svg>
                                                     </div>
-
-                                                    <div className={styles.floatingIconPen}></div>
-                                                    <img
-                                                        src={livresIllustration}
-                                                        alt="Main tenant une pile de manuels scolaires français d'occasion"
-                                                        className={styles.realBooksImage}
-                                                    />
+                                                    <img src={livresIllustration} alt="Main tenant une pile de manuels" className={styles.realBooksImage} />
                                                 </>
                                             )}
-
                                             {slide === 1 && (
                                                 <>
-                                                    {/* Studio Atmosphere */}
                                                     <div className={styles.groundCement} />
                                                     <div className={styles.megaphoneLight} />
-
-                                                    {/* handwritten sticker */}
                                                     <div className={styles.gratuitBadge}>
                                                         <span className={styles.gratuitText}>c'est gratuit</span>
                                                         <svg className={styles.gratuitArrow} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -506,26 +419,11 @@ export default function LandingPage() {
                                                             <path d="M85,75 L95,85 L80,90" stroke="#FACC15" strokeWidth="3" fill="none" />
                                                         </svg>
                                                     </div>
-
-                                                    {/* Mascot Slide 1 */}
-                                                    <img
-                                                        src={megaphoneWoman}
-                                                        alt="Étudiante avec un mégaphone"
-                                                        className={styles.megaphoneWomanStudio}
-                                                    />
+                                                    <img src={megaphoneWoman} alt="Étudiante avec un mégaphone" className={styles.megaphoneWomanStudio} />
                                                 </>
                                             )}
-
                                             {slide === 3 && (
-                                                <img
-                                                    src={heroMascot}
-                                                    alt="Mascotte yTera"
-                                                    className={`${styles.megaphoneWomanStudio} ${currentSlideData.mascotClass || ''}`}
-                                                    style={{
-                                                        objectPosition: 'left bottom',
-                                                        filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))'
-                                                    }}
-                                                />
+                                                <img src={heroMascot} alt="Mascotte yTera" className={`${styles.megaphoneWomanStudio} ${currentSlideData.mascotClass || ''}`} style={{ filter: 'drop-shadow(0 20px 40px rgba(0,0,0,0.4))' }} />
                                             )}
                                         </>
                                     )}
@@ -533,14 +431,9 @@ export default function LandingPage() {
                             </motion.div>
                         </AnimatePresence>
 
-                        {/* Pagination Pill */}
                         <div className={styles.paginationPill}>
                             {SLIDES.map((_, index) => (
-                                <div
-                                    key={index}
-                                    className={`${styles.pDot} ${slide === index ? styles.pDotActive : ''}`}
-                                    onClick={() => setSlide(index)}
-                                />
+                                <div key={index} className={`${styles.pDot} ${slide === index ? styles.pDotActive : ''}`} onClick={() => setSlide(index)} />
                             ))}
                         </div>
                     </div>
@@ -551,9 +444,6 @@ export default function LandingPage() {
                 </div>
             </section>
 
-
-
-            {/* =============== SECTION: SUGGESTIONS POUR VOUS =============== */}
             <section id="books" className={styles.bestSellers}>
                 <Reveal>
                     <div className={styles.bestSellersHeader}>
@@ -581,19 +471,14 @@ export default function LandingPage() {
                                 <div className={styles.bestBookCard} onClick={() => setShowModal(true)}>
                                     <div className={styles.bestBookImgWrap}>
                                         <img src={b.photo} alt={b.titre} loading="lazy" />
-
-                                        {/* Floating Badge (Top Left) */}
                                         <div className={styles.floatingBadge} style={{ color: TYPE_COLORS[b.type] }}>
                                             {TYPE_LABELS[b.type]}
                                         </div>
-
-                                        {/* Floating Action Buttons (Top Right) */}
                                         <div className={styles.actionButtons}>
                                             <button className={styles.actionBtn}><Eye size={16} /></button>
                                             <button className={styles.actionBtn}><Heart size={16} /></button>
                                         </div>
                                     </div>
-
                                     <div className={styles.bestBookInfoMinimal}>
                                         <h4 className={styles.bestBookTitle}>{b.titre}</h4>
                                         <div className={styles.bestBookPriceMinimal}>
@@ -611,18 +496,10 @@ export default function LandingPage() {
                 </div>
             </section>
 
-
-            {/* =============== COMMENT ÇA MARCHE ? (PREMIUM STEPPER) =============== */}
             <HowItWorksStepper id="process" />
-
-            {/* =============== PROXIMITY MAP (TRUST CLOSER) =============== */}
             <ProximityMap id="map" />
-
-            {/* =============== L'IMPACT ÉTUDIANT (MINIMALIST REDESIGN) =============== */}
             <ImpactSection id="impact" />
 
-
-            {/* =============== CTA FINAL =============== */}
             <section className={styles.ctaFinal}>
                 <div className={styles.ctaCardsRow}>
                     <Reveal delay={0.1}>
@@ -657,7 +534,6 @@ export default function LandingPage() {
                 </Reveal>
             </section>
 
-            {/* =============== LA GARANTIE ÉTUDIANTE (MINIMALIST) =============== */}
             <section className={styles.guaranteeSection}>
                 <Reveal>
                     <div className={styles.guaranteeMinimal}>
@@ -683,17 +559,13 @@ export default function LandingPage() {
                 </Reveal>
             </section>
 
-            {/* =============== FOOTER (PREMIUM FAT FOOTER) =============== */}
             <footer className={styles.footer}>
                 <div className={styles.footerInner}>
                     <div className={styles.footerGrid}>
-                        {/* Column 1: Brand */}
                         <div className={styles.footerColumn}>
-                            <YTeraLogo size={22} />
+                            <YTeraLogo size={20} />
                             <p>La première plateforme solidaire d'échange de manuels scolaires au Maroc. <strong>Fait par des étudiants, pour des étudiants.</strong></p>
                         </div>
-
-                        {/* Column 2: Catalogue */}
                         <div className={styles.footerColumn}>
                             <h4>Catalogue</h4>
                             <ul className={styles.footerList}>
@@ -703,8 +575,6 @@ export default function LandingPage() {
                                 <li><a href="#books">Classes Préparatoires</a></li>
                             </ul>
                         </div>
-
-                        {/* Column 3: Plateforme */}
                         <div className={styles.footerColumn}>
                             <h4>Plateforme</h4>
                             <ul className={styles.footerList}>
@@ -713,8 +583,6 @@ export default function LandingPage() {
                                 <li><a href="#hero">Vendre un livre</a></li>
                             </ul>
                         </div>
-
-                        {/* Column 4: Communauté */}
                         <div className={styles.footerColumn}>
                             <h4>Communauté</h4>
                             <ul className={styles.footerList}>
@@ -725,9 +593,8 @@ export default function LandingPage() {
                             </ul>
                         </div>
                     </div>
-
                     <div className={styles.footerBottom}>
-                        <span>© 2026 BOOK-IN — Tous droits réservés.</span>
+                        <span>© 2026 yTera — Tous droits réservés.</span>
                         <div className={styles.footerLegal}>
                             <a href="#" style={{ marginRight: '1.5rem', color: 'inherit' }}>Mentions légales</a>
                             <a href="#" style={{ color: 'inherit' }}>Confidentialité</a>
@@ -736,7 +603,6 @@ export default function LandingPage() {
                 </div>
             </footer>
 
-            {/* =============== MODAL =============== */}
             {showModal && (
                 <div className={styles.modalOverlay} onClick={() => setShowModal(false)}>
                     <motion.div className={styles.modalBox} onClick={e => e.stopPropagation()}

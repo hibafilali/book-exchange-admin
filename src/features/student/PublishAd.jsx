@@ -11,9 +11,9 @@ import ManualCard from './ManualCard';
 import styles from './PublishAd.module.css';
 
 const STEPS = [
-    { id: 1, title: 'Le Manuel', subtitle: 'Table: Manuel', icon: BookOpen },
-    { id: 2, title: "L'Exemplaire", subtitle: 'Table: Exemplaire', icon: ImageIcon },
-    { id: 3, title: "L'Annonce", subtitle: 'Table: Annonce', icon: Hash },
+    { id: 1, title: 'Le Manuel', icon: BookOpen },
+    { id: 2, title: "L'Exemplaire", icon: ImageIcon },
+    { id: 3, title: "L'Annonce", icon: Hash },
 ];
 
 const ETATS = ['NEUF', 'BON', 'ACCEPTABLE', 'USE'];
@@ -157,7 +157,7 @@ export default function PublishAd() {
                         </div>
                         <h2 className={styles.successTitle}>Annonce publiée avec succès !</h2>
                         <p className={styles.successText}>
-                            Votre manuel a été ajouté aux tables <strong>Manuel</strong>, <strong>Exemplaire</strong> et <strong>Annonce</strong>.
+                            Votre manuel a été enregistré avec succès et l'annonce est publiée.
                             Il est maintenant visible par les autres étudiants.
                         </p>
                         <button className={styles.btnPrimary} style={{ margin: '0 auto', display: 'flex' }} onClick={() => navigate('/student-dashboard')}>
@@ -197,7 +197,6 @@ export default function PublishAd() {
                                     <div className={styles.stepTextWrap}>
                                         <span className={styles.stepLabel}>Étape {s.id}</span>
                                         <span className={styles.stepTitle}>{s.title}</span>
-                                        <span className={styles.stepSub}>{s.subtitle}</span>
                                     </div>
                                     {i < STEPS.length - 1 && <div className={styles.stepLine}></div>}
                                 </div>

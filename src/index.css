@@ -58,8 +58,8 @@
   --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
-  --sidebar-width: 280px;
-  --header-height: 80px;
+  --sidebar-width: 240px;
+  --header-height: 60px;
 }
 
 * {

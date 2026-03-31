@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, BookOpen, ShieldAlert, Settings, LogOut } from 'lucide-react';
 import styles from './Sidebar.module.css';
 import { useAuth } from '../../features/auth/useAuth';
+import YTeraLogo from '../common/YTeraLogo';
 
 const NAV_ITEMS = [
     { path: '/admin', label: 'Tableau de bord', icon: LayoutDashboard },
@@ -17,13 +18,7 @@ export default function Sidebar() {
     return (
         <aside className={`${styles.sidebar}`}>
             <div className={styles.logoContainer}>
-                <div className={styles.minimalLogo}>
-                    <span className={styles.logoLetter}>B</span>
-                </div>
-                <div className={styles.brandTitle}>
-                    <span className={styles.logoTextMain}>BOOK</span>
-                    <span className={styles.logoTextSub}>-IN</span>
-                </div>
+                <YTeraLogo size={22} showSlogan={false} />
             </div>
 
             <nav className={styles.navMenu}>

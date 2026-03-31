@@ -72,7 +72,7 @@ export default function Login() {
                                 <polygon points="450,250 550,320 450,390" fill="none" stroke="#FB923C" strokeWidth="6" opacity="0.1" />
                                 <polygon points="455,260 540,320 455,380" fill="#FFFFFF" />
 
-                                {/* Accents - yTera Orange & Warm tones */}
+                                {/* Accents - Book-In Orange & Warm tones */}
                                 <rect x="330" y="320" width="100" height="20" fill="#FF5722" rx="4" />
                                 <rect x="330" y="345" width="100" height="20" fill="#FFFFFF" stroke="#4F46E5" strokeWidth="1.5" rx="4" />
                                 <rect x="330" y="370" width="100" height="20" fill="#FDBA74" rx="4" />

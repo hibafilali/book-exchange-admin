@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart, MapPin, Eye, ShieldCheck } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useFavorites } from '../../context/FavoritesContext';
 import { TYPE_LABELS, TYPE_COLORS, ETAT_LABELS, ETAT_COLORS } from '../../data/mockBooks';
 import styles from './ManualCard.module.css';
 
@@ -19,7 +20,8 @@ const ETAT_CONFIG = {
 };
 
 export default function ManualCard({ annonce, onCardClick, index = 0 }) {
-    const [isFav, setIsFav] = useState(false);
+    const { isFavorited, toggleFavorite } = useFavorites();
+    const isFav = isFavorited(annonce.id);
     const typeConf = TYPE_CONFIG[annonce.typeEchange] || TYPE_CONFIG.VENTE;
     const etatConf = ETAT_CONFIG[annonce.etat] || ETAT_CONFIG.BON;
     const isPopular = annonce.nbVues >= 150;
@@ -66,10 +68,15 @@ export default function ManualCard({ annonce, onCardClick, index = 0 }) {
                     className={`${styles.favBtn} ${isFav ? styles.favActive : ''}`}
                     onClick={(e) => {
                         e.stopPropagation();
-                        const newFav = !isFav;
-                        setIsFav(newFav);
-                        if (newFav) toast.success("Ajouté à vos favoris !", { style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, iconTheme: { primary: '#ef4444', secondary: 'white' } });
-                        else toast.success("Retiré des favoris.");
+                        toggleFavorite(annonce.id);
+                        if (!isFav) {
+                            toast.success("Ajouté à vos favoris !", { 
+                                style: { background: 'var(--bg-secondary)', color: 'var(--text-primary)', border: '1px solid #ef4444' }, 
+                                iconTheme: { primary: '#ef4444', secondary: 'white' } 
+                            });
+                        } else {
+                            toast.success("Retiré des favoris.");
+                        }
                     }}
                     whileTap={{ scale: 0.8 }}
                 >
