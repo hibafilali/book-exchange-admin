@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, BookOpen, ShieldAlert, ArrowUpRight, TrendingUp, Calendar, Inbox, BarChart3, GraduationCap, ShoppingCart, HandHeart, Gift, MoreHorizontal, Zap, Command, Database, BellRing } from 'lucide-react';
+import { Users, BookOpen, ShieldAlert, ArrowUpRight, TrendingUp, Calendar, Inbox, BarChart3, GraduationCap, ShoppingCart, HandHeart, Gift, MoreHorizontal, Zap, Command, Database } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import styles from './Dashboard.module.css';
 
@@ -115,7 +115,6 @@ export default function Dashboard() {
                         <Calendar size={16} />
                         <span>{isDownloading ? 'Génération...' : 'Exporter'}</span>
                     </button>
-                    <button className={styles.iconActionBtn}><BellRing size={16} /></button>
                 </div>
             </header>
 

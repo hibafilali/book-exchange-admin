@@ -225,13 +225,7 @@ export default function PublishAd() {
                                     <h2 className={styles.sectionTitle}>Données du Manuel</h2>
                                     
                                     <div className={styles.isbnBox}>
-                                        <div className={styles.isbnHeader}>
-                                            <Sparkles size={18} className={styles.isbnIcon} />
-                                            <div>
-                                                <strong>Vérifier l'ISBN (Auto-fill)</strong>
-                                                <p>Saisissez l'ISBN pour remplir automatiquement les données du livre.</p>
-                                            </div>
-                                        </div>
+                                        <label className={styles.miniLabel}>Entrer l'ISBN</label>
                                         <div className={styles.isbnInputWrap}>
                                             <input type="text" placeholder="Ex: 978-0262033848" 
                                                 value={formData.isbn} onChange={e => updateForm('isbn', e.target.value)}

@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../features/auth/useAuth';
 import { 
     Search, User, LogOut, Settings, 
-    ChevronDown, Shield, Lock, Eye, EyeOff, X, Save
+    ChevronDown, Shield, Lock, Eye, EyeOff, X, Save,
+    BellRing
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-hot-toast';
@@ -108,6 +109,13 @@ export default function Header() {
             </div>
 
             <div className={styles.rightSection}>
+                {/* Notification Bell */}
+                <button className={styles.iconBtn}>
+                    <BellRing size={19} />
+                    <span className={styles.badge}>3</span>
+                    <div className={styles.pulseBadge}></div>
+                </button>
+
                 {/* Profile Section */}
                 <div className={styles.dropdownContainer} ref={profileRef}>
                     <button 
