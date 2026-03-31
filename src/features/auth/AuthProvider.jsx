@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
                 // Hydrate the user
                 setUser({
                     role: role,
-                    name: role === 'ADMIN' ? 'Admin yTera' : 'Thomas Durand' // Mocking realistic name for V2
+                    name: role === 'ADMIN' ? 'Admin yTera' : 'Hiba Filali' // Mocking realistic name for PFE
                 });
             }
             setLoading(false);
@@ -40,7 +40,7 @@ export function AuthProvider({ children }) {
         if (role === 'STUDENT' && email && password) {
             localStorage.setItem('token', 'fake-student-jwt-token');
             localStorage.setItem('user_role', 'STUDENT');
-            setUser({ role: 'STUDENT', name: 'Thomas Durand' });
+            setUser({ role: 'STUDENT', name: 'Hiba Filali' });
             return true;
         }
 

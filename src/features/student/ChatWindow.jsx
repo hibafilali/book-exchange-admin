@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Search, MoreVertical, Phone, Video, Info, Image as ImageIcon, Smile, Paperclip } from 'lucide-react';
+import { Send, Search, MoreVertical, Phone, Video, Info, Image as ImageIcon, Smile, Paperclip, MessageSquare } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import styles from './ChatWindow.module.css';
 
 // ============================
@@ -24,6 +25,15 @@ const MOCK_MESSAGES = {
     ],
     2: [
         { id: 201, sender: 'them', text: 'Est-ce que le livre est toujours dispo ?', time: 'Hier' }
+    ],
+    3: [
+        { id: 301, sender: 'them', text: 'Ok ça marche.', time: 'Mar' }
+    ],
+    4: [
+        { id: 401, sender: 'them', text: 'Je suis devant la BU.', time: 'Lun' }
+    ],
+    5: [
+        { id: 501, sender: 'them', text: 'C\'est 150 DH dernier prix.', time: 'Dim' }
     ]
 };
 
@@ -32,9 +42,28 @@ export default function ChatWindow() {
     const [selectedContact, setSelectedContact] = useState(MOCK_CONTACTS[0]);
     const [messages, setMessages] = useState(MOCK_MESSAGES);
     const [inputText, setInputText] = useState('');
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const messagesEndRef = useRef(null);
+    const fileInputRef = useRef(null);
 
     const activeMessages = messages[selectedContact.id] || [];
+
+    // Pastels for avatars
+    const AVATAR_COLORS = ['#fecdd3', '#fed7aa', '#fef08a', '#d9f99d', '#bbf7d0', '#bfdbfe', '#e9d5ff'];
+    const getAvatarBg = (id) => AVATAR_COLORS[id % AVATAR_COLORS.length];
+
+    const toggleEmojiPicker = () => {
+        setShowEmojiPicker(!showEmojiPicker);
+        if(!showEmojiPicker) toast?.success('Sélecteur d\'emojis ouvert (simulation)', { icon: '😃' });
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Replace by your upload logic
+            alert(`Préparation du fichier : ${file.name}`);
+        }
+    };
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -90,7 +119,7 @@ export default function ChatWindow() {
                             onClick={() => setSelectedContact(c)}
                         >
                             <div className={styles.avatarWrap}>
-                                <div className={styles.avatar}>{c.avatar}</div>
+                                <div className={styles.avatar} style={{ background: getAvatarBg(c.id) }}>{c.avatar}</div>
                                 {c.online && <div className={styles.onlineBadge}></div>}
                             </div>
                             <div className={styles.contactInfo}>
@@ -115,7 +144,7 @@ export default function ChatWindow() {
                         <div className={styles.chatHeader}>
                             <div className={styles.chatHeaderInfo}>
                                 <div className={styles.avatarWrap}>
-                                    <div className={styles.avatar}>{selectedContact.avatar}</div>
+                                    <div className={styles.avatar} style={{ background: getAvatarBg(selectedContact.id) }}>{selectedContact.avatar}</div>
                                     {selectedContact.online && <div className={styles.onlineBadge}></div>}
                                 </div>
                                 <div>
@@ -124,26 +153,24 @@ export default function ChatWindow() {
                                 </div>
                             </div>
                             <div className={styles.chatHeaderActions}>
-                                <button><Phone size={18} /></button>
-                                <button><Video size={18} /></button>
-                                <button><Info size={18} /></button>
+                                <button title="Informations"><Info size={18} /></button>
                             </div>
                         </div>
 
                         <div className={styles.chatMessages}>
-                            <AnimatePresence>
+                            <AnimatePresence mode="popLayout" key={`conversation-${selectedContact.id}`}>
                                 {activeMessages.map((msg, index) => {
                                     const isMe = msg.sender === 'me';
                                     return (
                                         <motion.div 
                                             key={msg.id}
-                                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                                            transition={{ duration: 0.2 }}
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.3, ease: 'easeOut' }}
                                             className={`${styles.messageRow} ${isMe ? styles.messageMe : styles.messageThem}`}
                                         >
                                             {!isMe && (
-                                                <div className={styles.msgAvatar}>{selectedContact.avatar}</div>
+                                                <div className={styles.msgAvatar} style={{ background: getAvatarBg(selectedContact.id) }}>{selectedContact.avatar}</div>
                                             )}
                                             <div className={`${styles.bubble} ${isMe ? styles.bubbleMe : styles.bubbleThem}`}>
                                                 {msg.text}
@@ -157,8 +184,19 @@ export default function ChatWindow() {
                         </div>
 
                         <form className={styles.chatInputArea} onSubmit={handleSendMessage}>
-                            <button type="button" className={styles.attachBtn}><Paperclip size={20} /></button>
-                            <button type="button" className={styles.attachBtn}><ImageIcon size={20} /></button>
+                            <input 
+                                type="file" 
+                                ref={fileInputRef} 
+                                style={{ display: 'none' }} 
+                                onChange={handleFileChange}
+                            />
+                            
+                            <button type="button" className={styles.attachBtn} onClick={() => fileInputRef.current?.click()} title="Joindre un fichier">
+                                <Paperclip size={20} />
+                            </button>
+                            <button type="button" className={styles.attachBtn} onClick={() => fileInputRef.current?.click()} title="Envoyer une image">
+                                <ImageIcon size={20} />
+                            </button>
                             
                             <input 
                                 type="text" 
@@ -167,17 +205,19 @@ export default function ChatWindow() {
                                 onChange={(e) => setInputText(e.target.value)}
                             />
                             
-                            <button type="button" className={styles.attachBtn}><Smile size={20} /></button>
-                            <button type="submit" className={styles.sendBtn} disabled={!inputText.trim()}>
+                            <button type="button" className={styles.attachBtn} onClick={toggleEmojiPicker} title="Ajouter un emoji">
+                                <Smile size={20} />
+                            </button>
+                            <button type="submit" className={styles.sendBtn} disabled={!inputText.trim()} title="Envoyer">
                                 <Send size={18} />
                             </button>
                         </form>
                     </>
                 ) : (
                     <div className={styles.emptyChat}>
-                        <MessageSquare size={48} />
-                        <h3>Vos Messages</h3>
-                        <p>Sélectionnez une conversation pour commencer à discuter.</p>
+                        <div className={styles.emptyIcon}><MessageSquare size={40} /></div>
+                        <h3>Sélectionnez une conversation</h3>
+                        <p>Partagez vos manuels et discutez avec d'autres étudiants pour économiser ensemble.</p>
                     </div>
                 )}
             </div>
