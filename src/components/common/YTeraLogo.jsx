@@ -2,18 +2,24 @@
  * yTera Brand Logo — Pure SVG Component
  * Usage: <YTeraLogo size={28} showSlogan={true} />
  */
-export default function YTeraLogo({ size = 24, className = '', showSlogan = false }) {
+export default function YTeraLogo({ size = 24, className = '', showSlogan = false, vertical = false }) {
     const scale = size / 24;
 
     return (
         <span className={className} style={{ 
             display: 'inline-flex', 
             flexDirection: 'column', 
-            alignItems: 'flex-start', 
+            alignItems: vertical ? 'center' : 'flex-start', 
             cursor: 'pointer',
-            transition: 'transform 0.2s ease'
+            transition: 'transform 0.2s ease',
+            gap: vertical ? `${12 * scale}px` : '0'
         }}>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: `${8 * scale}px` }}>
+            <div style={{ 
+                display: 'inline-flex', 
+                flexDirection: vertical ? 'column' : 'row',
+                alignItems: 'center', 
+                gap: vertical ? `${8 * scale}px` : `${8 * scale}px` 
+            }}>
                 {/* Custom SVG Icon - Minimalist "yT" / Infinity Book idea */}
                 <svg 
                     width={size * 1.3} 
@@ -68,11 +74,13 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                 {/* Wordmark */}
                 <span style={{ 
                     fontWeight: 900, 
-                    fontSize: `${size * 1.2}px`, 
+                    fontSize: `${size * 1.5}px`, 
                     letterSpacing: '-0.04em', 
                     lineHeight: 1,
                     display: 'flex',
-                    alignItems: 'baseline'
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: vertical ? `${4 * scale}px` : '0'
                 }}>
                     <span style={{ color: '#FF5722' }}>y</span>
                     <span style={{ color: 'var(--text-primary)', transition: 'color 0.3s ease' }}>Tera</span>
@@ -84,8 +92,8 @@ export default function YTeraLogo({ size = 24, className = '', showSlogan = fals
                     fontSize: `${size * 0.42}px`, 
                     color: 'var(--text-secondary)', 
                     fontWeight: 500, 
-                    marginTop: '4px', 
-                    marginLeft: '2px',
+                    marginTop: vertical ? '0' : '4px', 
+                    marginLeft: vertical ? '0' : '2px',
                     letterSpacing: '0.02em',
                     transition: 'color 0.3s ease'
                 }}>
