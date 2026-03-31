@@ -4,9 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     BookOpen, Check, Hash, Image as ImageIcon, MapPin, Search,
     UploadCloud, X, ArrowRight, ArrowLeft, Loader2, Sparkles, Building2,
-    AlertCircle, PartyPopper
+    AlertCircle, PartyPopper, Eye, ShieldCheck
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import ManualCard from './ManualCard';
 import styles from './PublishAd.module.css';
 
 const STEPS = [
@@ -178,11 +179,8 @@ export default function PublishAd() {
                     <p className={styles.subtitle}>Processus optimisé en 3 étapes (Manuel → Exemplaire → Offre)</p>
                 </div>
 
-                {/* ====== STRUCTURE GRILLE 70/30 ====== */}
-                <div className={styles.publishGrid}>
-                    
-                    {/* -- COLONNE GAUCHE (70%) : FORMULAIRE -- */}
-                    <div className={styles.leftColumn}>
+                {/* ====== MAIN FORM COLUMN ====== */}
+                <div className={styles.publishMain}>
                         
                         {/* ====== STEPPER ====== */}
                 <div className={styles.stepperWrap}>
@@ -334,59 +332,80 @@ export default function PublishAd() {
                                 </div>
                             )}
 
-                            {/* ——— ÉTAPE 3: L'OFFRE (ANNONCE) ——— */}
+                            {/* ——— ÉTAPE 3: L'OFFRE (ANNONCE) + PREVIEW ——— */}
                             {step === 3 && (
-                                <div className={styles.formSection}>
-                                    <h2 className={styles.sectionTitle}>Paramètres de l'Offre</h2>
+                                <div className={styles.reviewWrapper}>
+                                    <div className={styles.reviewInputs}>
+                                        <h2 className={styles.sectionTitle}>Paramètres de l'Offre</h2>
 
-                                    <label className={styles.blockLabel}>Type de transaction souhaitée *</label>
-                                    <div className={styles.segmentGroup}>
-                                        {TYPES.map(t => (
-                                            <button key={t}
-                                                className={`${styles.segmentBtn} ${formData.typeEchange === t ? styles.segmentActive : ''}`}
-                                                data-type={t}
-                                                onClick={() => updateForm('typeEchange', t)}>
-                                                {TYPE_LABELS[t]}
-                                            </button>
-                                        ))}
+                                        <label className={styles.blockLabel}>Type de transaction souhaitée *</label>
+                                        <div className={styles.segmentGroup}>
+                                            {TYPES.map(t => (
+                                                <button key={t}
+                                                    className={`${styles.segmentBtn} ${formData.typeEchange === t ? styles.segmentActive : ''}`}
+                                                    data-type={t}
+                                                    onClick={() => updateForm('typeEchange', t)}>
+                                                    {TYPE_LABELS[t]}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        <AnimatePresence mode="popLayout">
+                                            {formData.typeEchange === 'VENTE' && (
+                                                <motion.div key="vente" className={styles.inputGroup}
+                                                    initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
+                                                    <label>Prix de vente (DH) *</label>
+                                                    <div className={styles.priceInputWrap}>
+                                                        <input type="number" className={`${styles.input} ${styles.priceInput}`} placeholder="Ex: 150" 
+                                                            value={formData.prixVente} onChange={e => updateForm('prixVente', e.target.value)} />
+                                                        <span className={styles.currency}>DH</span>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
+                                            {formData.typeEchange === 'PRET' && (
+                                                <motion.div key="pret" className={styles.grid2}
+                                                    initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
+                                                    <div className={styles.inputGroup} style={{ marginBottom: 0 }}>
+                                                        <label>Durée du prêt *</label>
+                                                        <input type="text" className={styles.input} placeholder="Ex: 2 semaines" 
+                                                            value={formData.dureePret} onChange={e => updateForm('dureePret', e.target.value)} />
+                                                    </div>
+                                                    <div className={styles.inputGroup} style={{ marginBottom: 0 }}>
+                                                        <label>Caution (Optionnel - DH)</label>
+                                                        <input type="number" className={styles.input} placeholder="Ex: 50" 
+                                                            value={formData.caution} onChange={e => updateForm('caution', e.target.value)} />
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+
+                                        <div className={styles.inputGroup} style={{ marginTop: '1.5rem' }}>
+                                            <label>Description détaillée</label>
+                                            <textarea className={styles.textarea} rows={4} placeholder="Informations complémentaires, disponibilités pour la remise..."
+                                                value={formData.description} onChange={e => updateForm('description', e.target.value)} />
+                                        </div>
                                     </div>
 
-                                    {/* Champs dynamiques selon le type */}
-                                    <AnimatePresence mode="popLayout">
-                                        {formData.typeEchange === 'VENTE' && (
-                                            <motion.div key="vente" className={styles.inputGroup}
-                                                initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                                                <label>Prix de vente (DH) *</label>
-                                                <div className={styles.priceInputWrap}>
-                                                    <input type="number" className={`${styles.input} ${styles.priceInput}`} placeholder="Ex: 150" 
-                                                        value={formData.prixVente} onChange={e => updateForm('prixVente', e.target.value)} />
-                                                    <span className={styles.currency}>DH</span>
-                                                </div>
-                                            </motion.div>
-                                        )}
-
-                                        {formData.typeEchange === 'PRET' && (
-                                            <motion.div key="pret" className={styles.grid2}
-                                                initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }}>
-                                                <div className={styles.inputGroup} style={{ marginBottom: 0 }}>
-                                                    <label>Durée du prêt (Jours/Semaines) *</label>
-                                                    <input type="text" className={styles.input} placeholder="Ex: 2 semaines" 
-                                                        value={formData.dureePret} onChange={e => updateForm('dureePret', e.target.value)} />
-                                                </div>
-                                                <div className={styles.inputGroup} style={{ marginBottom: 0 }}>
-                                                    <label>Caution demandée (Optionnel - DH)</label>
-                                                    <input type="number" className={styles.input} placeholder="Ex: 50" 
-                                                        value={formData.caution} onChange={e => updateForm('caution', e.target.value)} />
-                                                </div>
-                                            </motion.div>
-                                        )}
-                                        {/* Don n'a pas de champs suppl. */}
-                                    </AnimatePresence>
-
-                                    <div className={styles.inputGroup} style={{ marginTop: '1.5rem' }}>
-                                        <label>Description détaillée de l'annonce</label>
-                                        <textarea className={styles.textarea} rows={4} placeholder="Informations complémentaires, disponibilités pour la remise, édition exacte..."
-                                            value={formData.description} onChange={e => updateForm('description', e.target.value)} />
+                                    <div className={styles.reviewPreview}>
+                                        <h3 className={styles.previewLabel}>Aperçu de votre Annonce</h3>
+                                        <div className={styles.previewCardContainer}>
+                                            <ManualCard 
+                                                annonce={{
+                                                    id: 0,
+                                                    titreAnnonce: formData.titre || 'Titre du manuel',
+                                                    auteur: formData.auteur || 'Nom de l\'auteur',
+                                                    photoUrl: formData.photos[0] || 'https://via.placeholder.com/300x450?text=Pas+de+photo',
+                                                    prixVente: formData.prixVente || 0,
+                                                    typeEchange: formData.typeEchange,
+                                                    etat: formData.etat,
+                                                    ville: formData.ville || 'Ville non spécifiée',
+                                                    nbVues: 0,
+                                                    nbOperations: 0
+                                                }}
+                                            />
+                                        </div>
+                                        <p className={styles.previewHint}>Voici comment votre annonce apparaîtra dans le catalogue public.</p>
                                     </div>
                                 </div>
                             )}
@@ -424,21 +443,7 @@ export default function PublishAd() {
                     </div>
                 </div>
             </div>
-            {/* -- FIN COLONNE GAUCHE -- */}
-
-            {/* -- COLONNE DROITE (30%) : STICKY PREVIEW -- */}
-            <aside className={styles.rightColumn}>
-                        <div className={styles.previewStickyWrapper}>
-                            <h3 className={styles.previewTitle}>Aperçu de l'Annonce</h3>
-                            <div className={styles.previewPlaceholder}>
-                                <p>La carte se construira ici en temps réel pendant que vous remplissez le formulaire.</p>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
-                {/* ====== FIN STRUCTURE GRILLE ====== */}
-
-            </div>
         </div>
+    </div>
     );
 }
